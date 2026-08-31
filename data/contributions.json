@@ -1,17 +1,17 @@
 {
   "username": "Parsa-Emami",
-  "generated_at": "2026-08-30T11:59:02.088417+00:00",
+  "generated_at": "2026-08-31T13:59:56.848009+00:00",
   "range": {
     "start": "2025-08-31",
-    "end": "2026-08-30"
+    "end": "2026-08-31"
   },
-  "total_contributions": 93,
-  "active_days": 11,
-  "current_streak": 1,
-  "longest_streak": 3,
+  "total_contributions": 0,
+  "active_days": 0,
+  "current_streak": 0,
+  "longest_streak": 0,
   "best_day": {
-    "date": "2026-08-04",
-    "count": 23
+    "date": "2025-08-31",
+    "count": 0
   },
   "days": [
     {
@@ -1320,15 +1320,15 @@
     },
     {
       "date": "2026-07-23",
-      "count": 12
+      "count": 0
     },
     {
       "date": "2026-07-24",
-      "count": 11
+      "count": 0
     },
     {
       "date": "2026-07-25",
-      "count": 8
+      "count": 0
     },
     {
       "date": "2026-07-26",
@@ -1340,7 +1340,7 @@
     },
     {
       "date": "2026-07-28",
-      "count": 6
+      "count": 0
     },
     {
       "date": "2026-07-29",
@@ -1348,15 +1348,15 @@
     },
     {
       "date": "2026-07-30",
-      "count": 3
+      "count": 0
     },
     {
       "date": "2026-07-31",
-      "count": 5
+      "count": 0
     },
     {
       "date": "2026-08-01",
-      "count": 3
+      "count": 0
     },
     {
       "date": "2026-08-02",
@@ -1368,7 +1368,7 @@
     },
     {
       "date": "2026-08-04",
-      "count": 23
+      "count": 0
     },
     {
       "date": "2026-08-05",
@@ -1380,7 +1380,7 @@
     },
     {
       "date": "2026-08-07",
-      "count": 18
+      "count": 0
     },
     {
       "date": "2026-08-08",
@@ -1420,7 +1420,7 @@
     },
     {
       "date": "2026-08-17",
-      "count": 2
+      "count": 0
     },
     {
       "date": "2026-08-18",
@@ -1468,10 +1468,14 @@
     },
     {
       "date": "2026-08-29",
-      "count": 2
+      "count": 0
     },
     {
       "date": "2026-08-30",
+      "count": 0
+    },
+    {
+      "date": "2026-08-31",
       "count": 0
     }
   ]
