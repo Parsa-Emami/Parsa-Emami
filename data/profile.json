@@ -1,0 +1,767 @@
+{
+  "site": {
+    "url": "https://parsa-emami.github.io/Parsa-Emami/",
+    "title": "Parsa Emami – Software Engineer",
+    "description": "Software engineer and security architect. I build systems where engineering rules, security boundaries, maintainability and operational reliability all matter at the same time.",
+    "locale": "en_US",
+    "repo": "Parsa-Emami/Parsa-Emami",
+    "portfolio": "https://parsa-emami.github.io/parsa-portfolio/"
+  },
+  "person": {
+    "name": "Parsa Emami",
+    "username": "Parsa-Emami",
+    "role": "Software Engineer · Security Architect",
+    "flip": [
+      "Build. Break. Secure.",
+      "Find the real system.",
+      "Make complexity visible.",
+      "Think like the failure.",
+      "Ship with evidence."
+    ],
+    "coordinates": "36.55°N 52.68°E",
+    "location": "Babol, Mazandaran, Iran",
+    "pronouns": "",
+    "email": "",
+    "phone": ""
+  },
+  "overview": [
+    {
+      "icon": "briefcase",
+      "parts": [
+        {
+          "t": "Software Engineer @"
+        },
+        {
+          "t": "Sepehr Afrooz Saba",
+          "href": "#experience-sepehr-afrooz-saba"
+        }
+      ]
+    },
+    {
+      "icon": "graduation-cap",
+      "parts": [
+        {
+          "t": "M.Eng. Artificial Intelligence @"
+        },
+        {
+          "t": "Mazandaran University of Science and Technology",
+          "href": "#education"
+        }
+      ]
+    },
+    {
+      "icon": "map-pin",
+      "parts": [
+        {
+          "t": "Babol, Mazandaran, Iran",
+          "href": "https://www.google.com/maps/search/?api=1&query=Babol%2C%20Mazandaran%2C%20Iran"
+        }
+      ]
+    },
+    {
+      "icon": "globe",
+      "parts": [
+        {
+          "t": "parsa-emami.github.io/parsa-portfolio",
+          "href": "https://parsa-emami.github.io/parsa-portfolio/"
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "id": "github",
+      "label": "GitHub",
+      "handle": "@Parsa-Emami",
+      "icon": "github",
+      "href": "https://github.com/Parsa-Emami"
+    },
+    {
+      "id": "linkedin",
+      "label": "LinkedIn",
+      "handle": "in/parsaaemm",
+      "icon": "linkedin",
+      "href": "https://www.linkedin.com/in/parsaaemm/"
+    },
+    {
+      "id": "portfolio",
+      "label": "Portfolio",
+      "handle": "parsa-portfolio",
+      "icon": "globe",
+      "href": "https://parsa-emami.github.io/parsa-portfolio/"
+    }
+  ],
+  "cta": "Open to serious engineering conversations.",
+  "about": [
+    "I'm Parsa Emami, a software engineer and security architect. I build and improve software systems where engineering rules, security boundaries, maintainability, and operational reliability all matter at the same time.",
+    "I work where product logic, engineering constraints, security boundaries and operational reality collide. The goal is not to add complexity. It is to find the real source of truth, model it explicitly, protect its boundaries, and make the system easier to reason about after the next requirement arrives.",
+    "My production work is mostly Laravel/PHP: a multi-tenant CMS, engineering rule engines, e-invoicing and pricing consoles. Around it sit red-team thinking, threat modeling, and an M.Eng. in Artificial Intelligence (2025–2027) at Mazandaran University of Science and Technology.",
+    "In the open: [Demian](https://github.com/Parsa-Emami/Demian), a deterministic 2D game platform, and [Hanna Music Player](https://github.com/Parsa-Emami/Hanna-Music-Player). Ten security-platform architectures live in the [Lab](#lab), specified in detail and not implemented yet."
+  ],
+  "principles": [
+    {
+      "verb": "Read",
+      "title": "Find the real system.",
+      "text": "Before changing code, trace the rule, the data, the state, and the place where reality actually lives."
+    },
+    {
+      "verb": "Model",
+      "title": "Make complexity visible.",
+      "text": "Turn hidden constraints into explicit boundaries, contracts, domain rules, and behavior people can reason about."
+    },
+    {
+      "verb": "Break",
+      "title": "Think like the failure.",
+      "text": "Attack paths, misuse cases, edge conditions, and operational pressure expose what a happy-path diagram never will."
+    },
+    {
+      "verb": "Prove",
+      "title": "Ship with evidence.",
+      "text": "Tests, observability, deterministic outputs, and release discipline turn confidence from a feeling into a property."
+    }
+  ],
+  "focus": [
+    {
+      "icon": "layers",
+      "title": "Software Architecture",
+      "text": "Modular monoliths, domain boundaries, refactoring legacy Laravel systems, data-flow design, API contracts, deployment structure, and maintainable source-of-truth decisions."
+    },
+    {
+      "icon": "shield-check",
+      "title": "Security Engineering",
+      "text": "Authentication, authorization, rate limiting, secure operational tooling, tenant isolation, attack-surface reduction, logging, integrity checks, and secure-by-design reviews."
+    },
+    {
+      "icon": "crosshair",
+      "title": "Red Team & Adversary Thinking",
+      "text": "Threat modeling, offensive security mindset, adversary emulation, social-engineering risk, cloud authorization risk, and translating attacker behavior into defensive architecture."
+    },
+    {
+      "icon": "brain-circuit",
+      "title": "Applied AI & Algorithms",
+      "text": "AI-focused graduate study combined with algorithm design, data analysis, engineering rules, optimization, and practical exploration of AI-assisted security workflows."
+    },
+    {
+      "icon": "test-tube-diagonal",
+      "title": "Testing & Reliability",
+      "text": "Characterization testing, regression protection, correctness checks, deterministic behavior, release validation, observability, and consistent outputs across multiple representations."
+    },
+    {
+      "icon": "server",
+      "title": "Laravel / PHP Systems",
+      "text": "Production-oriented Laravel applications, Blade, queues, Redis, relational data models, admin tooling, exports, background processing, CI/CD, Docker, and progressive modernization."
+    }
+  ],
+  "stack": [
+    {
+      "name": "Language",
+      "items": [
+        {
+          "name": "PHP",
+          "url": "https://www.php.net"
+        },
+        {
+          "name": "JavaScript",
+          "url": "https://developer.mozilla.org/en-US/docs/Web/JavaScript"
+        },
+        {
+          "name": "Python",
+          "url": "https://www.python.org"
+        }
+      ]
+    },
+    {
+      "name": "Frameworks & Frontend",
+      "items": [
+        {
+          "name": "Laravel",
+          "url": "https://laravel.com"
+        },
+        {
+          "name": "Blade",
+          "url": "https://laravel.com/docs/blade"
+        },
+        {
+          "name": "Alpine.js",
+          "url": "https://alpinejs.dev"
+        },
+        {
+          "name": "Vue",
+          "url": "https://vuejs.org"
+        },
+        {
+          "name": "Tailwind CSS",
+          "url": "https://tailwindcss.com"
+        },
+        {
+          "name": "Vite",
+          "url": "https://vite.dev"
+        },
+        {
+          "name": "Astro",
+          "url": "https://astro.build"
+        }
+      ]
+    },
+    {
+      "name": "Backend & Data",
+      "items": [
+        {
+          "name": "Eloquent",
+          "url": "https://laravel.com/docs/eloquent"
+        },
+        {
+          "name": "Sanctum",
+          "url": "https://laravel.com/docs/sanctum"
+        },
+        {
+          "name": "Horizon",
+          "url": "https://laravel.com/docs/horizon"
+        },
+        {
+          "name": "Scout",
+          "url": "https://laravel.com/docs/scout"
+        },
+        {
+          "name": "Spatie",
+          "url": "https://spatie.be/open-source"
+        },
+        {
+          "name": "Redis",
+          "url": "https://redis.io"
+        },
+        {
+          "name": "MySQL",
+          "url": "https://www.mysql.com"
+        },
+        {
+          "name": "Oracle",
+          "url": "https://www.oracle.com/database/"
+        },
+        {
+          "name": "REST API"
+        },
+        {
+          "name": "SOAP"
+        }
+      ]
+    },
+    {
+      "name": "Workflow & Delivery",
+      "items": [
+        {
+          "name": "Git",
+          "url": "https://git-scm.com"
+        },
+        {
+          "name": "GitHub Actions",
+          "url": "https://github.com/features/actions"
+        },
+        {
+          "name": "GitHub Pages",
+          "url": "https://pages.github.com"
+        },
+        {
+          "name": "GitLab CI",
+          "url": "https://docs.gitlab.com/ci/"
+        },
+        {
+          "name": "Docker",
+          "url": "https://www.docker.com"
+        }
+      ]
+    },
+    {
+      "name": "Security",
+      "items": [
+        {
+          "name": "Threat Modeling"
+        },
+        {
+          "name": "Adversary Emulation"
+        },
+        {
+          "name": "Authentication & Authorization"
+        },
+        {
+          "name": "Rate Limiting"
+        },
+        {
+          "name": "Tenant Isolation"
+        },
+        {
+          "name": "Audit Logging"
+        },
+        {
+          "name": "Upload Inspection"
+        }
+      ]
+    },
+    {
+      "name": "Quality & Reliability",
+      "items": [
+        {
+          "name": "Characterization Testing"
+        },
+        {
+          "name": "Regression Protection"
+        },
+        {
+          "name": "E2E Validation"
+        },
+        {
+          "name": "Observability"
+        },
+        {
+          "name": "Deterministic Outputs"
+        }
+      ]
+    },
+    {
+      "name": "AI & Algorithms",
+      "items": [
+        {
+          "name": "Applied AI"
+        },
+        {
+          "name": "AI-assisted Security Workflows"
+        },
+        {
+          "name": "Algorithm Design"
+        },
+        {
+          "name": "Data Analysis"
+        },
+        {
+          "name": "Optimization"
+        }
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "id": "sepehr-afrooz-saba",
+      "company": "Sepehr Afrooz Saba",
+      "monogram": "SAS",
+      "url": "",
+      "location": "",
+      "location_type": "Hybrid",
+      "positions": [
+        {
+          "title": "Software Engineer",
+          "type": "Full-time",
+          "start": "2025-09",
+          "end": null,
+          "description": "Software design and web engineering across production-oriented business systems, with a strong focus on architecture, correctness, security, and maintainable delivery.",
+          "skills": [
+            "Laravel",
+            "PHP",
+            "Software Architecture",
+            "Security",
+            "Testing",
+            "Redis",
+            "Docker"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "freelance",
+      "company": "Freelance",
+      "monogram": "FL",
+      "url": "",
+      "location": "",
+      "location_type": "Remote / Hybrid",
+      "positions": [
+        {
+          "title": "Cyber Security Architect",
+          "type": "Freelance",
+          "start": "2024-03",
+          "end": "2025-07",
+          "location_type": "Remote",
+          "description": "Security architecture, cyber-risk analysis, secure-system thinking, and practical defensive design informed by offensive security experience.",
+          "skills": [
+            "Security Architecture",
+            "Cyber-risk Analysis",
+            "Threat Modeling",
+            "Defensive Design"
+          ]
+        },
+        {
+          "title": "Red Team",
+          "type": "Freelance",
+          "start": "2021-09",
+          "end": "2025-03",
+          "location_type": "Hybrid",
+          "description": "Red-team practice and adversary-oriented security work spanning offensive techniques, threat thinking, and attack-path analysis.",
+          "skills": [
+            "Red Teaming",
+            "Offensive Techniques",
+            "Attack-path Analysis",
+            "Adversary Emulation"
+          ]
+        },
+        {
+          "title": "Software Test Engineer",
+          "type": "Freelance",
+          "start": "2023-12",
+          "end": "2025-01",
+          "location_type": "Remote",
+          "description": "Testing and quality work with an emphasis on correctness, edge cases, secure behavior, and dependable software outcomes.",
+          "skills": [
+            "Software Testing",
+            "Edge Cases",
+            "Secure Behavior",
+            "Quality Assurance"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "mazandaran-university",
+      "company": "Mazandaran University of Science and Technology",
+      "monogram": "MUST",
+      "url": "",
+      "location": "Babol, Iran",
+      "location_type": "On-site",
+      "positions": [
+        {
+          "title": "Teaching / Graduate Teaching Assistant",
+          "type": "Part-time",
+          "start": "2022-01",
+          "end": "2025-07",
+          "description": "Teaching support across Analysis & Design of Algorithms, Engineering Mathematics, Digital Systems, Signals & Systems, Computer Simulation, MIS, Mathematics, and Project Management.",
+          "skills": [
+            "Algorithms",
+            "Engineering Mathematics",
+            "Digital Systems",
+            "Signals & Systems",
+            "Computer Simulation",
+            "MIS",
+            "Project Management"
+          ]
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Mazandaran University of Science and Technology",
+      "degree": "Master of Engineering",
+      "field": "Artificial Intelligence",
+      "start": "2025",
+      "end": "2027",
+      "status": "In progress"
+    },
+    {
+      "school": "Mazandaran University of Science and Technology",
+      "degree": "Bachelor's degree",
+      "field": "Computer Engineering",
+      "start": "2021",
+      "end": "2025",
+      "status": ""
+    }
+  ],
+  "projects": [
+    {
+      "id": "demian",
+      "name": "Demian",
+      "kind": "Open source",
+      "category": "Deterministic 2D game platform",
+      "summary": "A Laravel-backed game platform with a deterministic fixed-update GameRuntime, Canvas2D nearest-neighbor renderer, data-driven shared café, open-world chunks, role-play systems, events, Hide & Seek, and Tetris.",
+      "bullets": [
+        "12-chunk open world with districts, maps, save points, dialogue, quests, inventory, and jobs.",
+        "Renderer-independent collision, interaction, and navigation architecture.",
+        "Atomic JavaScript deployment strategy and build validation for GitHub Pages reliability."
+      ],
+      "tags": [
+        "Laravel",
+        "JavaScript",
+        "Canvas2D",
+        "Vite",
+        "GitHub Pages"
+      ],
+      "url": "https://github.com/Parsa-Emami/Demian"
+    },
+    {
+      "id": "hanna-music-player",
+      "name": "Hanna Music Player",
+      "kind": "Open source",
+      "category": "Laravel music application",
+      "summary": "A modern Laravel 13 music application structured around albums, artists, playlists, songs, and a home experience, with a Vite/Tailwind front end.",
+      "bullets": [
+        "Separated Album, Artist, Playlist, Song, and Home controller responsibilities.",
+        "Laravel 13 / PHP 8.3 foundation with Vite 7 and Tailwind CSS 4 tooling.",
+        "A clean base for extending catalog, playback, discovery, and collection features."
+      ],
+      "tags": [
+        "Laravel 13",
+        "PHP 8.3",
+        "Vite 7",
+        "Tailwind CSS 4"
+      ],
+      "url": "https://github.com/Parsa-Emami/Hanna-Music-Player"
+    },
+    {
+      "id": "infinityds",
+      "name": "InfinityDS",
+      "kind": "Private",
+      "category": "Internal engineering platform",
+      "summary": "Configuration, calculation, visualization, pricing, and export tooling for modular lighting design. A Laravel application that turns design inputs into structured configurations and tracked results.",
+      "bullets": [
+        "Centralized geometry and connector rules for open and closed paths, including L-connector behavior.",
+        "Result consistency work that reconciles per-line quantities with the final engineering total.",
+        "DXF, Excel, PDF, and result-preview workflows for engineering and commercial use.",
+        "Security-oriented operational features including throttling, upload inspection, activity logging, and protected Developer Mode tooling."
+      ],
+      "tags": [
+        "Laravel 8",
+        "PHP",
+        "Blade",
+        "Tailwind CSS",
+        "Alpine.js",
+        "Redis",
+        "Oracle",
+        "DXF",
+        "Excel"
+      ],
+      "url": ""
+    },
+    {
+      "id": "saba-cms",
+      "name": "Saba CMS",
+      "kind": "Private",
+      "category": "Multi-tenant content platform",
+      "summary": "A modular CMS evolving toward a Blade-first, tenant-safe architecture, with tenant-aware content, themes, media, permissions, queues, search, caching, and modular business areas.",
+      "bullets": [
+        "Blade-first page architecture with a shared runtime for preview and public rendering.",
+        "Tenant isolation and explicit tenant context across web, API, queue, and console flows.",
+        "Security and permission hardening with policies, honeypot protection, audit logging, and controlled rendering boundaries.",
+        "Performance, response cache, Horizon/Redis queues, quality gates, E2E validation, and release packaging discipline.",
+        "Refactored a storefront theme into a self-contained Laravel module with isolated routes, config, views, and migrations, then traced a silent CI cache-invalidation bug back to an unquoted glob in the deploy script."
+      ],
+      "tags": [
+        "Laravel 8",
+        "PHP",
+        "Blade",
+        "Vue 2",
+        "Redis",
+        "Horizon",
+        "Scout",
+        "Spatie",
+        "Docker"
+      ],
+      "url": ""
+    },
+    {
+      "id": "saba-cms-ng",
+      "name": "Saba CMS NG",
+      "kind": "Private",
+      "category": "Next-generation content & commerce platform",
+      "summary": "A ground-up Laravel 13 rewrite unifying content management and e-commerce behind one Admin + API surface, built as an incremental successor track rather than a big-bang rewrite.",
+      "bullets": [
+        "Company-scoped global query scope enforced at the Eloquent layer, so every model resolves tenant boundaries automatically instead of relying on per-controller checks.",
+        "Parallel Admin and API controller surfaces kept in sync across the content and commerce domains from day one.",
+        "Spatie media-library and permission packages layered onto a Sanctum-authenticated API for headless consumption."
+      ],
+      "tags": [
+        "Laravel 13",
+        "PHP 8.3",
+        "Sanctum",
+        "Spatie Media Library",
+        "Spatie Permission",
+        "MySQL"
+      ],
+      "url": ""
+    },
+    {
+      "id": "radiant",
+      "name": "Radiant",
+      "kind": "Private",
+      "category": "Internal sales & pricing console",
+      "summary": "A Persian RTL admin panel for step-based sales configuration, pricing, and Excel-driven reporting.",
+      "bullets": [
+        "Rebuilt table, modal, sidebar, and form-control behavior for reliable small-screen and touch use across the whole panel.",
+        "Eliminated horizontal-overflow and layout-breaking issues across dashboard, list, and detail views.",
+        "Shipped as an isolated UI/responsive patch release, kept deliberately separate from domain logic to keep the change low-risk.",
+        "Excel-driven export pipeline for sales and pricing data via a dedicated spreadsheet package."
+      ],
+      "tags": [
+        "Laravel 8",
+        "Blade",
+        "Tailwind CSS",
+        "Alpine.js",
+        "Redis",
+        "Excel"
+      ],
+      "url": ""
+    },
+    {
+      "id": "homa",
+      "name": "HOMA",
+      "kind": "Private",
+      "category": "Engineering rule engine",
+      "summary": "Lighting design calculations, panel selection, cable sizing, zone layout, and engineering output, with a target modular-monolith architecture defined from the reverse-engineered rules.",
+      "bullets": [
+        "Reverse-engineered active business rules across controllers, views, exports, seed data, and legacy logic to establish the real execution path.",
+        "Mapped calculation, cable sizing, panel selection, and zone-layout conditions into an explicit rule catalogue.",
+        "Identified source-of-truth drift between controller logic, services, graph output, and Excel output.",
+        "Defined a target modular-monolith architecture with typed DTOs, domain services, versioned rules, a dedicated layout planner, and characterization tests."
+      ],
+      "tags": [
+        "Laravel 12",
+        "PHP 8.2",
+        "Blade",
+        "Eloquent",
+        "Excel",
+        "Docker",
+        "GitLab CI"
+      ],
+      "url": ""
+    },
+    {
+      "id": "tinv",
+      "name": "TINV",
+      "kind": "Private",
+      "category": "Regulatory e-invoicing & tax compliance platform",
+      "summary": "Invoice lifecycle, digital signing, and ERP bridging for statutory tax-invoice compliance.",
+      "bullets": [
+        "End-to-end invoice, invoice-line, and refund models paired with dedicated Excel export controllers for statutory reporting.",
+        "Digital signature and organization/taxpayer record management aligned with regulatory e-invoicing requirements.",
+        "A dedicated bridge service synchronizing invoice data with an external IFS ERP system.",
+        "SMS-based OTP verification and structured API request logging for auditability."
+      ],
+      "tags": [
+        "Laravel 8",
+        "PHP",
+        "MySQL",
+        "SOAP",
+        "Excel",
+        "REST API"
+      ],
+      "url": ""
+    }
+  ],
+  "lab": {
+    "note": "Ten security-platform architectures, each with a frozen design, explicit contracts, and a recommended build order. None has shipped code yet.",
+    "items": [
+      {
+        "name": "RiskWeft",
+        "summary": "Deterministic STRIDE-style architecture-risk scoring with a reproducible, hash-verified replay of every evaluation.",
+        "tags": [
+          "Laravel",
+          "React",
+          "PostgreSQL"
+        ],
+        "url": "https://github.com/Parsa-Emami/Riskweft"
+      },
+      {
+        "name": "CipherLint",
+        "summary": "A Rust-first static-analysis security linter with deterministic findings, stable IDs, and SARIF export.",
+        "tags": [
+          "Rust",
+          "Tree-sitter",
+          "SARIF"
+        ],
+        "url": "https://github.com/Parsa-Emami/Cipherlint"
+      },
+      {
+        "name": "FlowWeft",
+        "summary": "Network-flow anomaly detection on Zeek telemetry with a deterministic baseline before any ML is introduced.",
+        "tags": [
+          "Python",
+          "Zeek",
+          "ClickHouse"
+        ],
+        "url": "https://github.com/Parsa-Emami/Flowweft"
+      },
+      {
+        "name": "Privattice",
+        "summary": "A privilege/identity graph analyzer projecting inventory data into bounded access-path queries.",
+        "tags": [
+          "Go",
+          "PostgreSQL",
+          "Apache AGE"
+        ],
+        "url": "https://github.com/Parsa-Emami/Privattice"
+      },
+      {
+        "name": "RiftRange",
+        "summary": "On-demand cyber-range orchestration: immutable lab templates, agent heartbeats, deterministic teardown.",
+        "tags": [
+          "Go",
+          "Podman",
+          "Laravel"
+        ],
+        "url": "https://github.com/Parsa-Emami/Riftrange"
+      },
+      {
+        "name": "PolicyHelix",
+        "summary": "A fail-closed OIDC + OPA + Envoy authorization gateway that rejects stale policy bundles by design.",
+        "tags": [
+          "Go",
+          "OPA",
+          "Envoy"
+        ],
+        "url": "https://github.com/Parsa-Emami/Policyhelix"
+      },
+      {
+        "name": "Attestara",
+        "summary": "Sandboxed supply-chain attestation: SBOM generation and policy-gated verification inside disposable runners.",
+        "tags": [
+          "Go",
+          "Firecracker",
+          "OPA"
+        ],
+        "url": "https://github.com/Parsa-Emami/Attestara"
+      },
+      {
+        "name": "MirageMesh",
+        "summary": "A deception mesh of signed decoy sensors that spool telemetry offline and replay it once reconnected.",
+        "tags": [
+          "Go",
+          "Podman",
+          "OpenBao PKI"
+        ],
+        "url": "https://github.com/Parsa-Emami/Miragemesh"
+      },
+      {
+        "name": "KeyHelix",
+        "summary": "Envelope-encryption key management with step-up reveal, KEK rewrap, and a signed, tamper-evident audit trail.",
+        "tags": [
+          "PHP/libsodium",
+          "OpenBao",
+          "Laravel"
+        ],
+        "url": "https://github.com/Parsa-Emami/Keyhelix"
+      },
+      {
+        "name": "BreachAtlas",
+        "summary": "Digital-forensics case management with cryptographic evidence sealing and full chain-of-custody tracking.",
+        "tags": [
+          "Laravel",
+          "React",
+          "OpenSearch"
+        ],
+        "url": "https://github.com/Parsa-Emami/Breachatlas"
+      }
+    ]
+  },
+  "research": [
+    "AI-powered adversary emulation",
+    "Red teaming agentic AI systems",
+    "Authorization sprawl in cloud environments",
+    "Deepfakes in social engineering",
+    "Cyber threat intelligence",
+    "Secure system architecture"
+  ],
+  "awards": [],
+  "certifications": [],
+  "contributions": {
+    "accounts": [
+      "Parsa-Emami",
+      "parsaemm"
+    ],
+    "include_repo_commits": true
+  }
+}

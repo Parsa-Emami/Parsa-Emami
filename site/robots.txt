@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://parsa-emami.github.io/Parsa-Emami/sitemap.xml

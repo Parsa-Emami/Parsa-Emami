@@ -1,0 +1,8 @@
+# Parsa Emami
+
+> Software engineer and security architect. I build systems where engineering rules, security boundaries, maintainability and operational reliability all matter at the same time.
+
+- [Full profile (Markdown)](https://parsa-emami.github.io/Parsa-Emami/index.md)
+- [Website](https://parsa-emami.github.io/Parsa-Emami/)
+- [GitHub](https://github.com/Parsa-Emami)
+- [Portfolio](https://parsa-emami.github.io/parsa-portfolio/)
