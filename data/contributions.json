@@ -1,47 +1,19 @@
 {
   "username": "Parsa-Emami",
-  "generated_at": "2026-09-19T11:06:54.355585+00:00",
+  "generated_at": "2026-09-20T11:31:42.255197+00:00",
   "range": {
-    "start": "2025-09-14",
-    "end": "2026-09-19"
+    "start": "2025-09-21",
+    "end": "2026-09-20"
   },
   "total_contributions": 0,
   "active_days": 0,
   "current_streak": 0,
   "longest_streak": 0,
   "best_day": {
-    "date": "2025-09-14",
+    "date": "2025-09-21",
     "count": 0
   },
   "days": [
-    {
-      "date": "2025-09-14",
-      "count": 0
-    },
-    {
-      "date": "2025-09-15",
-      "count": 0
-    },
-    {
-      "date": "2025-09-16",
-      "count": 0
-    },
-    {
-      "date": "2025-09-17",
-      "count": 0
-    },
-    {
-      "date": "2025-09-18",
-      "count": 0
-    },
-    {
-      "date": "2025-09-19",
-      "count": 0
-    },
-    {
-      "date": "2025-09-20",
-      "count": 0
-    },
     {
       "date": "2025-09-21",
       "count": 0
@@ -1496,6 +1468,10 @@
     },
     {
       "date": "2026-09-19",
+      "count": 0
+    },
+    {
+      "date": "2026-09-20",
       "count": 0
     }
   ]
