@@ -42,7 +42,7 @@
 <a href="https://github.com/Parsa-Emami">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/cards/contributions-dark.svg">
-  <img src="assets/cards/contributions-light.svg" alt="GitHub contribution heatmap: 170 contributions, 23.09.2025 – 22.09.2026" width="830">
+  <img src="assets/cards/contributions-light.svg" alt="GitHub contribution heatmap: 170 contributions, 24.09.2025 – 23.09.2026" width="830">
 </picture>
 </a>
 </p>
@@ -345,7 +345,7 @@ Ten security-platform architectures, each with a frozen design, explicit contrac
 
 ## GitHub activity
 
-170 contributions, 23.09.2025 – 22.09.2026. Source: GitHub.
+170 contributions, 24.09.2025 – 23.09.2026. Source: GitHub.
 
 
 </details>
