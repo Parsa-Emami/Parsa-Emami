@@ -1,0 +1,7 @@
+# Parsa Emami
+
+> Parsa Emami is a software engineer and security architect focused on secure Laravel/PHP systems, software architecture, red teaming, threat modeling, and AI-driven security.
+
+- [Canonical website](https://parsaaemm.dev/)
+- [GitHub](https://github.com/Parsa-Emami)
+- [LinkedIn](https://www.linkedin.com/in/parsaaemm/)

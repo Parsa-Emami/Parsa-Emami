@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+# This GitHub Pages mirror is noindex; canonical profile: https://parsaaemm.dev/
