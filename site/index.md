@@ -57,7 +57,7 @@ Open to serious engineering conversations.
 
 ### Sepehr Afrooz Saba (Hybrid)
 
-- **Software Engineer** · Full-time · 09.2025— · 1y 1m
+- **Software Engineer** · Full-time · 09.2025— · 1y 2m
   Software design and web engineering across production-oriented business systems, with a strong focus on architecture, correctness, security, and maintainable delivery.
   Skills: Laravel, PHP, Software Architecture, Security, Testing, Redis, Docker
 
@@ -198,4 +198,4 @@ Ten security-platform architectures, each with a frozen design, explicit contrac
 
 ## GitHub activity
 
-155 contributions, 01.10.2025 – 30.09.2026. Source: GitHub.
+155 contributions, 02.10.2025 – 01.10.2026. Source: GitHub.
