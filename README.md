@@ -42,7 +42,7 @@ Parsa Emami is a software engineer and security architect focused on secure Lara
 <a href="https://github.com/Parsa-Emami">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/cards/contributions-dark.svg">
-  <img src="assets/cards/contributions-light.svg" alt="GitHub contribution heatmap: 157 contributions, 08.10.2025 – 07.10.2026" width="830">
+  <img src="assets/cards/contributions-light.svg" alt="GitHub contribution heatmap: 157 contributions, 09.10.2025 – 08.10.2026" width="830">
 </picture>
 </a>
 </p>
@@ -345,7 +345,7 @@ Ten security-platform architectures, each with a frozen design, explicit contrac
 
 ## GitHub activity
 
-157 contributions, 08.10.2025 – 07.10.2026. Source: GitHub.
+157 contributions, 09.10.2025 – 08.10.2026. Source: GitHub.
 
 
 </details>
