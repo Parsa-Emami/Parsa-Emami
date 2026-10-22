@@ -1,9 +1,8 @@
 # Third-party notices
 
-| What | Where | Licence |
+| Component | Location | License |
 | --- | --- | --- |
-| Visual design language (hairline "screen lines", hatch separators, "Fig." captions, section structure) | adapted from [chanhdai.com](https://chanhdai.com) by Chánh Đại | MIT. His name, logo and personal content are **not** used here. |
-| Geist Sans & Geist Mono typefaces | `scripts/fonts/`, `site/assets/fonts/` | SIL Open Font License 1.1 (`scripts/fonts/LICENSE-Geist-OFL.txt`) |
-| Lucide icons | `scripts/lib/icons.py` | ISC |
-| GitHub mark | `scripts/lib/icons.py` | CC0 (Simple Icons) |
-| LinkedIn outline glyph | `scripts/lib/icons.py` | MIT (Feather-style) |
+| Geist Sans and Geist Mono, including generated glyph outlines | `scripts/fonts/`, `site/assets/fonts/`, `assets/cards/` | SIL Open Font License 1.1; `scripts/fonts/LICENSE-Geist-OFL.txt` |
+| Legacy profile design and helper origins | Earlier repository versions were adapted from [chanhdai.com](https://chanhdai.com) by Chánh Đại | MIT; historical design attribution is retained here |
+
+The current layout and visual identity follow Parsa Emami’s [parsaaemm.dev](https://parsaaemm.dev/). Arrows and project studies are drawn directly in the source; no external icon or badge service is required. Serif accents use the viewer’s installed Georgia or serif font.

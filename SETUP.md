@@ -1,104 +1,62 @@
-# Setup
+# Profile source
 
-> فارسی: [SETUP.fa.md](SETUP.fa.md)
+[فارسی](SETUP.fa.md)
 
-This repository is your **GitHub profile README** (`Parsa-Emami/Parsa-Emami`) plus a matching
-**website** in the same design (inspired by [chanhdai.com](https://chanhdai.com)).
-Everything is generated from one file: [`data/profile.json`](data/profile.json).
+The GitHub profile and static Pages mirror follow the visual language of [parsaaemm.dev](https://parsaaemm.dev/): warm paper, charcoal, red accents, large Geist typography and numbered editorial sections.
 
+`data/profile.json` supplies the public content and both color palettes. The builders produce `README.md`, responsive SVG cards and the static `site/` directory. Edit the source data or templates, then rebuild; generated output is replaced on the next build.
+
+## Local workflow
+
+```sh
+python -m venv .venv
+.venv/bin/python -m pip install -r scripts/requirements.txt
+.venv/bin/python scripts/build.py
+.venv/bin/python -m unittest discover -s tests -v
+node --test tests/theme.test.cjs
+.venv/bin/python -m http.server --directory site 8000
 ```
-data/profile.json ──► scripts/build.py ──► README.md          (what visitors see on github.com/Parsa-Emami)
-                                       ├─► assets/cards/*.svg  (light + dark cards used by the README)
-                                       └─► site/               (static website, deployable to GitHub Pages)
-```
 
-A GitHub README cannot run CSS or JavaScript, so the README is made of SVG cards that copy the
-website's look, and the website is the fully interactive version (⌘K / Ctrl+K search, theme toggle,
-"Show more", animated tagline).
+Python 3.12 and Node 22 are used in CI. Linux needs FreeType with RAQM for Pillow font rendering (`libraqm0` on Ubuntu). Node is only needed for the theme interaction tests; the published site has no runtime dependencies.
 
-## 1. Publish it (5 minutes)
+Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `--fetch` to refresh activity first; offline builds reuse `data/contributions.json`. `--only site` generates its own artwork and can run independently.
 
-1. The repository must be **public** and named exactly `Parsa-Emami` (same as your username).
-2. Replace the repository contents with the contents of this folder and push to `main`:
-   ```bash
-   git clone https://github.com/Parsa-Emami/Parsa-Emami.git
-   cd Parsa-Emami
-   # delete the old files, copy the new ones in, then:
-   git add -A && git commit -m "feat: chanhdai-style profile" && git push
-   ```
-3. **Settings → Actions → General → Workflow permissions →** choose **Read and write permissions** → Save.
-4. **Actions → Update profile → Run workflow.** It refreshes the activity heatmap, rebuilds everything and commits the result.
-   It then runs by itself every day and whenever you change `data/profile.json`.
+## Content
 
-### Optional: the website
-
-**Settings → Pages → Build and deployment → Source: GitHub Actions.**
-Then run **Actions → Deploy site**. It will be live at `https://parsa-emami.github.io/Parsa-Emami/`
-(the README's "Interactive site" button points there; change `site.url` in `profile.json` if you use another address).
-
-## 2. Edit your content
-
-Open `data/profile.json`, change text, commit. The workflow rebuilds README and site.
-
-| Key | What it controls |
+| Source | Purpose |
 | --- | --- |
-| `person` | name, role, rotating tagline (`flip`), coordinates in "Fig. 1", location. Optional `email`, `phone`, `pronouns` are hidden while empty. |
-| `overview`, `links`, `cta` | the icon list, social buttons and the closing line |
-| `about`, `principles`, `focus` | text sections (`[label](url)` makes a link) |
-| `stack`, `experience`, `education`, `projects`, `lab`, `research` | the structured sections |
-| `awards`, `certifications` | empty by default. Add items like `{ "title": "...", "issuer": "...", "year": 2026, "url": "..." }` and the section appears. |
-| `contributions` | which accounts feed the heatmap (see below) |
+| `person`, `hero`, `perspective`, `method` | Identity, introduction and working approach |
+| `projects`, `explorations` | Public work with explicit implementation status |
+| `professional`, `experience`, `education` | Public professional chronology, without internal product details |
+| `about`, `focus`, `notes`, `links` | Biography, skills, writing and contact routes |
+| `design.themes` | Shared light and dark colors for the cards and site |
+| `contributions` | Activity collection settings |
+| `scripts/templates/` | Site CSS and JavaScript source |
 
-Dates use `YYYY-MM`; use `"end": null` for a current role. Durations ("1y 1m") are computed automatically.
+Organizational product descriptions, interfaces and internal architecture are excluded from public output. Project status is editorial content: update it when the source repository changes.
 
-## 3. Change the photo
+The README uses real Markdown links and text alongside accessible SVGs. Each visual has a light and dark version, with separate narrow layouts selected below 640px. Geist glyphs are stored as vector outlines in the cards, so the main type needs no remote font request. The serif accent uses the viewer’s Georgia or serif font.
 
-```bash
-pip install -r scripts/requirements-local.txt
-python scripts/prep_avatar.py assets/source/source-photo.jpg --cx 1015 --cy 1215 --size 1500
-python scripts/make_og.py        # optional: link-preview image (needs `playwright install chromium`)
-python scripts/build.py
-```
-`--cx/--cy/--size` are the square crop (centre and side, in original photo pixels).
-Light theme gets a pencil-sketch version, dark theme gets the graded photo.
+## Automation
 
-## 4. Preview locally
+`Update profile` refreshes activity, rebuilds, runs Python and theme tests, and commits generated changes. It runs daily, on demand and after source changes on `main`. It requires `contents: write` and standard `GITHUB_TOKEN`; no new secret is needed.
 
-```bash
-pip install -r scripts/requirements.txt
-python scripts/build.py
-python -m http.server -d site 8000     # open http://localhost:8000
-```
-Run the tests with `python -m unittest discover -s tests -v`.
+`Deploy site` publishes `site/` through GitHub Pages. Pages must already use **GitHub Actions** as its source. The Pages mirror keeps `https://parsaaemm.dev/` canonical and sends `noindex,follow`. It does not replace the live canonical website.
 
-## 5. About the empty heatmap
+The activity graphic combines configured public calendars with public repository commit signals per day. It is labeled as an activity snapshot rather than GitHub’s official contribution total. If all sources fail, the collector preserves the previous snapshot.
 
-GitHub's own calendar counts only commits whose e-mail is linked to your account. Your public
-calendar currently shows **0 contributions** for `Parsa-Emami` (and 1 for `parsaemm`), while your repositories'
-commits are authored by `parsaemm`. So `scripts/fetch_contributions.py` merges two sources per day (taking the larger
-value, never adding): the calendars of the accounts in `contributions.accounts`, **plus** the commits in your public
-repositories, whoever authored them. Set `"include_repo_commits": false` to show only GitHub's official calendar.
+## File map
 
-To make GitHub's own graph count your work as well: **Settings → Emails →** add the e-mail you use in `git config user.email`
-to the account, or commit with your `@users.noreply.github.com` address.
-
-## 6. Layout
-
-| Path | Purpose |
+| Path | Ownership |
 | --- | --- |
-| `README.md` | generated, do not edit by hand |
-| `data/profile.json` | **all content** |
-| `data/contributions.json` | generated activity data |
-| `assets/cards/` | generated SVG cards (light + dark) |
-| `assets/avatar/`, `assets/source/` | avatar variants and the original photo |
-| `site/` | generated website (`assets/css`, `assets/js` are hand-written) |
-| `scripts/` | build pipeline (`build.py` runs everything) |
-| `tests/` | unit tests for the activity collector |
-| `.github/workflows/` | `update-profile.yml` (daily rebuild), `pages.yml` (deploy site) |
+| `README.md`, `assets/cards/`, `site/` | Generated output |
+| `data/profile.json` | Public content and design tokens |
+| `data/contributions.json` | Cached activity snapshot |
+| `scripts/build.py` | Build entry point |
+| `scripts/build_cards.py`, `scripts/lib/brand.py` | Responsive vector graphics |
+| `scripts/build_readme.py`, `scripts/lib/markdown.py` | GitHub and plain text presentation |
+| `scripts/build_site.py`, `scripts/templates/` | Static Pages mirror |
+| `scripts/make_og.py` | Deterministic 1200 × 630 sharing image |
+| `tests/` | Source, output and theme checks |
 
-## Troubleshooting
-
-* **The workflow can't push** → step 3 above (workflow permissions).
-* **Deploy site fails with "Pages not enabled"** → Settings → Pages → Source: GitHub Actions.
-* **Cards look different from the preview** → they embed the Geist font; if a viewer blocks embedded fonts it falls back to system fonts (layout stays readable).
-* **The README doesn't update** → GitHub caches images for a few minutes; hard-refresh.
+Generated cards no longer in the build are removed from `assets/cards/`. Keep hand-authored assets outside that directory. Original portrait sources remain under `assets/`.

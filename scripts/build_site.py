@@ -1,10 +1,3 @@
-#!/usr/bin/env python3
-"""Generate the static website in ./site from data/profile.json.
-
-Design adapted from chanhdai.com (MIT). Output has no build step and no
-runtime dependencies: open site/index.html, or serve the folder anywhere
-(GitHub Pages, Netlify, S3 ...). All asset URLs are relative.
-"""
 from __future__ import annotations
 
 import json
@@ -12,519 +5,105 @@ import shutil
 from html import escape as e
 from pathlib import Path
 
-from lib import content as C
-from lib import fonts, heat, icons, markdown
+import make_og
+from build_cards import study
+from lib import content as C, fonts, markdown
 
 ROOT = Path(__file__).resolve().parents[1]
-SITE = ROOT / "site"
-AVATARS = ROOT / "assets" / "avatar"
-
-_used_icons: set[str] = set()
+SITE = ROOT / 'site'
+TEMPLATES = ROOT / 'scripts' / 'templates'
 
 
-# --------------------------------------------------------------------------- #
-# tiny HTML helpers
-# --------------------------------------------------------------------------- #
-def ic(name: str, cls: str = "i") -> str:
-    _used_icons.add(name)
-    return f'<svg class="{cls}" aria-hidden="true" focusable="false"><use href="#i-{name}"/></svg>'
+def arrow():
+    return '<svg class="arrow" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 19 19 5M5 5h14v14" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>'
 
 
-def sprite() -> str:
-    symbols = []
-    for name in sorted(_used_icons):
-        if name == "github":
-            symbols.append(f'<symbol id="i-github" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="{icons.GITHUB_PATH}"/></symbol>')
-        else:
-            symbols.append(
-                f'<symbol id="i-{name}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" '
-                f'stroke-linecap="round" stroke-linejoin="round">{icons.stroke_icon(name)}</symbol>'
-            )
-    return '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">' + "".join(symbols) + "</svg>"
+def link(url, label, cls='text-link'):
+    return f'<a class="{cls}" href="{e(url, quote=True)}">{e(label)}{arrow()}</a>'
 
 
-def link(href: str, label: str, cls: str = "u", icon: str | None = None) -> str:
-    ext = href.startswith("http")
-    attrs = ' target="_blank" rel="noopener noreferrer"' if ext else ""
-    return f'<a class="{cls}" href="{e(href, quote=True)}"{attrs}>{e(label)}{ic(icon) if icon else ""}</a>'
+def picture(name, alt):
+    return (f'<picture><source media="(prefers-color-scheme: dark)" srcset="assets/art/{name}-dark.svg">'
+            f'<img src="assets/art/{name}-light.svg" data-themed="assets/art/{name}" alt="{e(alt, quote=True)}" width="830" height="290" loading="lazy"></picture>')
 
 
-def pills(items: list[str], small: bool = False) -> str:
-    cls = "pill sm" if small else "pill"
-    return '<ul class="pills">' + "".join(f'<li class="{cls}">{e(i)}</li>' for i in items) + "</ul>"
+def theme_css(p):
+    def block(selector, theme):
+        scheme = 'dark' if theme == p['design']['themes']['dark'] else 'light'
+        return selector+'{'+''.join(f'--{k}:{v};' for k, v in theme.items())+f'color-scheme:{scheme};'+'}'
+    themes = p['design']['themes']
+    return block(':root', themes['light']) + block(':root[data-theme="dark"]', themes['dark']) + '@media(prefers-color-scheme:dark){' + block(':root:not([data-theme="light"])', themes['dark']) + '}\n'
 
 
-def panel(pid: str, title: str, body: str, count: int | None = None, note: str = "", flush: bool = False) -> str:
-    cnt = f' <span class="count">({count})</span>' if count is not None else ""
-    note_html = f'<p class="panel-note">{e(note)}</p>' if note else ""
-    cls = "panel-body flush" if flush else "panel-body"
-    return (
-        f'<section id="{pid}" class="panel line-b" aria-labelledby="{pid}-h">'
-        f'<header class="panel-head"><h2 class="panel-title" id="{pid}-h"><a href="#{pid}">{e(title)}</a></h2>{cnt}</header>'
-        f'{note_html}<div class="{cls}">{body}</div></section>'
-    )
-
-
-SEP = '<div class="sep hatch line-b" aria-hidden="true"></div>'
-
-
-# --------------------------------------------------------------------------- #
-# sections
-# --------------------------------------------------------------------------- #
-def cover(p: dict) -> str:
-    per = p["person"]
-    flips = "".join(
-        f'<span class="flip-item{" on" if i == 0 else ""}" aria-hidden="true">{e(s)}</span>' for i, s in enumerate(per["flip"])
-    )
-    return f"""
-<section class="cover" id="top" aria-label="Profile">
-  <div class="cover-art hatch line-b"><span class="fig"><em>Fig. 1.</em> {e(per['name'])}, {e(per['coordinates'])}.</span></div>
-  <div class="profile-row line-b">
-    <div class="avatar">
-      <img class="only-light" src="assets/img/avatar-light.webp" width="136" height="136" alt="Pencil-sketch portrait of {e(per['name'])}" fetchpriority="high">
-      <img class="only-dark" src="assets/img/avatar-dark.webp" width="136" height="136" alt="Portrait of {e(per['name'])}" fetchpriority="high">
-    </div>
-    <div class="who">
-      <h1 class="name">{e(per['name'])}</h1>
-      <p class="role">{e(per['role'])}</p>
-      <p class="flip" data-flip aria-label="{e(' / '.join(per['flip']))}">{flips}</p>
-    </div>
-  </div>
-</section>"""
-
-
-def overview(p: dict) -> str:
-    rows = []
-    for row in p["overview"]:
-        bits = []
-        for part in row["parts"]:
-            bits.append(link(part["href"], part["t"]) if part.get("href") else f"<span>{e(part['t'])}</span>")
-        rows.append(f'<li><span class="ico">{ic(row["icon"])}</span><span>{" ".join(bits)}</span></li>')
-    per = p["person"]
-    if per.get("email"):
-        rows.append(f'<li><span class="ico">{ic("mail")}</span>{link("mailto:" + per["email"], per["email"])}</li>')
-    if per.get("phone"):
-        rows.append(f'<li><span class="ico">{ic("phone")}</span>{link("tel:" + per["phone"].replace(" ", ""), per["phone"])}</li>')
-    if per.get("pronouns"):
-        rows.append(f'<li><span class="ico">{ic("user")}</span><span>{e(per["pronouns"])}</span></li>')
-    return panel("overview", "Overview", f'<ul class="ov">{"".join(rows)}</ul>')
-
-
-def socials(p: dict, base: str) -> str:
-    cells = []
-    for l in p["links"]:
-        cells.append(
-            f'<a class="social" href="{e(l["href"], quote=True)}" target="_blank" rel="noopener noreferrer">'
-            f'<span class="ico">{ic(l["icon"])}</span><span><span class="lbl">{e(l["label"])}</span>'
-            f'<span class="handle">{e(l["handle"])}</span></span>{ic("arrow-up-right", "i go")}</a>'
-        )
-    body = f'<div class="lined cols-3">{"".join(cells)}</div>'
-    if p.get("cta"):
-        body += f'<p class="cta line-t">{e(p["cta"])}</p>'
-    return panel("social-links", "Social Links", body, flush=True)
-
-
-def contributions(contrib: dict) -> str:
-    days = contrib.get("days", [])
-    cells, cols, labels = heat.build(days)
-    if not cells:
-        return panel("github-contributions", "GitHub Contributions", '<p class="caption">No activity data yet.</p>')
-    cell, gap, top = 11, 3, 16
-    pitch = cell + gap
-    w, h = cols * pitch - gap, top + 7 * pitch - gap
-    rects = "".join(
-        f'<rect class="l{c.level}" x="{c.col * pitch}" y="{top + c.row * pitch}" width="{cell}" height="{cell}" data-tip="{e(heat.tip(c))}"/>'
-        for c in cells
-    )
-    months = "".join(f'<text x="{col * pitch}" y="9">{m}</text>' for col, m in labels)
-    svg = (
-        f'<svg class="heat" viewBox="0 0 {w} {h}" role="img" aria-label="Contribution heatmap, {contrib["total_contributions"]} contributions in the last year">'
-        f"{months}{rects}</svg>"
-    )
-    r = contrib["range"]
-    legend = "".join(f'<i style="background:var(--heat{i})"></i>' for i in range(5))
-    foot = (
-        f'<div class="heat-foot"><p class="caption"><em>Fig. 2.</em> {contrib["total_contributions"]:,} contributions, '
-        f'{C.fmt_day(r["start"])} – {C.fmt_day(r["end"])}. Source: <a class="u" href="https://github.com/{e(contrib["username"])}" '
-        f'target="_blank" rel="noopener noreferrer">GitHub</a>.</p>'
-        f'<span class="legend" aria-hidden="true">Less {legend} More</span></div>'
-    )
-    return panel("github-contributions", "GitHub Contributions", f'<div class="heat-scroll">{svg}</div>{foot}', flush=True)
-
-
-def about(p: dict) -> str:
-    return panel("about", "About", '<ul class="about">' + "".join(f"<li>{C.to_html(t)}</li>" for t in p["about"]) + "</ul>")
-
-
-def principles(p: dict) -> str:
-    cells = "".join(
-        f'<div class="cell"><div class="n"><span>{i:02d}</span><span>{e(x["verb"])}</span></div><h3>{e(x["title"])}</h3><p>{e(x["text"])}</p></div>'
-        for i, x in enumerate(p["principles"], 1)
-    )
-    return panel("principles", "Principles", f'<div class="lined cols-2">{cells}</div>', count=len(p["principles"]), flush=True)
-
-
-def focus(p: dict) -> str:
-    cells = "".join(
-        f'<div class="cell"><span class="ico">{ic(x["icon"])}</span><h3>{e(x["title"])}</h3><p>{e(x["text"])}</p></div>'
-        for x in p["focus"]
-    )
-    return panel("focus", "Focus", f'<div class="lined cols-2">{cells}</div>', count=len(p["focus"]), flush=True)
-
-
-def stack(p: dict) -> str:
-    rows = []
-    for i, g in enumerate(p["stack"], 1):
-        items = "".join(
-            f'<li>{link(x["url"], x["name"], "pill", "arrow-up-right")}</li>' if x.get("url") else f'<li class="pill">{e(x["name"])}</li>'
-            for x in g["items"]
-        )
-        rows.append(
-            f'<div class="stack-row"><div class="stack-name"><span class="num">{i:02d}</span><h3>{e(g["name"])}</h3></div>'
-            f'<ul class="pills">{items}</ul></div>'
-        )
-    return panel("stack", "Stack", "".join(rows), flush=True)
-
-
-def experience(p: dict) -> str:
-    out = []
-    for ex in p["experience"]:
-        current = any(x["end"] is None for x in ex["positions"])
-        meta = [e(x) for x in (ex.get("location"), ex.get("location_type")) if x]
-        meta_html = "".join(f'<span class="{"sep-dot" if i else ""}">{m}</span>' for i, m in enumerate(meta))
-        if current:
-            meta_html += f'<span class="{"sep-dot " if meta else ""}badge-now"><i class="dot"></i>Current</span>'
-        name = link(ex["url"], ex["company"]) if ex.get("url") else e(ex["company"])
-        positions = []
-        for pos in ex["positions"]:
-            bits = [pos["type"], C.fmt_period(pos["start"], pos["end"]), C.duration(pos["start"], pos["end"])]
-            if pos.get("location_type"):
-                bits.append(pos["location_type"])
-            pm = "".join(f'<span class="{"sep-dot" if i else ""}">{e(b)}</span>' for i, b in enumerate(bits))
-            positions.append(
-                f'<div class="pos"><h4>{e(pos["title"])}</h4><div class="meta">{pm}</div>'
-                f'<p>{e(pos["description"])}</p>{pills(pos["skills"], small=True)}</div>'
-            )
-        out.append(
-            f'<article class="exp" id="experience-{e(ex["id"])}"><div class="exp-head"><span class="tile" aria-hidden="true">{e(ex["monogram"])}</span>'
-            f'<div><h3 class="exp-name">{name}</h3><div class="meta">{meta_html}</div></div></div>'
-            f'<div class="timeline">{"".join(positions)}</div></article>'
-        )
-    return panel("experience", "Experience", "".join(out), count=len(p["experience"]), flush=True)
-
-
-def education(p: dict) -> str:
-    rows = []
-    for ed in p["education"]:
-        mono = "".join(w[0] for w in ed["school"].split() if w[0].isupper())[:4] or "EDU"
-        bits = [f'{ed["start"]}—{ed["end"]}'] + ([ed["status"]] if ed.get("status") else [])
-        m = "".join(f'<span class="{"sep-dot" if i else ""}">{e(b)}</span>' for i, b in enumerate(bits))
-        rows.append(
-            f'<div class="edu"><span class="tile" aria-hidden="true">{e(mono)}</span><div><h3>{e(ed["degree"])}, {e(ed["field"])}</h3>'
-            f'<p class="muted" style="color:var(--muted-fg);font-size:.875rem">{e(ed["school"])}</p><div class="meta">{m}</div></div></div>'
-        )
-    return panel("education", "Education", "".join(rows), count=len(p["education"]), flush=True)
-
-
-LIMIT_PROJECTS = 4
-LIMIT_LAB = 5
-
-
-def more_button(list_id: str, hidden_count: int, label: str) -> str:
-    if hidden_count <= 0:
-        return ""
-    return (
-        f'<div class="more-row"><button class="more-btn" type="button" data-more="{list_id}" data-label="{e(label)}" aria-expanded="false" aria-controls="{list_id}">'
-        f'<span class="lbl">{e(label)}</span>{ic("chevron-down")}</button></div>'
-    )
-
-
-def projects(p: dict) -> str:
-    items = []
-    for i, pr in enumerate(p["projects"]):
-        extra = ' data-extra hidden' if i >= LIMIT_PROJECTS else ""
-        opened = " open" if i == 0 else ""
-        bullets = "".join(f"<li>{e(b)}</li>" for b in pr["bullets"])
-        btn = f'<div class="link-row">{link(pr["url"], "View on GitHub", "btn", "arrow-up-right")}</div>' if pr.get("url") else ""
-        items.append(
-            f'<details class="proj" id="project-{e(pr["id"])}"{opened}{extra}><summary>'
-            f'<span class="p-name">{e(pr["name"])}</span><span class="tag">{e(pr["kind"])}</span>'
-            f'<span class="p-cat">{e(pr["category"])}</span>{ic("chevron-down", "i chev")}</summary>'
-            f'<div class="proj-body"><p>{e(pr["summary"])}</p><ul class="bl">{bullets}</ul>{pills(pr["tags"], small=True)}{btn}</div></details>'
-        )
-    hidden = max(0, len(items) - LIMIT_PROJECTS)
-    body = f'<div class="proj-list" id="projects-list" data-list>{"".join(items)}</div>' + more_button("projects-list", hidden, f"Show more ({hidden})")
-    return panel("projects", "Projects", body, count=len(p["projects"]), flush=True)
-
-
-def lab(p: dict) -> str:
-    items = []
-    for i, it in enumerate(p["lab"]["items"]):
-        extra = " data-extra hidden" if i >= LIMIT_LAB else ""
-        items.append(
-            f'<a class="lab-item" id="lab-{C.slug(it["name"])}" href="{e(it["url"], quote=True)}" target="_blank" rel="noopener noreferrer"{extra}>'
-            f'<span class="lab-top"><span class="p-name">{e(it["name"])}</span><span class="tag">Spec</span>{ic("arrow-up-right", "i go")}</span>'
-            f'<p>{e(it["summary"])}</p>{pills(it["tags"], small=True)}</a>'
-        )
-    hidden = max(0, len(items) - LIMIT_LAB)
-    body = f'<div id="lab-list" data-list>{"".join(items)}</div>' + more_button("lab-list", hidden, f"Show more ({hidden})")
-    return panel("lab", "Lab", body, count=len(items), note=p["lab"]["note"], flush=True)
-
-
-def research(p: dict) -> str:
-    return panel("research", "Research Signals", pills(p["research"]), count=len(p["research"]))
-
-
-def optional_lists(p: dict) -> str:
-    out = []
-    for key, title in (("awards", "Awards"), ("certifications", "Certifications")):
-        items = p.get(key) or []
-        if not items:
-            continue
-        rows = []
-        for it in items:
-            name = it.get("title") or it.get("name", "")
-            head = link(it["url"], name) if it.get("url") else e(name)
-            sub = " · ".join(x for x in (it.get("issuer"), str(it.get("year", "")) or None) if x)
-            rows.append(f'<li class="edu"><div><h3>{head}</h3><div class="meta"><span>{e(sub)}</span></div></div></li>')
-        out.append(SEP + panel(key, title, f'<ul>{"".join(rows)}</ul>', count=len(items), flush=True))
-    return "".join(out)
-
-
-def footer(p: dict, contrib: dict) -> str:
-    repo = p["site"]["repo"]
-    rows = [
-        ("Crafted by", link(f'https://github.com/{p["person"]["username"]}', "@" + p["person"]["username"])),
-        ("Build", f"{e(C.build_id())} · {C.today().isoformat()}"),
-        ("Source", link(f"https://github.com/{repo}", f"github.com/{repo}")),
-        ("Typeface", link("https://vercel.com/font", "Geist Sans & Mono")),
-        ("Stack", "Static HTML · CSS · vanilla JS, generated by Python"),
-        ("Inspired by", link("https://chanhdai.com", "chanhdai.com (MIT)")),
-    ]
-    dl = "".join(f"<dt>{k}</dt><dd>{v}</dd>" for k, v in rows)
-    closing = f'<p class="closing">{e(p["cta"])}</p>' if p.get("cta") else ""
-    return (
-        f'<footer class="footer"><h2 class="sr-only">About this site</h2><dl class="details">{dl}</dl>{closing}'
-        f'<p class="agents">For agents: <a class="u" href="llms.txt">llms.txt</a> · <a class="u" href="index.md">index.md</a></p></footer>'
-    )
-
-
-def palette_items(p: dict) -> list[dict]:
-    items = [{"group": "Sections", "label": t, "href": "#" + a, "keywords": k} for t, a, k in (
-        ("Overview", "overview", "about me"), ("Social Links", "social-links", "contact"),
-        ("GitHub Contributions", "github-contributions", "activity heatmap"), ("About", "about", "bio"),
-        ("Principles", "principles", "philosophy"), ("Focus", "focus", "skills"), ("Stack", "stack", "tech skills"),
-        ("Experience", "experience", "work jobs career"), ("Education", "education", "university degree"),
-        ("Projects", "projects", "work"), ("Lab", "lab", "specs architecture"), ("Research Signals", "research", "topics"),
-    )]
-    items += [{"group": "Projects", "label": x["name"], "hint": x["kind"], "href": "#project-" + x["id"], "keywords": x["category"] + " " + " ".join(x["tags"])} for x in p["projects"]]
-    items += [{"group": "Lab", "label": x["name"], "hint": "GitHub", "href": x["url"], "keywords": x["summary"]} for x in p["lab"]["items"]]
-    items += [{"group": "Links", "label": l["label"], "hint": l["handle"], "href": l["href"]} for l in p["links"]]
-    items += [
-        {"group": "Actions", "label": "Toggle theme", "hint": "D", "action": "theme", "keywords": "dark light mode"},
-        {"group": "Actions", "label": "Copy page link", "action": "copy", "keywords": "url share"},
-    ]
-    return items
-
-
-def palette_dialog(p: dict) -> str:
-    data = json.dumps(palette_items(p), ensure_ascii=False).replace("</", "<\\/")
-    return f"""
-<dialog id="palette" class="palette" aria-label="Command palette">
-  <div class="palette-input">{ic("search", "i i-lg")}<input type="text" placeholder="Search…" aria-label="Search" role="combobox" aria-expanded="true" aria-controls="palette-list" autocomplete="off" spellcheck="false"></div>
-  <div class="palette-list" id="palette-list" role="listbox"></div>
-  <div class="palette-foot"><span>↑↓ navigate</span><span>↵ open</span><span>esc close</span></div>
-</dialog>
-<script type="application/json" id="palette-data">{data}</script>"""
-
-
-# --------------------------------------------------------------------------- #
-# page shell
-# --------------------------------------------------------------------------- #
-THEME_INIT = (
-    "(function(){try{var t=localStorage.getItem('theme');if(!t)t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';"
-    "document.documentElement.dataset.theme=t;var m=document.querySelector('meta[name=theme-color]');"
-    "if(m)m.content=t==='dark'?'#0a0a0a':'#ffffff'}catch(e){}})()"
-)
-
-
-def json_ld(p: dict, canonical: str) -> str:
-    per = p["person"]
-    canonical = canonical.rstrip("/") + "/"
-    person_id = canonical + "#person"
-    profile_id = canonical + "#profile"
-    same_as = [l["href"] for l in p["links"] if l.get("href", "").rstrip("/") != canonical.rstrip("/")]
-    data = {
-        "@context": "https://schema.org",
-        "@graph": [
-            {
-                "@type": "ProfilePage",
-                "@id": profile_id,
-                "url": canonical,
-                "name": p["site"]["title"],
-                "mainEntity": {"@id": person_id},
-            },
-            {
-                "@type": "Person",
-                "@id": person_id,
-                "name": per["name"],
-                "alternateName": per.get("alternate_names", [per.get("username", "")]),
-                "jobTitle": "Software Engineer / Security Architect",
-                "description": p["site"]["description"],
-                "url": canonical,
-                "sameAs": same_as,
-                "address": {
-                    "@type": "PostalAddress",
-                    "addressLocality": "Babol",
-                    "addressRegion": "Mazandaran",
-                    "addressCountry": "IR",
-                },
-                "worksFor": {"@type": "Organization", "name": "Sepehr Afrooz Saba"},
-                "alumniOf": {
-                    "@type": "CollegeOrUniversity",
-                    "name": "Mazandaran University of Science and Technology",
-                },
-                "knowsAbout": [x["title"] for x in p.get("focus", [])],
-            },
-        ],
-    }
-    return json.dumps(data, ensure_ascii=False)
-
-
-def head(p: dict, asset_base: str, title: str, canonical: str, extra: str = "", robots: str = "noindex,follow") -> str:
-    s = p["site"]
-    return f"""<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{e(title)}</title>
-<meta name="description" content="{e(s['description'], quote=True)}">
-<meta name="author" content="{e(p['person']['name'], quote=True)}">
-<meta name="robots" content="{e(robots, quote=True)}">
-<link rel="canonical" href="{e(canonical, quote=True)}">
-<link rel="me" href="https://github.com/{e(p['person']['username'], quote=True)}">
-<link rel="me" href="https://www.linkedin.com/in/parsaaemm/">
-<meta name="theme-color" content="#ffffff">
-<script>{THEME_INIT}</script>
-<meta property="og:type" content="profile">
-<meta property="og:site_name" content="{e(p['person']['name'])}">
-<meta property="og:title" content="{e(title, quote=True)}">
-<meta property="og:description" content="{e(s['description'], quote=True)}">
-<meta property="og:url" content="{e(canonical, quote=True)}">
-<meta property="og:image" content="{e(asset_base)}assets/img/og.png">
-<meta property="og:image:alt" content="{e(p['person']['name'], quote=True)} — Software Engineer and Security Architect">
-<meta property="og:locale" content="{e(s['locale'])}">
-<meta property="profile:first_name" content="Parsa">
-<meta property="profile:last_name" content="Emami">
+def render(p):
+    per, hero, method = p['person'], p['hero'], p['method']
+    base = p['site']['url']
+    nav = f'<a href="#work">Work</a><a href="#about">About</a><a href="#notes">Notes</a><a href="{base}resume/">Résumé</a>'
+    steps = ''.join(f'<article><span class="eyebrow accent">{i:02d} / {e(x["verb"].upper())}</span><h3>{e(x["title"])}</h3><p>{e(x["text"])}</p><p class="question">{e(x["question"])}</p></article>' for i, x in enumerate(method['steps'], 1))
+    work = []
+    for i, x in enumerate(p['projects'], 1):
+        alt = f'Conceptual {x["name"]} study; not an application screenshot.'
+        work.append(f'<article class="work-feature"><div class="work-meta"><span>{i:02d} / {e(x["category"])}</span><span class="status">{e(x["status"])}</span></div><a class="work-art" href="{e(x["url"], quote=True)}" aria-label="Explore {e(x["name"])} source">{picture("study-"+x["id"], alt)}<span class="work-open">{arrow()}</span></a><div class="work-description"><h3>{e(x["name"])}<span>{e(x["title"])}</span></h3><div><p>{e(x["summary"])}</p><p class="scope">{e(x["scope"])}</p><div class="project-links">{link(x["url"], "Source")}{link(x["case_study"], "Project notes")}</div></div></div></article>')
+    explorations = ''.join(f'<a href="{e(x["url"], quote=True)}"><span>{e(x["name"])}</span><small>{e(x["label"])}</small>{arrow()}</a>' for x in p['explorations'])
+    focus = ''.join(f'<div><h3>{e(x["title"])}</h3><ul>'+''.join(f'<li>{e(t)}</li>' for t in x['items'])+'</ul></div>' for x in p['focus'])
+    notes = ''.join(f'<a class="note" href="{e(x["url"], quote=True)}"><span class="eyebrow accent">{i:02d}</span><div><p class="eyebrow">{e(x["category"])}</p><h3>{e(x["title"])}</h3></div>{arrow()}</a>' for i, x in enumerate(p['notes'], 1))
+    same_as = [x['href'] for x in p['links'] if x['id'] != 'website']
+    structured = json.dumps({'@context':'https://schema.org', '@type':'Person', 'name':per['name'], 'alternateName':per['alternate_names'], 'url':base, 'jobTitle':'Software Engineer & Security Architect', 'sameAs':same_as}, ensure_ascii=False).replace('<', '\\u003c')
+    return f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{e(p['site']['title'])}</title>
+<meta name="description" content="{e(p['site']['description'], quote=True)}">
+<meta name="robots" content="noindex,follow"><meta name="color-scheme" content="light dark">
+<link rel="canonical" href="{base}"><link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="profile"><meta property="og:title" content="{e(p['site']['title'], quote=True)}"><meta property="og:description" content="{e(p['site']['description'], quote=True)}"><meta property="og:url" content="{base}"><meta property="og:image" content="{p['site']['pages_url']}assets/img/og.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{e(title, quote=True)}">
-<meta name="twitter:description" content="{e(s['description'], quote=True)}">
-<meta name="twitter:image" content="{e(asset_base)}assets/img/og.png">
-<link rel="icon" href="{extra}favicon.svg" type="image/svg+xml">
-<link rel="stylesheet" href="{extra}assets/css/site.css">"""
-
-
-def header(p: dict) -> str:
-    gh = next(l for l in p["links"] if l["id"] == "github")
-    nav = "".join(f'<a href="#{a}">{t}</a>' for t, a in (("About", "about"), ("Stack", "stack"), ("Experience", "experience"), ("Projects", "projects"), ("Lab", "lab")))
-    initials = "".join(w[0] for w in p["person"]["name"].split()).upper()
-    return f"""
-<header class="site-header">
-  <div class="container header-in">
-    <a class="logo" href="#top" aria-label="{e(p['person']['name'])} — home">{e(initials)}</a>
-    <nav class="nav" aria-label="Sections">{nav}</nav>
-    <button class="search-btn" type="button" data-open-palette aria-label="Search (Ctrl or Command + K)">{ic("search")}<span class="txt">Search…</span><span class="kbd" aria-hidden="true">{ic("command")}K</span></button>
-    <a class="icon-btn" href="{e(gh['href'], quote=True)}" target="_blank" rel="noopener noreferrer" aria-label="GitHub">{ic("github", "i i-lg")}</a>
-    <button class="icon-btn" type="button" data-toggle-theme aria-label="Toggle theme"><span class="only-light">{ic("moon", "i i-lg")}</span><span class="only-dark">{ic("sun", "i i-lg")}</span></button>
-  </div>
-</header>"""
-
-
-def index_html(p: dict, contrib: dict, asset_base: str, canonical: str) -> str:
-    _used_icons.clear()
-    body_sections = [
-        cover(p), SEP, overview(p), SEP, socials(p, canonical), SEP, contributions(contrib), SEP, about(p), SEP,
-        principles(p), SEP, focus(p), SEP, stack(p), SEP, experience(p), SEP, education(p), SEP, projects(p), SEP, lab(p), SEP, research(p),
-    ]
-    main = "".join(body_sections) + optional_lists(p) + SEP + footer(p, contrib)
-    hdr = header(p)
-    pal = palette_dialog(p)
-    return f"""<!doctype html>
-<html lang="en" data-theme="light">
-<head>
-{head(p, asset_base, p['site']['title'], canonical)}
-<script type="application/ld+json">{json_ld(p, canonical)}</script>
+<link rel="preload" href="assets/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>
+<script src="assets/js/theme-init.js"></script><link rel="stylesheet" href="assets/css/site.css"><script src="assets/js/app.js" defer></script>
+<script type="application/ld+json">{structured}</script>
 </head>
-<body>
-<a class="skip" href="#main">Skip to content</a>
-{sprite_placeholder}
-{hdr}
-<main id="main" class="container">{main}</main>
-{pal}
-<script src="assets/js/app.js" defer></script>
-</body>
-</html>
-""".replace(sprite_placeholder, sprite())
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header"><a class="brand" href="#top" aria-label="Parsa Emami, home"><span class="monogram" aria-hidden="true">p<span>e</span></span>{e(per['brand'])}<b aria-hidden="true">.</b></a><nav aria-label="Main">{nav}</nav><button type="button" class="theme-toggle" hidden aria-label="Color theme: System. Switch to light mode."><span aria-hidden="true">◐</span><span data-theme-label>System</span></button>{link('#contact', 'Let’s talk', 'header-contact')}</header>
+<main id="main" tabindex="-1">
+<section class="hero wrap" aria-labelledby="hero-name"><div class="hero-top eyebrow"><span><i></i>{e(hero['eyebrow'])}</span><span>BASED IN IRAN <b>↗</b> OPEN WORLDWIDE</span></div><div class="hero-name-row"><h1 id="hero-name">Parsa Emami<span>.</span></h1><p class="eyebrow independent">INDEPENDENT<br>BY DESIGN.</p></div><div class="hero-rule eyebrow"><span>01 — A MIND AT WORK</span><span>SOFTWARE + SECURITY</span></div><div class="hero-grid"><div class="identity"><img src="assets/img/avatar-dark.webp" width="76" height="86" alt="Parsa Emami" fetchpriority="high"><p>Software engineer.<br>Security architect.</p><small>{e(per['perspective'])}</small>{link(base+'about/', 'The person behind the code')}</div><div class="hero-copy"><h2>{e(hero['title'])}<br><em>{e(hero['accent'])}</em></h2><p>{e(hero['intro'])}</p><div class="button-row">{link('#work', 'Explore selected work', 'button primary')}{link('#contact', 'Let’s talk')}</div></div><div class="hero-asides"><p class="eyebrow">ENGINEERING, WITH PERSPECTIVE.</p><p>Build with intent.<small>Software engineering</small></p><p>Make boundaries clear.<small>Security architecture</small></p><p>Look past the obvious.<small>Red team thinking</small></p></div></div><div class="hero-bottom"><div><a href="https://github.com/{per['username']}">GitHub</a><a href="https://www.linkedin.com/in/parsaaemm/">LinkedIn</a><a href="mailto:{per['email']}">Email</a></div><a class="eyebrow" href="#perspective">A LITTLE FURTHER DOWN ↓</a></div></section>
+<section class="perspective wrap section" id="perspective" aria-labelledby="perspective-title"><div class="section-top"><p class="eyebrow"><span class="accent">01</span> A POINT OF VIEW</p><span class="eyebrow">SOFTWARE / SECURITY / CRAFT</span></div><h2 id="perspective-title">{e(p['perspective']['title'])}<br><em>{e(p['perspective']['accent'])}</em></h2><div class="perspective-copy"><p>{e(p['perspective']['text'])}</p><p>{e(p['perspective']['detail'])}</p></div></section>
+<section class="method wrap section" id="method" aria-labelledby="method-title"><div class="section-top"><p class="eyebrow"><span class="accent">02</span> HOW I THINK</p><h2 id="method-title">{e(method['title'])}<br><em>{e(method['accent'])}</em></h2><p>A software engineer’s care.<br>A red teamer’s questions.</p></div><div class="method-layout"><div class="method-model" aria-label="Working model: input, rule, result, with explicit boundaries"><div class="eyebrow">THE WORKING MODEL <span class="accent">↳ 01—03</span></div><div class="model-stages"><span>INPUT</span><i>↓</i><span class="boundary">RULE</span><i>↓</i><span>RESULT</span></div><p class="eyebrow">BEHAVIOR → BOUNDARY → EVIDENCE</p></div><div class="method-steps">{steps}</div></div><blockquote>“Leaving it alone is better<br>than changing it <em>incorrectly.</em>”<span class="eyebrow">MY WORKING PRINCIPLE</span></blockquote></section>
+<section class="selected-work wrap section" id="work" aria-labelledby="work-title"><div class="section-top"><p class="eyebrow"><span class="accent">03</span> WORK IN PUBLIC</p><p>Personal projects.<br>Inspectable code. Honest status.</p></div><div class="section-title"><h2 id="work-title">Open to<br><em>closer inspection.</em></h2>{link(base+'projects/', 'All work')}</div>{''.join(work)}<div class="explorations">{explorations}</div><div class="confidential"><p class="eyebrow">PROFESSIONAL EXPERIENCE</p><h3>Enterprise work. Kept confidential.</h3><p>{e(p['professional']['text'])}</p>{link(p['professional']['resume'], 'View experience')}</div></section>
+<section class="experiment wrap section" id="experiment" aria-labelledby="experiment-title"><p class="eyebrow"><span class="accent">04</span> DON’T JUST READ IT</p><div class="experiment-grid"><h2 id="experiment-title">Try the<br><em>difference.</em></h2><div><h3>{e(p["experiment"]["title"])}</h3><p>{e(p["experiment"]["text"])}</p><small>{e(p["experiment"]["note"])}</small>{link(p["experiment"]["url"], "Open the browser experiment")}</div></div></section>
+<section class="about wrap section" id="about" aria-labelledby="about-title"><p class="eyebrow"><span class="accent">05</span> THE PERSON BEHIND THE HANDLE</p><div class="about-grid"><figure><img src="assets/img/avatar-dark.webp" width="440" height="440" loading="lazy" alt="Portrait of Parsa Emami"><figcaption class="eyebrow">PARSA EMAMI / PARSAAEMM <span>IRN ↗</span></figcaption></figure><div><h2 id="about-title">I build.<br>I question.<br><em>I keep learning.</em></h2><p>{e(p['about'][1])}</p><p>{e(p['about'][2])}</p>{link(base+'about/', 'A little more about me')}</div></div><div class="focus-grid">{focus}</div></section>
+<section class="notes wrap section" id="notes" aria-labelledby="notes-title"><div class="section-top"><p class="eyebrow"><span class="accent">06</span> FIELD NOTES</p>{link(base+'writing/', 'All notes')}</div><h2 id="notes-title">The thinking,<br><em>in writing.</em></h2><div class="notes-list">{notes}</div></section>
+</main>
+<section class="contact" id="contact" aria-labelledby="contact-title"><div class="wrap"><div class="section-top"><p class="eyebrow">THE NEXT CHAPTER</p><span>Open to international roles</span></div><h2 id="contact-title">Your next<br><em>engineer.</em></h2><a class="contact-email" href="mailto:{per['email']}">{e(per['email'])}{arrow()}</a><div class="section-top"><p>Software engineering · Security architecture<br>Open to relocation & selected collaborations</p>{link(base+'resume/', 'Read my résumé')}</div></div></section>
+<footer class="wrap"><div><a class="brand" href="{base}">{e(per['brand'])}<b>.</b></a><p>Parsa Emami<br>Software, security & the details between.</p></div><nav aria-label="Elsewhere"><a href="https://github.com/{per['username']}">GitHub</a><a href="https://www.linkedin.com/in/parsaaemm/">LinkedIn</a><a href="{base}colophon/">Colophon</a><a href="#top">Back to top ↑</a></nav></footer>
+</body></html>'''
 
 
-sprite_placeholder = "<!--SPRITE-->"
-
-
-def not_found(p: dict, asset_base: str, canonical: str) -> str:
-    _used_icons.clear()
-    back = f'<a class="btn" href="{e(canonical)}">Back to home {ic("arrow-up-right")}</a>'
-    return f"""<!doctype html>
-<html lang="en" data-theme="light">
-<head>
-{head(p, asset_base, "Page not found – " + p['person']['name'], canonical, extra=asset_base, robots="noindex,nofollow")}
-</head>
-<body>
-{sprite()}
-<main class="container nf"><h1 class="mono">404</h1><p>This page doesn't exist. Nothing to find here, but the real system is one click away.</p>
-{back}</main>
-<script src="{e(asset_base)}assets/js/app.js" defer></script>
-</body>
-</html>
-"""
-
-
-FAVICON = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><style>rect{fill:#0a0a0a}text{fill:#fafafa}@media (prefers-color-scheme:dark){rect{fill:#fafafa}text{fill:#0a0a0a}}</style><rect width="32" height="32" rx="8"/><text x="16" y="21" text-anchor="middle" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="14" font-weight="700">PE</text></svg>
-"""
-
-
-def build() -> None:
+def build():
     p = C.load_profile()
-    contrib = C.load_contributions()
-    canonical = p["site"]["url"].rstrip("/") + "/"
-    asset_base = p["site"].get("pages_url", canonical).rstrip("/") + "/"
-
-    (SITE / "assets" / "img").mkdir(parents=True, exist_ok=True)
-    for name in ("avatar-light.webp", "avatar-dark.webp"):
-        src = AVATARS / name
-        if src.exists():
-            shutil.copyfile(src, SITE / "assets" / "img" / name)
-    fonts.write_site_fonts(SITE / "assets" / "fonts")
-
-    html = index_html(p, contrib, asset_base, canonical)
-    # the sprite must be produced after the sections registered their icons
-    (SITE / "index.html").write_text(html, encoding="utf-8")
-    (SITE / "404.html").write_text(not_found(p, asset_base, canonical), encoding="utf-8")
-    (SITE / "favicon.svg").write_text(FAVICON, encoding="utf-8")
-
-    md = markdown.render(p, contrib, canonical)
-    (SITE / "index.md").write_text(md, encoding="utf-8")
-    (SITE / "llms.txt").write_text(
-        f"# {p['person']['name']}\n\n> {p['site']['description']}\n\n"
-        f"- [Canonical website]({canonical})\n"
-        f"- [GitHub](https://github.com/{p['person']['username']})\n- [LinkedIn](https://www.linkedin.com/in/parsaaemm/)\n", 
-        encoding="utf-8",
-    )
-    (SITE / "robots.txt").write_text(f"User-agent: *\nAllow: /\n\n# This GitHub Pages mirror is noindex; canonical profile: {canonical}\n", encoding="utf-8")
-    (SITE / "sitemap.xml").write_text(
-        '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">'
-        f"<url><loc>{asset_base}</loc><lastmod>{C.today().isoformat()}</lastmod></url></urlset>\n",
-        encoding="utf-8",
-    )
-    print(f"site: wrote {SITE.relative_to(ROOT)}/index.html ({len(html) // 1024} KB), 404.html, llms.txt, index.md, sitemap.xml")
+    for sub in ['css', 'js', 'art', 'img', 'fonts']:
+        (SITE / 'assets' / sub).mkdir(parents=True, exist_ok=True)
+    (SITE / 'index.html').write_text(render(p), encoding='utf-8')
+    (SITE / 'index.md').write_text(markdown.render(p, C.load_contributions()), encoding='utf-8')
+    css = theme_css(p) + (TEMPLATES / 'site.css').read_text(encoding='utf-8')
+    (SITE / 'assets' / 'css' / 'site.css').write_text(css, encoding='utf-8')
+    for name in ['theme-init.js', 'app.js']:
+        shutil.copyfile(TEMPLATES / name, SITE / 'assets' / 'js' / name)
+    for project in p['projects']:
+        for theme, tokens in p['design']['themes'].items():
+            name = f'study-{project["id"]}-{theme}.svg'
+            (SITE / 'assets' / 'art' / name).write_text(study(tokens, project), encoding='utf-8')
+    shutil.copyfile(ROOT / 'assets' / 'avatar' / 'avatar-dark.webp', SITE / 'assets' / 'img' / 'avatar-dark.webp')
+    fonts.write_site_fonts(SITE / 'assets' / 'fonts')
+    make_og.build(p)
+    (SITE / 'favicon.svg').write_text('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#262624"/><text x="9" y="44" font-family="Arial,sans-serif" font-size="40" letter-spacing="-6" fill="#faf9f5">pe</text><circle cx="51" cy="46" r="4" fill="#c94040"/></svg>\n', encoding='utf-8')
+    (SITE / '404.html').write_text(f'<!doctype html><html lang="en"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Page not found — Parsa Emami</title><body><main><h1>Page not found.</h1><p><a href="{p["site"]["pages_url"]}">Return to the profile</a> · <a href="{p["site"]["url"]}">Visit parsaaemm.dev</a></p></main></body></html>\n', encoding='utf-8')
+    (SITE / 'robots.txt').write_text('User-agent: *\nAllow: /\n', encoding='utf-8')
+    (SITE / 'sitemap.xml').write_text(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"><url><loc>{p["site"]["url"]}</loc></url></urlset>\n', encoding='utf-8')
+    (SITE / 'llms.txt').write_text(f'# {p["person"]["name"]}\n\n{p["site"]["description"]}\n\n- [Canonical website]({p["site"]["url"]})\n- [Text profile](index.md)\n- [Résumé]({p["professional"]["resume"]})\n', encoding='utf-8')
+    print('site: wrote static mirror')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     build()

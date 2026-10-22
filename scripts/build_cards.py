@@ -1,422 +1,224 @@
-#!/usr/bin/env python3
-"""Render every README card as a light + dark SVG pair into assets/cards/.
-
-Each card is a panel in the chanhdai.com style: hairline borders, a diagonal
-hatch strip, Geist type, mono "Fig." captions. Text is wrapped with real font
-metrics and the glyphs are embedded, so the images look the same everywhere.
-"""
 from __future__ import annotations
 
 from pathlib import Path
 
-from lib import content as C
-from lib import fonts, heat
-from lib.svgkit import HATCH_H, HEAD_H, PAD, THEMES, W, Doc, assemble, jpeg_data_uri
+from lib import content as C, heat
+from lib.brand import Drawing, measure
 
 ROOT = Path(__file__).resolve().parents[1]
-OUT = ROOT / "assets" / "cards"
-AVATARS = ROOT / "assets" / "avatar"
-
-BODY_Y = HATCH_H + HEAD_H + 1      # first pixel below the header line
-INNER = W - 2 * PAD
+OUT = ROOT / 'assets' / 'cards'
 
 
-# --------------------------------------------------------------------------- #
-# generic helpers
-# --------------------------------------------------------------------------- #
-def grid(d: Doc, y: float, cells, cols: int = 2) -> float:
-    """Lined grid. ``cells`` are callables (sub_doc, width) -> height. Returns bottom y."""
-    cw = W / cols
-    i = 0
-    while i < len(cells):
-        row = cells[i:i + cols]
-        subs = []
-        for fn in row:
-            s = d.sub()
-            subs.append((s, fn(s, cw)))
-        h = max(hh for _, hh in subs)
-        for j, (s, _) in enumerate(subs):
-            d.place(s, j * cw, y)
-        if i + cols < len(cells):
-            d.line(0, y + h, W, y + h)
-        y += h
-        i += cols
-    for j in range(1, cols):
-        d.vline(j * cw, BODY_Y, y)
-    return y
+def hero(theme, p):
+    d = Drawing(theme)
+    d.contours(900, 130)
+    d.label(32, 34, p['hero']['eyebrow'])
+    name = p['person']['name']
+    size = min(112, 760 / measure(name + '.', 1, 600, tracking=-.045))
+    w = d.text(28, 156, name, size, 600, tracking=-size*.045)
+    d.text(28 + w, 156, '.', size, 600, color=theme['accent'], tracking=-size*.045)
+    d.line(32, 190, 798, 190, theme['ink'])
+    d.label(32, 213, '01 — A MIND AT WORK')
+    d.text(32, 271, 'Software engineer.', 22, 500, tracking=-.5)
+    d.text(32, 301, 'Security architect.', 22, 500, tracking=-.5)
+    d.text(32, 329, p['person']['perspective'], 14, color=theme['subtle'])
+    d.text(360, 272, p['hero']['title'], 35, 400, tracking=-1.5)
+    d.serif(360, 317, p['hero']['accent'], 37)
+    d.line(32, 363, 798, 363)
+    d.label(32, 392, p['person']['brand'])
+    d.label(491, 392, 'BASED IN IRAN / OPEN WORLDWIDE')
+    return d.svg(416, p['person']['name'], p['person']['role'] + '. ' + p['hero']['intro'])
 
 
-def finish(d: Doc, bottom: float, title: str, desc: str, head=None, css: str = "") -> str:
-    return assemble(d, bottom, title, desc, css=css, head=head)
+def perspective(theme, p):
+    d = Drawing(theme)
+    d.label(32, 33, '01 / A POINT OF VIEW')
+    d.text(32, 94, p['perspective']['title'], 48, 400, tracking=-2)
+    d.serif(32, 150, p['perspective']['accent'], 52)
+    d.para(32, 199, p['perspective']['text'], 752, 17, theme['text'], 27)
+    return d.svg(267, 'A point of view', p['perspective']['text'] + ' ' + p['perspective']['detail'])
 
 
-# --------------------------------------------------------------------------- #
-# hero
-# --------------------------------------------------------------------------- #
-def hero(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    per = p["person"]
-    cover_h = 132
-    d.hatch(0, 0, W, cover_h)
-    d.line(0, cover_h, W, cover_h)
-
-    # Fig. 1 caption (bottom-right of the cover)
-    cap_a, cap_b = "Fig. 1.", f" {per['name']}, {per['coordinates']}."
-    cw = fonts.text_width(cap_a + cap_b, 11.5, 400, True) + 18
-    bx, by = W - 14 - cw, cover_h - 12 - 22
-    d.rect(bx + .5, by + .5, cw - 1, 21, fill=t["bg"], stroke=t["border"], rx=6)
-    d.spans(bx + 9, by + 15, [(cap_a, t["fg"], 400), (cap_b, t["muted_fg"], 400)], size=11.5)
-
-    # avatar straddling the cover line: outer ring + image
-    cx, cy, r = PAD + 76, cover_h, 68
-    uri = jpeg_data_uri(AVATARS / t["avatar"], 272)
-    clip = d.uid("av")
-    d.defs.append(f'<clipPath id="{clip}"><circle cx="{cx}" cy="{cy}" r="{r}"/></clipPath>')
-    d.circle(cx, cy, r + 6, fill=t["bg"], stroke=t["border"])
-    d.parts.append(
-        f'<image x="{cx - r}" y="{cy - r}" width="{2 * r}" height="{2 * r}" href="{uri}" xlink:href="{uri}" '
-        f'clip-path="url(#{clip})" preserveAspectRatio="xMidYMid slice"/>'
-    )
-    d.circle(cx, cy, r, stroke=t["border"])
-
-    # identity
-    x = cx + r + 30
-    d.text(x, cover_h + 44, per["name"], 32, 600, t["fg"])
-    d.text(x, cover_h + 70, per["role"], 14.5, 400, t["muted_fg"])
-    flips = per["flip"]
-    fy = cover_h + 98
-    for i, s in enumerate(flips):
-        d.text(x, fy, s, 14, 400, t["muted_fg"], mono=True, cls=f"f f{i}")
-    row_b = fy + 24
-    d.line(0, row_b, W, row_b)
-
-    # overview
-    y = row_b + 24
-    for row in p["overview"]:
-        d.icon_box(PAD, y, row["icon"])
-        d.text(PAD + 42, y + 19, C.parts_text(row["parts"]), 15, 400, t["fg"])
-        y += 40
-    bottom = y + 6
-
-    n = len(flips)
-    slot = 2.8
-    total = n * slot
-    pct = 100 / n
-    css = (
-        f"@keyframes flip{{0%{{opacity:0;transform:translateY(8px)}}2.5%{{opacity:1;transform:translateY(0)}}"
-        f"{pct - 3:.2f}%{{opacity:1;transform:translateY(0)}}{pct - 0.5:.2f}%{{opacity:0;transform:translateY(-8px)}}100%{{opacity:0}}}}"
-        f".f{{opacity:0;animation:flip {total:g}s infinite}}.f0{{opacity:1}}"
-        + "".join(f".f{i}{{animation-delay:{i * slot:g}s}}" for i in range(n))
-        + "@media (prefers-reduced-motion:reduce){.f{animation:none}}"
-    )
-    desc = f"{per['name']} — {per['role']}. " + " ".join(C.parts_text(r["parts"]) + "." for r in p["overview"])
-    return assemble(d, bottom, f"{per['name']} — profile", desc, css=css)
+def method(theme, p):
+    d = Drawing(theme)
+    d.label(32, 33, '02 / HOW I THINK')
+    d.text(32, 90, p['method']['title'], 40, tracking=-1.5)
+    d.serif(370, 90, p['method']['accent'], 42)
+    y = 133
+    for i, step in enumerate(p['method']['steps'], 1):
+        d.line(32, y, 798, y)
+        d.label(32, y+30, f'{i:02d} / {step["verb"].upper()}', theme['accent'])
+        d.text(220, y+33, step['title'], 23, 500, tracking=-.7)
+        d.para(220, y+62, step['text'], 565, 16, theme['text'], 25)
+        y += 114
+    d.label(32, y+16, 'BEHAVIOR → BOUNDARY → EVIDENCE')
+    return d.svg(y+42, 'Understand first. Then change.', ' '.join(x['title']+' '+x['text'] for x in p['method']['steps']))
 
 
-# --------------------------------------------------------------------------- #
-# social buttons (each one is a separate image so it can be a real link)
-# --------------------------------------------------------------------------- #
-def social_button(tn: str, icon: str, label: str, w: int = 196, h: int = 46) -> str:
-    d = Doc(tn)
-    t = d.t
-    d.rect(.5, .5, w - 1, h - 1, fill=t["bg"], stroke=t["border"], rx=10)
-    d.icon(icon, 16, h / 2 - 9, 18, t["fg"])
-    d.text(44, h / 2 + 5, label, 14.5, 500, t["fg"])
-    d.icon("arrow-up-right", w - 32, h / 2 - 8, 16, t["muted_fg"])
-    return assemble(d, h, label, f"Open {label}", width=w, frame=False)
+def study(theme, project):
+    d = Drawing(theme)
+    d.rect(0, 0, 830, 290, theme['card'])
+    d.label(32, 34, project['category'].upper())
+    if project['id'] == 'attestara':
+        for i, label in enumerate(['BYTES', 'POLICY', 'SIGNER']):
+            x = 50+i*260
+            d.rect(x, 81, 210, 118, theme['paper'], theme['border'], 5)
+            d.label(x+16, 110, f'0{i+1} / ASSESSMENT')
+            d.text(x+16, 154, label, 24, 500, tracking=-.5)
+            d.circle(x+178, 169, 4, theme['accent'])
+        d.line(155, 199, 155, 220)
+        d.line(155, 220, 675, 220)
+        d.line(415, 199, 415, 220)
+        d.line(675, 199, 675, 220)
+        d.label(273, 252, 'THREE SEPARATE QUESTIONS')
+    else:
+        d.rect(105, 75, 620, 143, theme['paper'], theme['border'], 6)
+        d.label(125, 101, 'BOUNDARY / A MODELING DIRECTION')
+        for x, label in [(145, 'CONTEXT'), (485, 'AUTHORITY')]:
+            d.rect(x, 127, 200, 58, theme['card'], theme['border'], 4)
+            d.text(x+20, 163, label, 20, 500)
+        d.line(345, 155, 485, 155, theme['accent'])
+        d.line(415, 115, 415, 197, theme['accent'])
+        d.circle(415, 155, 6, theme['accent'])
+        d.label(105, 252, 'STRUCTURE BEFORE ASSUMPTION')
+    return d.svg(290, project['name']+' study', 'Conceptual illustration for '+project['name']+'; not an application screenshot.')
 
 
-# --------------------------------------------------------------------------- #
-# contributions
-# --------------------------------------------------------------------------- #
-def contributions(tn: str, p: dict, contrib: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    days = contrib.get("days", [])
-    cells, cols, labels = heat.build(days)
-    gap = 3
-    pitch = (INNER + gap) / max(cols, 1)
-    cell = pitch - gap
-    top = BODY_Y + 22
-    for col, name in labels:
-        d.text(PAD + col * pitch, top - 8, name, 10.5, 400, t["muted_fg"], mono=True)
-    parts = []
-    for c in cells:
-        parts.append(
-            f'<rect class="c" x="{PAD + c.col * pitch:.2f}" y="{top + c.row * pitch:.2f}" width="{cell:.2f}" height="{cell:.2f}" '
-            f'rx="2.5" fill="{t["heat"][c.level]}" style="animation-delay:{c.col * 14}ms"/>'
-        )
-    d.parts.append("".join(parts))
-    y = top + 7 * pitch + 20
-    r = contrib.get("range", {})
-    total = contrib.get("total_contributions", 0)
-    cap = f" {total:,} contributions, {C.fmt_day(r['start'])} – {C.fmt_day(r['end'])}. Source: GitHub." if r.get("start") else " No activity data yet."
-    d.spans(PAD, y, [("Fig. 2.", t["fg"], 400), (cap, t["muted_fg"], 400)], size=11.5)
-    # legend
-    lx = W - PAD
-    d.text(lx, y, "More", 11, 400, t["muted_fg"], mono=True, anchor="end")
-    lx -= fonts.text_width("More", 11, 400, True) + 8
-    for i in range(4, -1, -1):
-        d.rect(lx - 11, y - 10, 11, 11, fill=t["heat"][i], rx=2.5)
-        lx -= 15
-    d.text(lx - 3, y, "Less", 11, 400, t["muted_fg"], mono=True, anchor="end")
-    bottom = y + 26
-    css = "@keyframes pop{from{opacity:0}to{opacity:1}}.c{animation:pop .4s ease backwards}@media (prefers-reduced-motion:reduce){.c{animation:none}}"
-    return finish(d, bottom, "GitHub contributions", f"Contribution heatmap: {total} contributions in the last year.", head=("GitHub Contributions", 0), css=css)
+def project_card(theme, project, number):
+    d = Drawing(theme)
+    d.label(32, 34, f'{number:02d} / '+project['category'].upper())
+    d.label(32, 62, project['status'].upper(), theme['accent'])
+    d.text(32, 122, project['name'], 49, 500, tracking=-1.8)
+    d.arrow(768, 89, 25)
+    y = d.para(32, 165, project['title'], 740, 20, theme['ink'], 29)
+    d.line(32, y+1, 798, y+1)
+    y = d.para(32, y+31, project['summary'], 752, 16, theme['text'], 25)
+    y = d.para(32, y+12, project['scope'], 752, 14, theme['subtle'], 22)
+    return d.svg(y+23, project['name'], project['status']+'. '+project['summary']+' '+project['scope'])
 
 
-# --------------------------------------------------------------------------- #
-# about / principles / focus
-# --------------------------------------------------------------------------- #
-def about(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y + 24
-    for para in p["about"]:
-        d.rect(PAD, y + 8, 5, 5, fill=t["ring"], rx=1)
-        y = d.para(PAD + 20, y, para, 690, size=15, fill=t["fg"], lh=25) + 14
-    bottom = y - 14 + 26
-    return finish(d, bottom, "About", " ".join(C.plain(x) for x in p["about"]), head=("About", 0))
+def contact(theme, p):
+    d = Drawing(theme)
+    d.contours(950, 170)
+    d.label(32, 33, 'THE NEXT CHAPTER')
+    d.text(32, 100, 'Your next', 56, tracking=-2)
+    d.serif(270, 100, 'engineer.', 62)
+    d.text(32, 161, p['person']['email'], 27, tracking=-.6)
+    d.arrow(762, 130, 25)
+    d.line(32, 194, 798, 194)
+    d.text(32, 224, p['hero']['availability'], 15, color=theme['text'])
+    return d.svg(252, 'Let’s talk', p['hero']['availability']+' Email '+p['person']['email'])
 
 
-def principles(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-
-    def make(i, x):
-        def draw(s: Doc, w: float) -> float:
-            s.text(PAD, 36, f"{i:02d}", 12, 500, t["muted_fg"], mono=True)
-            s.text(PAD + 26, 36, x["verb"], 12, 500, t["muted_fg"], mono=True)
-            s.text(PAD, 66, x["title"], 16, 600, t["fg"])
-            b = s.para(PAD, 78, x["text"], w - 2 * PAD, size=13.5, fill=t["muted_fg"], lh=21)
-            return b + 22
-        return draw
-
-    bottom = grid(d, BODY_Y, [make(i, x) for i, x in enumerate(p["principles"], 1)])
-    return finish(d, bottom, "Principles", " ".join(f"{x['verb']}: {x['title']}" for x in p["principles"]), head=("Principles", len(p["principles"])))
-
-
-def focus(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-
-    def make(x):
-        def draw(s: Doc, w: float) -> float:
-            s.icon_box(PAD, 24, x["icon"])
-            s.text(PAD, 80, x["title"], 15.5, 600, t["fg"])
-            b = s.para(PAD, 90, x["text"], w - 2 * PAD, size=13.5, fill=t["muted_fg"], lh=21)
-            return b + 22
-        return draw
-
-    bottom = grid(d, BODY_Y, [make(x) for x in p["focus"]])
-    return finish(d, bottom, "Focus", " ".join(x["title"] + "." for x in p["focus"]), head=("Focus", len(p["focus"])))
+def contributions(theme, contrib):
+    d = Drawing(theme)
+    d.label(32, 33, 'PUBLIC ACTIVITY / SNAPSHOT')
+    cells, cols, months = heat.build(contrib.get('days', []))
+    if not cells:
+        d.text(32, 88, 'No activity snapshot available.', 18)
+        return d.svg(120, 'Public activity', 'No activity snapshot available.')
+    pitch = min(14, 766 / cols)
+    top = 76
+    shades = [theme['surface'], theme['border'], theme['subtle'], theme['text'], theme['accent']]
+    for col, label in months:
+        d.text(32+col*pitch, 61, label, 10, mono=True, color=theme['subtle'])
+    for cell in cells:
+        d.rect(32+cell.col*pitch, top+cell.row*pitch, pitch-3, pitch-3, shades[cell.level], radius=2)
+    r = contrib.get('range', {})
+    label = f'{r.get("start", "")} — {r.get("end", "")}'
+    d.label(32, 204, label)
+    d.text(32, 232, 'Calendar + public repository signals; not the official profile total.', 13, color=theme['subtle'])
+    return d.svg(258, 'Public activity snapshot', label+'. Calendar and public repository commit signals; not the official GitHub profile total.')
 
 
-# --------------------------------------------------------------------------- #
-# stack
-# --------------------------------------------------------------------------- #
-def stack(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y
-    left, right, rw = PAD, 262, W - 262 - PAD
-    for i, g in enumerate(p["stack"], 1):
-        if i > 1:
-            d.line(0, y, W, y)
-        top = y + 20
-        d.text(left, top + 15, f"{i:02d}", 12, 400, t["muted_fg"], mono=True)
-        name_lines = fonts.wrap_text(g["name"], 190, 14.5, 500)
-        for k, ln in enumerate(name_lines):
-            d.text(left + 28, top + 15 + k * 20, ln, 14.5, 500, t["fg"])
-        bottom_chips = d.chips(right, top, [x["name"] for x in g["items"]], rw, size=12.5, h=26, gap=8, pad=10, rx=8, fg=t["fg"])
-        y = max(bottom_chips, top + 15 + (len(name_lines) - 1) * 20 + 6) + 20
-    return finish(d, y, "Stack", "; ".join(f"{g['name']}: " + ", ".join(x["name"] for x in g["items"]) for g in p["stack"]), head=("Stack", 0))
+def mobile_hero(theme, p):
+    d = Drawing(theme, 420)
+    d.contours(620, 95)
+    d.label(24, 31, 'ENGINEERING / SECURITY / CURIOSITY')
+    d.text(20, 126, 'Parsa', 94, 600, tracking=-4)
+    w = d.text(20, 211, 'Emami', 94, 600, tracking=-4)
+    d.text(20+w, 211, '.', 94, 600, theme['accent'])
+    d.line(24, 242, 396, 242, theme['ink'])
+    d.text(24, 281, 'Software engineer.', 24, 500, tracking=-.7)
+    d.text(24, 312, 'Security architect.', 24, 500, tracking=-.7)
+    d.text(24, 342, p['person']['perspective'], 16, color=theme['subtle'])
+    d.text(24, 401, p['hero']['title'], 32, tracking=-1.2)
+    d.serif(24, 447, p['hero']['accent'], 35)
+    d.line(24, 477, 396, 477)
+    d.label(24, 509, 'BASED IN IRAN / OPEN WORLDWIDE')
+    return d.svg(539, p['person']['name'], p['person']['role']+'. '+p['hero']['intro'])
 
 
-# --------------------------------------------------------------------------- #
-# experience & education
-# --------------------------------------------------------------------------- #
-def experience(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y
-    tx = 76                       # text column for positions
-    for ci, ex in enumerate(p["experience"]):
-        if ci:
-            d.line(0, y, W, y)
-        y += 22
-        d.tile(PAD, y, 40, ex["monogram"])
-        d.text(PAD + 56, y + 17, ex["company"], 17, 600, t["fg"])
-        meta = [x for x in (ex.get("location"), ex.get("location_type")) if x]
-        current = any(pos["end"] is None for pos in ex["positions"])
-        if current:
-            meta.append("Current")
-        d.text(PAD + 56, y + 35, " · ".join(meta), 12, 400, t["muted_fg"], mono=True)
-        y += 40 + 18
-        first_dot = None
-        last_dot = y
-        for pos in ex["positions"]:
-            first_dot = first_dot if first_dot is not None else y + 8
-            last_dot = y + 8
-            d.circle(PAD + 20, y + 8, 4, fill=t["bg"], stroke=t["ring"])
-            d.text(tx, y + 13, pos["title"], 15, 500, t["fg"])
-            bits = [pos["type"], C.fmt_period(pos["start"], pos["end"]), C.duration(pos["start"], pos["end"])]
-            if pos.get("location_type"):
-                bits.append(pos["location_type"])
-            d.text(tx, y + 33, " · ".join(bits), 12, 400, t["muted_fg"], mono=True)
-            b = d.para(tx, y + 46, pos["description"], W - tx - PAD, size=13.5, fill=t["muted_fg"], lh=21)
-            b = d.chips(tx, b + 10, pos["skills"], W - tx - PAD, size=12, h=24, gap=6)
-            y = b + 22
-        if first_dot is not None:
-            d.vline(PAD + 20, first_dot, y - 22 if len(ex["positions"]) > 1 else last_dot + 4, stroke=t["border"])
-        y += 4
-    return finish(d, y, "Experience", "; ".join(f"{e['company']}: " + ", ".join(x['title'] for x in e['positions']) for e in p["experience"]),
-                  head=("Experience", len(p["experience"])))
+def mobile_perspective(theme, p):
+    d = Drawing(theme, 420)
+    d.label(24, 31, '01 / A POINT OF VIEW')
+    d.text(24, 91, p['perspective']['title'], 36, tracking=-1.4)
+    d.serif(24, 139, p['perspective']['accent'], 41)
+    y = d.para(24, 187, p['perspective']['text'], 366, 17, theme['text'], 27)
+    return d.svg(y+22, 'A point of view', p['perspective']['text'])
 
 
-def education(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y
-    for i, ed in enumerate(p["education"]):
-        if i:
-            d.line(0, y, W, y)
-        y += 20
-        mono = "".join(w[0] for w in ed["school"].split() if w[0].isupper())[:4] or "EDU"
-        d.tile(PAD, y, 40, mono)
-        d.text(PAD + 56, y + 16, f"{ed['degree']}, {ed['field']}", 16, 600, t["fg"])
-        d.text(PAD + 56, y + 36, ed["school"], 13.5, 400, t["muted_fg"])
-        bits = [f"{ed['start']}—{ed['end']}"] + ([ed["status"]] if ed.get("status") else [])
-        d.text(PAD + 56, y + 55, " · ".join(bits), 12, 400, t["muted_fg"], mono=True)
-        y += 60 + 20
-    return finish(d, y, "Education", "; ".join(f"{e['degree']}, {e['field']} — {e['school']}" for e in p["education"]),
-                  head=("Education", len(p["education"])))
+def mobile_method(theme, p):
+    d = Drawing(theme, 420)
+    d.label(24, 31, '02 / HOW I THINK')
+    d.text(24, 87, p['method']['title'], 36, tracking=-1.3)
+    d.serif(24, 130, p['method']['accent'], 40)
+    y = 165
+    for i, step in enumerate(p['method']['steps'], 1):
+        d.line(24, y, 396, y)
+        d.label(24, y+29, f'{i:02d} / {step["verb"].upper()}', theme['accent'])
+        d.text(24, y+69, step['title'], 25, 500, tracking=-.5)
+        bottom = d.para(24, y+104, step['text'], 366, 17, theme['text'], 27)
+        y = bottom+24
+    return d.svg(y, 'Understand first. Then change.', ' '.join(x['title']+' '+x['text'] for x in p['method']['steps']))
 
 
-# --------------------------------------------------------------------------- #
-# projects / lab / research
-# --------------------------------------------------------------------------- #
-def projects(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y
-    for i, pr in enumerate(p["projects"]):
-        if i:
-            d.line(0, y, W, y)
-        y += 20
-        wname = d.text(PAD, y + 16, pr["name"], 16, 600, t["fg"])
-        wtag = d.tag(PAD + wname + 10, y + 1, pr["kind"])
-        d.text(PAD + wname + 10 + wtag + 12, y + 15, pr["category"], 13, 400, t["muted_fg"])
-        b = d.para(PAD, y + 30, pr["summary"], INNER - 20, size=13.5, fill=t["muted_fg"], lh=21)
-        b = d.chips(PAD, b + 10, pr["tags"], INNER, size=12, h=24, gap=6)
-        y = b + 20
-    return finish(d, y, "Projects", "; ".join(f"{x['name']} ({x['kind']}): {x['category']}" for x in p["projects"]),
-                  head=("Projects", len(p["projects"])))
+def mobile_project(theme, project, number):
+    d = Drawing(theme, 420)
+    d.label(24, 31, f'{number:02d} / '+project['category'].upper())
+    d.label(24, 60, project['status'].upper(), theme['accent'])
+    d.text(24, 124, project['name'], 44, 500, tracking=-1.5)
+    d.arrow(371, 94, 19)
+    y = d.para(24, 168, project['title'], 366, 21, theme['ink'], 30)
+    d.line(24, y+4, 396, y+4)
+    y = d.para(24, y+37, project['summary'], 366, 17, theme['text'], 27)
+    y = d.para(24, y+14, project['scope'], 366, 15, theme['subtle'], 24)
+    return d.svg(y+23, project['name'], project['status']+'. '+project['summary']+' '+project['scope'])
 
 
-def lab(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y + 18
-    y = d.para(PAD, y, p["lab"]["note"], 640, size=13.5, fill=t["muted_fg"], lh=21) + 18
-    d.line(0, y, W, y)
-    top = y
-
-    def make(it):
-        def draw(s: Doc, w: float) -> float:
-            wn = s.text(PAD, 38, it["name"], 15.5, 600, t["fg"])
-            s.tag(PAD + wn + 10, 23, "Spec")
-            b = s.para(PAD, 50, it["summary"], w - 2 * PAD, size=13, fill=t["muted_fg"], lh=20)
-            b = s.chips(PAD, b + 10, it["tags"], w - 2 * PAD, size=11.5, h=23, gap=6, pad=8)
-            return b + 20
-        return draw
-
-    cells = [make(x) for x in p["lab"]["items"]]
-    cw = W / 2
-    i = 0
-    while i < len(cells):
-        subs = []
-        for fn in cells[i:i + 2]:
-            s = d.sub()
-            subs.append((s, fn(s, cw)))
-        h = max(hh for _, hh in subs)
-        for j, (s, _) in enumerate(subs):
-            d.place(s, j * cw, y)
-        if i + 2 < len(cells):
-            d.line(0, y + h, W, y + h)
-        y += h
-        i += 2
-    d.vline(cw, top, y)
-    return finish(d, y, "Lab", "; ".join(f"{x['name']}: {x['summary']}" for x in p["lab"]["items"]), head=("Lab", len(p["lab"]["items"])))
+def mobile_contact(theme, p):
+    d = Drawing(theme, 420)
+    d.contours(650, 120)
+    d.label(24, 31, 'THE NEXT CHAPTER')
+    d.text(24, 98, 'Your next', 47, tracking=-1.7)
+    d.serif(24, 158, 'engineer.', 62)
+    d.text(24, 216, p['person']['email'], 25, tracking=-.5)
+    d.line(24, 247, 396, 247)
+    y = d.para(24, 282, p['hero']['availability'], 366, 17, theme['text'], 27)
+    return d.svg(y+20, 'Let’s talk', p['hero']['availability']+' Email '+p['person']['email'])
 
 
-def research(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    y = BODY_Y + 22
-    b = d.chips(PAD, y, p["research"], INNER, size=13, h=28, gap=8, pad=11, rx=8, fg=t["fg"])
-    return finish(d, b + 24, "Research Signals", "; ".join(p["research"]), head=("Research Signals", len(p["research"])))
-
-
-# --------------------------------------------------------------------------- #
-# footer
-# --------------------------------------------------------------------------- #
-def footer(tn: str, p: dict) -> str:
-    d = Doc(tn)
-    t = d.t
-    repo = p["site"]["repo"]
-    rows = [
-        ("Crafted by", "@" + p["person"]["username"]),
-        ("Build", f"{C.build_id()} · {C.today().isoformat()}"),
-        ("Source", f"github.com/{repo}"),
-        ("Typeface", "Geist Sans & Mono"),
-        ("Stack", "Python · SVG · GitHub Actions"),
-        ("Inspired by", "chanhdai.com (MIT)"),
-    ]
-    y = 34
-    for k, v in rows:
-        d.text(PAD, y, k, 12, 400, t["muted_fg"], mono=True)
-        d.text(PAD + 116, y, v, 12, 400, t["fg"], mono=True)
-        y += 22
-    y += 8
-    d.text(PAD, y, p.get("cta", ""), 14, 400, t["fg"])
-    return assemble(d, y + 26, "About this profile", "Build details and credits", frame=True)
-
-
-# --------------------------------------------------------------------------- #
-# driver
-# --------------------------------------------------------------------------- #
-def build() -> list[str]:
+def build():
     p = C.load_profile()
-    contrib = C.load_contributions()
     OUT.mkdir(parents=True, exist_ok=True)
     written = []
-    for tn in THEMES:
-        jobs = {
-            "hero": hero(tn, p),
-            "contributions": contributions(tn, p, contrib),
-            "about": about(tn, p),
-            "principles": principles(tn, p),
-            "focus": focus(tn, p),
-            "stack": stack(tn, p),
-            "experience": experience(tn, p),
-            "education": education(tn, p),
-            "projects": projects(tn, p),
-            "lab": lab(tn, p),
-            "research": research(tn, p),
-            "footer": footer(tn, p),
-        }
-        for l in p["links"]:
-            jobs[f"social-{l['id']}"] = social_button(tn, l["icon"], l["label"])
-        jobs["social-site"] = social_button(tn, "monitor", "Interactive site")
+    for tn, theme in p['design']['themes'].items():
+        jobs = {'hero': hero(theme, p), 'perspective': perspective(theme, p), 'principles': method(theme, p), 'footer': contact(theme, p), 'contributions': contributions(theme, C.load_contributions()), 'hero-mobile': mobile_hero(theme, p), 'perspective-mobile': mobile_perspective(theme, p), 'principles-mobile': mobile_method(theme, p), 'footer-mobile': mobile_contact(theme, p)}
+        for i, project in enumerate(p['projects'], 1):
+            jobs['project-'+project['id']] = project_card(theme, project, i)
+            jobs['project-'+project['id']+'-mobile'] = mobile_project(theme, project, i)
+            jobs['study-'+project['id']] = study(theme, project)
         for name, svg in jobs.items():
-            path = OUT / f"{name}-{tn}.svg"
-            path.write_text(svg, encoding="utf-8")
+            path = OUT / f'{name}-{tn}.svg'
+            path.write_text(svg, encoding='utf-8')
             written.append(str(path.relative_to(ROOT)))
-    print(f"cards: wrote {len(written)} SVGs to {OUT.relative_to(ROOT)}/")
+    print(f'cards: wrote {len(written)} SVGs')
+    expected = {ROOT / name for name in written}
+    for path in OUT.glob('*.svg'):
+        if path not in expected:
+            path.unlink()
     return written
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     build()
