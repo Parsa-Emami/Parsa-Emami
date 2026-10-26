@@ -126,6 +126,6 @@ I care about architecture, system design and the visual structure of software. I
   <img src="assets/cards/contributions-light.svg" alt="Public activity snapshot based on calendars and public repository commits; not the official GitHub profile total." width="830">
 </picture>
 
-Period: 2025-10-26 — 2026-10-25. Calendar and public repository commit signals are merged per day. This is an activity snapshot, not the official GitHub profile contribution total.
+Period: 2025-10-27 — 2026-10-26. Calendar and public repository commit signals are merged per day. This is an activity snapshot, not the official GitHub profile contribution total.
 
 </details>
