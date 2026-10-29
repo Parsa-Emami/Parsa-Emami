@@ -2,7 +2,7 @@
 
 [فارسی](SETUP.fa.md)
 
-The GitHub profile and static Pages mirror follow the visual language of [parsaaemm.dev](https://parsaaemm.dev/): warm paper, charcoal, red accents, large Geist typography and numbered editorial sections.
+The GitHub profile and Pages portfolio use an original implementation inspired by [GitSkins Kinetic Editorial](https://www.gitskins.com/portfolio/templates/seyi-editorial): architectural imagery, oversized Geist typography, graphite and lime, moving project titles and numbered editorial sections. The light palette uses warm paper and olive. The canonical website remains [parsaaemm.dev](https://parsaaemm.dev/).
 
 `data/profile.json` supplies the public content and both color palettes. The builders produce `README.md`, responsive SVG cards and the static `site/` directory. Edit the source data or templates, then rebuild; generated output is replaced on the next build.
 
@@ -13,11 +13,11 @@ python -m venv .venv
 .venv/bin/python -m pip install -r scripts/requirements.txt
 .venv/bin/python scripts/build.py
 .venv/bin/python -m unittest discover -s tests -v
-node --test tests/theme.test.cjs
+node --test tests/*.test.cjs
 .venv/bin/python -m http.server --directory site 8000
 ```
 
-Python 3.12 and Node 22 are used in CI. Linux needs FreeType with RAQM for Pillow font rendering (`libraqm0` on Ubuntu). Node is only needed for the theme interaction tests; the published site has no runtime dependencies.
+Python 3.12 and Node 22 are used in CI. Linux needs FreeType with RAQM for Pillow font rendering (`libraqm0` on Ubuntu). Node is only needed for interaction tests; the published site has no runtime dependencies. All images and fonts are served locally. The architectural image is decorative artwork generated for this portfolio; see `assets/editorial/README.md`.
 
 Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `--fetch` to refresh activity first; offline builds reuse `data/contributions.json`. `--only site` generates its own artwork and can run independently.
 
@@ -35,7 +35,9 @@ Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `
 
 Organizational product descriptions, interfaces and internal architecture are excluded from public output. Project status is editorial content: update it when the source repository changes.
 
-The README uses real Markdown links and text alongside accessible SVGs. Each visual has a light and dark version, with separate narrow layouts selected below 640px. Geist glyphs are stored as vector outlines in the cards, so the main type needs no remote font request. The serif accent uses the viewer’s Georgia or serif font.
+The README uses real Markdown links and text alongside accessible SVGs. Each visual has a light and dark version, with separate narrow layouts selected below 640px. Geist glyphs are stored as vector outlines in the cards, so the main type needs no remote font request. The serif accents in README cards use the viewer’s Georgia or serif font. GitHub does not execute README JavaScript: the interactive design is available through the **Interactive portfolio** link.
+
+The website follows the OS color scheme until the reader selects light or dark. Project artwork follows the same choice. Native navigation, project links, email links and the experience disclosure work without JavaScript. With JavaScript, readers can copy the email, cycle themes, see Tehran time, and pause the contact marquee and scroll motion. OS reduced-motion settings override the play preference. Blocked storage or clipboard access does not prevent the page from working. No browser-time GitHub API call, tracking script, external CDN or token is used.
 
 ## Automation
 
@@ -55,7 +57,9 @@ The activity graphic combines configured public calendars with public repository
 | `scripts/build.py` | Build entry point |
 | `scripts/build_cards.py`, `scripts/lib/brand.py` | Responsive vector graphics |
 | `scripts/build_readme.py`, `scripts/lib/markdown.py` | GitHub and plain text presentation |
-| `scripts/build_site.py`, `scripts/templates/` | Static Pages mirror |
+| `scripts/build_site.py`, `scripts/templates/` | Static Pages portfolio and interaction source |
+| `scripts/templates/editorial.js` | Scroll motion, motion preference, clipboard and Tehran time |
+| `assets/editorial/` | Original architectural background and asset provenance |
 | `scripts/make_og.py` | Deterministic 1200 × 630 sharing image |
 | `tests/` | Source, output and theme checks |
 

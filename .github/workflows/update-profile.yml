@@ -11,6 +11,7 @@ on:
       - "scripts/**"
       - "tests/**"
       - "assets/avatar/**"
+      - "assets/editorial/**"
       - ".github/workflows/update-profile.yml"
 
 permissions:
@@ -48,8 +49,8 @@ jobs:
         run: python scripts/build.py
       - name: Python tests
         run: python -m unittest discover -s tests -v
-      - name: Theme interaction tests
-        run: node --test tests/theme.test.cjs
+      - name: Interaction tests
+        run: node --test tests/*.test.cjs
       - name: Validate patch
         run: git diff --check
       - name: Commit generated changes

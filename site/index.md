@@ -58,9 +58,17 @@ The current shell does not run the domain engine.
 
 [Project notes](https://parsaaemm.dev/projects/riskweft/)
 
-[Demian](https://github.com/Parsa-Emami/Demian) — Personal game project
+### [MirageMesh](https://github.com/Parsa-Emami/Miragemesh)
 
-[Hanna Music Player](https://github.com/Parsa-Emami/Hanna-Music-Player) — Personal application project
+Local workflow · v1 gate pending
+
+A local-first security application with a supervised Go engine, isolated decoys, durable offline event spooling and a browser interface for incident replay and triage.
+
+The reference workflow is verified on Ubuntu 24.04 Linux amd64. Other hosts require their own workflow evidence; the complete OSS v1 gate is pending.
+
+[Project notes](https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint)
+
+[Demian](https://github.com/Parsa-Emami/Demian) — Personal game project
 
 I also develop organizational software. Product details, interfaces, source and internal architecture remain confidential.
 

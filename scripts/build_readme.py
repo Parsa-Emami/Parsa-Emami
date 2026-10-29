@@ -26,9 +26,9 @@ def card(name, alt, href):
 
 def render(p, contrib):
     base = p['site']['url']
-    out = [card('hero', p['person']['name']+' — '+p['person']['role']+'. '+p['person']['perspective']+' '+p['hero']['intro'], base)]
+    out = [card('hero', p['person']['name']+' — '+p['person']['role']+'. '+p['person']['perspective']+' '+p['hero']['intro'], p['site']['pages_url'])]
     out.append(f'# {p["person"]["name"]}\n\n**{p["person"]["role"]} · Red team perspective**\n\n{p["hero"]["intro"]}\n\nBased in {p["person"]["location"]}. {p["hero"]["availability"]}\n')
-    out.append(f'[Website]({base}) · [Selected work]({base}projects/) · [Notes]({base}writing/) · [Résumé]({base}resume/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Email](mailto:{p["person"]["email"]})\n')
+    out.append(f'[Interactive portfolio]({p["site"]["pages_url"]}) · [Website]({base}) · [Selected work]({base}projects/) · [Notes]({base}writing/) · [Résumé]({base}resume/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Email](mailto:{p["person"]["email"]})\n')
     out.append('## 01 / A point of view\n')
     out.append(card('perspective', p['perspective']['title']+' '+p['perspective']['accent']+' '+p['perspective']['text'], base+'#perspective'))
     out.append(p['perspective']['detail']+'\n')

@@ -2,7 +2,7 @@
 
 [English](SETUP.md)
 
-طراحی README گیت‌هاب و نسخهٔ GitHub Pages با هویت فعلی [parsaaemm.dev](https://parsaaemm.dev/) هماهنگ است: زمینهٔ عاجی، متن زغالی، تأکید قرمز، تایپوگرافی Geist و بخش‌های شماره‌گذاری‌شده.
+طراحی README و پورتفولیوی GitHub Pages با الهام از [Kinetic Editorial](https://www.gitskins.com/portfolio/templates/seyi-editorial) به‌صورت مستقل پیاده شده است: تصویر معماری اختصاصی، تایپوگرافی بزرگ Geist، زمینهٔ گرافیتی و تأکید سبز لیمویی، عنوان‌های متحرک پروژه‌ها و بخش‌های شماره‌گذاری‌شده. حالت روشن از کاغذ گرم و سبز زیتونی استفاده می‌کند. سایت اصلی [parsaaemm.dev](https://parsaaemm.dev/) همچنان مرجع canonical است.
 
 محتوا و رنگ‌های روشن و تیره در `data/profile.json` نگهداری می‌شوند. خروجی‌های `README.md`، `assets/cards/` و `site/` تولیدی هستند؛ اصلاح اصلی را در داده‌ها، سازنده‌ها یا قالب‌ها انجام دهید.
 
@@ -13,11 +13,11 @@ python -m venv .venv
 .venv/bin/python -m pip install -r scripts/requirements.txt
 .venv/bin/python scripts/build.py
 .venv/bin/python -m unittest discover -s tests -v
-node --test tests/theme.test.cjs
+node --test tests/*.test.cjs
 .venv/bin/python -m http.server --directory site 8000
 ```
 
-در CI از Python 3.12 و Node 22 استفاده می‌شود. برای رندر فونت Pillow در اوبونتو، بستهٔ `libraqm0` لازم است. سایت خروجی وابستگی اجرایی ندارد؛ Node فقط برای تست تعامل انتخاب تم است.
+در CI از Python 3.12 و Node 22 استفاده می‌شود. برای رندر فونت Pillow در اوبونتو، بستهٔ `libraqm0` لازم است. سایت خروجی وابستگی اجرایی ندارد؛ Node فقط برای تست تعامل‌هاست. تصویر پس‌زمینه و فونت‌ها محلی هستند و صفحه به API زندهٔ گیت‌هاب، CDN، توکن یا اسکریپت ردیابی وابسته نیست.
 
 با `--only cards`، `--only readme` یا `--only site` بخش موردنظر ساخته می‌شود. گزینهٔ `--fetch` اطلاعات فعالیت را تازه می‌کند. ساخت آفلاین از آخرین اطلاعات ذخیره‌شده استفاده می‌کند.
 
@@ -29,6 +29,8 @@ node --test tests/theme.test.cjs
 | `scripts/templates/site.css` | استایل اصلی سایت |
 | `scripts/templates/theme-init.js` | انتخاب تم پیش از نمایش صفحه |
 | `scripts/templates/app.js` | انتخاب و ذخیرهٔ تم و هماهنگی تصاویر |
+| `scripts/templates/editorial.js` | حرکت اسکرول، توقف حرکت، کپی ایمیل و ساعت تهران |
+| `assets/editorial/` | تصویر معماری اختصاصی و توضیح منشأ آن |
 | `scripts/build_cards.py` | کارت‌های دسکتاپ و موبایل |
 | `scripts/lib/brand.py` | ترسیم برداری و تبدیل حروف Geist به مسیر |
 | `scripts/build_site.py` | صفحهٔ استاتیک و فراداده‌ها |
@@ -36,6 +38,8 @@ node --test tests/theme.test.cjs
 | `tests/` | بررسی لینک‌های داخلی، خروجی‌ها و رفتار تم |
 
 در README لینک‌ها واقعی و متن اصلی قابل انتخاب است. کارت‌های موبایل و دسکتاپ و نسخه‌های روشن و تیره جداگانه ساخته می‌شوند. جزئیات محصولات سازمانی در خروجی عمومی منتشر نمی‌شوند.
+
+گیت‌هاب جاوااسکریپت داخل README را اجرا نمی‌کند؛ نسخهٔ تعاملی از لینک **Interactive portfolio** قابل مشاهده است. سایت بدون جاوااسکریپت هم لینک‌ها، تماس و بخش بازشوندهٔ سوابق را نمایش می‌دهد. جاوااسکریپت انتخاب تم، کپی ایمیل، ساعت تهران و توقف حرکت‌ها را اضافه می‌کند. تنظیم کاهش حرکت سیستم همیشه مقدم است؛ مسدود بودن حافظهٔ مرورگر یا دسترسی کلیپ‌بورد باعث خرابی صفحه نمی‌شود.
 
 ## انتشار خودکار
 
