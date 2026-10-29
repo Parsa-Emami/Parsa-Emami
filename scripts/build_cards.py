@@ -207,6 +207,9 @@ def mobile_contact(theme, p):
 
 def build():
     p = C.load_readme_profile()
+    if p.get('readme', {}).get('presentation') == 'seyi-editorial-reference':
+        import build_seyi
+        build_seyi.build()
     OUT.mkdir(parents=True, exist_ok=True)
     written = []
     for tn, theme in p['design']['themes'].items():

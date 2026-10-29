@@ -22,6 +22,7 @@ def load_readme_profile() -> dict:
     if not path.exists():
         return profile
     settings = json.loads(path.read_text(encoding='utf-8'))
+    profile['readme'] = settings
     profile['design']['reference'] = settings['reference']
     profile['design']['themes'] = settings['themes']
     existing = {project['id'] for project in profile['projects']}

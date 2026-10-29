@@ -1,143 +1,35 @@
-<a href="https://parsa-emami.github.io/Parsa-Emami/">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/hero-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/hero-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/hero-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/hero-light.svg">
-  <img src="assets/cards/hero-light.svg" alt="Parsa Emami — Software Engineer · Security Architect. A red team perspective. I build considered software. Then question the assumptions holding it together." width="830">
-</picture>
-</a>
+<p align="center"><a href="https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/hero-mobile.svg"><img src="assets/seyi-editorial/hero-desktop.jpg" alt="Parsa Emami — DEVELOPER / JAVASCRIPT AND GO. IN PUBLIC. @Parsa-Emami builds useful software in public. Open the interactive original." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Riskweft"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-1-mobile.svg"><img src="assets/seyi-editorial/project-1.svg" alt="RISKWEFT — PHP, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Riftrange"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-2-mobile.svg"><img src="assets/seyi-editorial/project-2.svg" alt="RIFTRANGE — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Rape2Arsalan"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-3-mobile.svg"><img src="assets/seyi-editorial/project-3.svg" alt="RAPE2ARSALAN — Open source, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Privattice"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-4-mobile.svg"><img src="assets/seyi-editorial/project-4.svg" alt="PRIVATTICE — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/repositories-mobile.svg"><img src="assets/seyi-editorial/repositories.svg" alt="Public repositories. Parsa Emami shares 13 public repositories in the reference snapshot. Explore all projects." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Policyhelix"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-5-mobile.svg"><img src="assets/seyi-editorial/project-5.svg" alt="POLICYHELIX — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-6-mobile.svg"><img src="assets/seyi-editorial/project-6.svg" alt="PARSA EMAMI — Python, 3 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/activity-mobile.svg"><img src="assets/seyi-editorial/activity.svg" alt="GitHub activity snapshot captured from GitSkins on 2026-10-29; cached counts, not live GitHub totals. Interests: JavaScript, Go, Python, PHP, TypeScript. @Parsa-Emami builds useful software in public." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/contact-mobile.svg"><img src="assets/seyi-editorial/contact.svg" alt="Got a question, proposal or project or want to work together on something? Feel free to reach out. LET’S TALK — LET’S COLLABORATE — SAY HELLO. @Parsa-Emami" width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/footer-mobile.svg"><img src="assets/seyi-editorial/footer.svg" alt="MAZANDARAN. GitHub, profile, repositories and projects. Design by Isaac Fayemi. Original portfolio by Oluwadare Oluwaseyi." width="100%" align="top"></picture></a></p>
+
+<details>
+<summary>Profile, project links & design credits</summary>
 
 # Parsa Emami
 
-**Software Engineer · Security Architect · Red team perspective**
+@Parsa-Emami builds useful software in public.
 
-I build considered software. Then question the assumptions holding it together.
+[Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [GitHub profile](https://github.com/Parsa-Emami) · [All repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
 
-Based in Babol, Iran. Open to international roles, relocation & selected collaborations.
+### Selected work
 
-[Interactive portfolio](https://parsa-emami.github.io/Parsa-Emami/) · [Website](https://parsaaemm.dev/) · [Selected work](https://parsaaemm.dev/projects/) · [Notes](https://parsaaemm.dev/writing/) · [Résumé](https://parsaaemm.dev/resume/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Email](mailto:parsa.emm@gmail.com)
+- [Riskweft](https://github.com/Parsa-Emami/Riskweft) — PHP
+- [Riftrange](https://github.com/Parsa-Emami/Riftrange) — JavaScript
+- [Rape2Arsalan](https://github.com/Parsa-Emami/Rape2Arsalan) — Open source
+- [Privattice](https://github.com/Parsa-Emami/Privattice) — JavaScript
+- [Policyhelix](https://github.com/Parsa-Emami/Policyhelix) — JavaScript
+- [Parsa-Emami](https://github.com/Parsa-Emami/Parsa-Emami) — Python
 
-## 01 / A point of view
+### Interests
 
-<a href="https://parsaaemm.dev/#perspective">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/perspective-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/perspective-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/perspective-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/perspective-light.svg">
-  <img src="assets/cards/perspective-light.svg" alt="The small thing is the whole thing. A clear state. A deliberate boundary. A small feature that has been thought all the way through." width="830">
-</picture>
-</a>
+JavaScript, Go, Python, PHP, TypeScript
 
-That is where I like to work: connecting the architecture of a system to the experience of using it.
+### Let’s talk
 
-## 02 / How I think
+Got a question, proposal or project or want to work together on something? Feel free to reach out.
 
-<a href="https://parsaaemm.dev/#method">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/principles-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/principles-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/principles-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/principles-light.svg">
-  <img src="assets/cards/principles-light.svg" alt="Understand first. Then change. Observe: trace the behavior. Question: find the boundary. Refine: protect the meaning." width="830">
-</picture>
-</a>
+This README preserves the appearance and project order of the linked GitSkins reference captured on 2026-10-29. Its displayed repository, star and follower counts reproduce that cached reference; they are not live GitHub totals. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.
 
-> Leaving it alone is better than changing it incorrectly.
+[Design by Isaac Fayemi](https://fayemi.design/) · [Original portfolio by Oluwadare Oluwaseyi](https://github.com/oluwadareseyi/folio-v2) · [GitSkins adaptation](https://www.gitskins.com/portfolio/Parsa-Emami/build?template=seyi-editorial)
 
-## 03 / Work in public
-
-Personal projects. Inspectable code. Honest status.
-
-<a href="https://github.com/Parsa-Emami/Attestara">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/project-attestara-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/project-attestara-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/project-attestara-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/project-attestara-light.svg">
-  <img src="assets/cards/project-attestara-light.svg" alt="Attestara — Local CLI + browser viewer. A local release-evidence CLI that checks manifests, file bytes and SBOMs, evaluates the evidence-presence rule, and assesses signatures against independently configured trust. The browser viewer inspects passport claims; verification runs in the Linux CLI." width="830">
-</picture>
-</a>
-
-**[Attestara — source](https://github.com/Parsa-Emami/Attestara)** · [Project notes](https://parsaaemm.dev/projects/attestara/) · [Passport viewer](https://parsa-emami.github.io/Attestara/#passport)
-
-<a href="https://github.com/Parsa-Emami/Riskweft">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/project-riskweft-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/project-riskweft-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/project-riskweft-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/project-riskweft-light.svg">
-  <img src="assets/cards/project-riskweft-light.svg" alt="RiskWeft — Web foundation · in development. A local-first web foundation with a roadmap browser and bounded JSON structure preview. The complete model-to-threat workflow is still being developed. The current shell does not run the domain engine." width="830">
-</picture>
-</a>
-
-**[RiskWeft — source](https://github.com/Parsa-Emami/Riskweft)** · [Project notes](https://parsaaemm.dev/projects/riskweft/)
-
-<a href="https://github.com/Parsa-Emami/Miragemesh">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/project-miragemesh-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/project-miragemesh-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/project-miragemesh-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/project-miragemesh-light.svg">
-  <img src="assets/cards/project-miragemesh-light.svg" alt="MirageMesh — Local workflow · v1 gate pending. A local-first security application with a supervised Go engine, isolated decoys, durable offline event spooling and a browser interface for incident replay and triage. The reference workflow is verified on Ubuntu 24.04 Linux amd64. Other hosts require their own workflow evidence; the complete OSS v1 gate is pending." width="830">
-</picture>
-</a>
-
-**[MirageMesh — source](https://github.com/Parsa-Emami/Miragemesh)** · [Project notes](https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint)
-
-Other explorations: [Demian](https://github.com/Parsa-Emami/Demian).
-
-I also develop organizational software. Product details, interfaces, source and internal architecture remain confidential. [Professional experience](https://parsaaemm.dev/resume/).
-
-## 04 / A small experiment
-
-**[One byte. Three different questions.](https://parsaaemm.dev/#evidence)**
-
-Change the sample, inspect its SHA-256 digest, sign it and choose whether to trust the demo key. Byte integrity, signature validity and key trust stay separate.
-
-A standalone portfolio experiment; not the Attestara runtime.
-
-## 05 / The person behind the handle
-
-Red teaming taught me to look beyond the intended path. Software engineering taught me that the response has to work for the application and the person using it.
-
-I care about architecture, system design and the visual structure of software. I’m also studying Artificial Intelligence at master’s level.
-
-| Application engineering | Security | Product craft |
-| --- | --- | --- |
-| PHP / Laravel | Security architecture | Responsive / RTL interfaces |
-| JavaScript / TypeScript | Threat modeling | Interaction states |
-| Application architecture | Red team perspective | System design |
-| Regression protection | Authorization boundaries | Information hierarchy |
-
-## 06 / Field notes
-
-- [An agent needs a boundary.](https://parsaaemm.dev/writing/ai-security-architecture/) — Security architecture
-- [Context is part of the contract.](https://parsaaemm.dev/writing/laravel-tenant-isolation/) — Application architecture
-- [Understand before replacing.](https://parsaaemm.dev/writing/refactoring-legacy-laravel-safely/) — Engineering practice
-
-<a href="mailto:parsa.emm@gmail.com">
-<picture>
-  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/footer-mobile-dark.svg">
-  <source media="(max-width: 640px)" srcset="assets/cards/footer-mobile-light.svg">
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/footer-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/footer-light.svg">
-  <img src="assets/cards/footer-light.svg" alt="Your next engineer. Open to international roles, relocation &amp; selected collaborations. Email parsa.emm@gmail.com" width="830">
-</picture>
-</a>
-
-[Let’s talk](mailto:parsa.emm@gmail.com) · [Read my résumé](https://parsaaemm.dev/resume/) · [Explore the portfolio](https://parsaaemm.dev/)
-
-<details>
-<summary>Activity snapshot</summary>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/contributions-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/cards/contributions-light.svg">
-  <img src="assets/cards/contributions-light.svg" alt="Public activity snapshot based on calendars and public repository commits; not the official GitHub profile total." width="830">
-</picture>
-
-Period: 2025-10-30 — 2026-10-29. Calendar and public repository commit signals are merged per day. This is an activity snapshot, not the official GitHub profile contribution total.
+Open Sauce typography by Alfredo Marco Pradil / Creative Sauce, SIL Open Font License 1.1. See [source and asset notices](NOTICE.md) and [build instructions](SETUP.md).
 
 </details>

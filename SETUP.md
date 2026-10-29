@@ -2,11 +2,11 @@
 
 [فارسی](SETUP.fa.md)
 
-The GitHub README uses an independently implemented editorial design inspired by [Kinetic Editorial](https://www.gitskins.com/portfolio/templates/seyi-editorial): oversized typography, graphite and lime, responsive cards and three selected public projects. The static Pages mirror has its own templates and palette, based on [parsaaemm.dev](https://parsaaemm.dev/).
+The README follows the [personalized GitSkins reference](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami): the architectural hero, Open Sauce typography, lime labels, six projects in the original order, public repositories, activity, interests and contact. The desktop hero captures the rendered reference. Other sections are self-contained SVGs with Open Sauce glyph paths; mobile versions use narrower layouts. Both GitHub themes keep the reference's dark appearance. The separate Pages mirror retains its own templates and palette.
 
 `data/profile.json` supplies the public content and both color palettes. The builders produce `README.md`, responsive SVG cards and the static `site/` directory. Edit the source data or templates, then rebuild; generated output is replaced on the next build.
 
-`data/readme.json` configures the README palette, additional featured projects and selected explorations independently from the Pages site. README and card builders use `load_readme_profile()`; the site builder uses `load_profile()`. Shared project metadata takes precedence when a featured project already exists in `data/profile.json`. The scheduled rebuild preserves the published README design.
+`data/readme.json` selects the reference presentation; `data/seyi-reference.json` stores its copy, project order, cached counts, capture date and credits. README and card builders use `load_readme_profile()`; the site builder uses `load_profile()`. The previous palette and additional-project settings remain available to the legacy card builder. Scheduled rebuilds preserve the reference presentation. Counts are deliberately frozen to the captured GitSkins source and are not live GitHub totals.
 
 ## Local workflow
 
@@ -21,7 +21,7 @@ node --test tests/theme.test.cjs
 
 Python 3.12 and Node 22 are used in CI. Linux needs FreeType with RAQM for Pillow font rendering (`libraqm0` on Ubuntu). Node is only needed for the theme interaction tests; the published site has no runtime dependencies.
 
-Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `--fetch` to refresh activity first; offline builds reuse `data/contributions.json`. `--only site` generates its own artwork and can run independently.
+Use `--only cards`, `--only readme` or `--only site` for a targeted build. Cards also rebuild the reference vectors. Add `--fetch` to refresh the separate contribution snapshot; offline builds reuse `data/contributions.json`. `--only site` generates its own artwork and can run independently.
 
 ## Content
 
@@ -33,16 +33,19 @@ Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `
 | `about`, `focus`, `notes`, `links` | Biography, skills, writing and contact routes |
 | `design.themes` | Shared light and dark colors for the cards and site |
 | `contributions` | Activity collection settings |
-| `data/readme.json` | README-specific palette, additional public projects and exploration selection |
+| `data/readme.json` | README presentation selection and legacy card settings |
+| `data/seyi-reference.json` | Captured reference content, six projects, counts, date and credits |
+| `scripts/build_seyi.py`, `scripts/lib/seyi.py` | Reference graphics and Open Sauce glyph outlines |
+| `assets/seyi-editorial/hero-desktop.jpg`, `hero-background.jpg` | Captured hero and a still of the original video |
 | `scripts/templates/` | Site CSS and JavaScript source |
 
 Organizational product descriptions, interfaces and internal architecture are excluded from public output. Project status is editorial content: update it when the source repository changes.
 
-The README uses real Markdown links and text alongside accessible SVGs. Each visual has a light and dark version, with separate narrow layouts selected below 640px. Geist glyphs are stored as vector outlines in the cards, so the main type needs no remote font request. The serif accent uses the viewer’s Georgia or serif font.
+Every project image opens its repository; the hero opens the interactive original. A collapsible text version supplies selectable identity, links, email, source date and credits. Mobile graphics are selected below 640px. GitHub cannot run the original video, scrolling, hover, live clock or clipboard scripts in README markup. Keep the captured hero image and JSON snapshot consistent when updating identity or reference content. Source images must be recaptured separately; builds do not contact GitSkins. See `NOTICE.md` for original design and asset attribution.
 
 ## Automation
 
-`Update profile` refreshes activity, rebuilds, runs Python and theme tests, and commits generated changes. It runs daily, on demand and after source changes on `main`. It requires `contents: write` and standard `GITHUB_TOKEN`; no new secret is needed.
+`Update profile` refreshes contribution data, rebuilds, runs Python and theme tests, and commits generated changes including the reference vectors. It runs daily, on demand and after source changes on `main`. It requires `contents: write` and standard `GITHUB_TOKEN`; no new secret is needed. The contribution collector does not change reference counts.
 
 `Deploy site` publishes `site/` through GitHub Pages. Pages must already use **GitHub Actions** as its source. The Pages mirror keeps `https://parsaaemm.dev/` canonical and sends `noindex,follow`. It does not replace the live canonical website.
 

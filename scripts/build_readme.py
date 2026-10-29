@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from html import escape as e
+import json
 from pathlib import Path
 
 from lib import content as C, markdown
@@ -25,6 +26,8 @@ def card(name, alt, href):
 
 
 def render(p, contrib):
+    if p.get('readme', {}).get('presentation') == 'seyi-editorial-reference':
+        return render_reference(p)
     base = p['site']['url']
     out = [card('hero', p['person']['name']+' — '+p['person']['role']+'. '+p['person']['perspective']+' '+p['hero']['intro'], p['site']['pages_url'])]
     out.append(f'# {p["person"]["name"]}\n\n**{p["person"]["role"]} · Red team perspective**\n\n{p["hero"]["intro"]}\n\nBased in {p["person"]["location"]}. {p["hero"]["availability"]}\n')
@@ -52,6 +55,35 @@ def render(p, contrib):
     out.append(card('footer', 'Your next engineer. '+p['hero']['availability']+' Email '+p['person']['email'], 'mailto:'+p['person']['email']))
     out.append(f'[Let’s talk](mailto:{p["person"]["email"]}) · [Read my résumé]({base}resume/) · [Explore the portfolio]({base})\n')
     out.append('<details>\n<summary>Activity snapshot</summary>\n\n'+picture('contributions', 'Public activity snapshot based on calendars and public repository commits; not the official GitHub profile total.')+'\n\n'+markdown.activity(contrib)+'\n\n</details>\n')
+    return '\n'.join(out)
+
+
+def render_reference(p):
+    data = json.loads((ROOT / p['readme']['snapshot']).read_text(encoding='utf-8'))
+    directory = 'assets/seyi-editorial'
+
+    def visual(name, alt, href):
+        desktop = 'hero-desktop.jpg' if name == 'hero' else name+'.svg'
+        return (f'<a href="{e(href, quote=True)}"><picture>'
+                f'<source media="(max-width: 640px)" srcset="{directory}/{name}-mobile.svg">'
+                f'<img src="{directory}/{desktop}" alt="{e(alt, quote=True)}" width="100%" align="top">'
+                '</picture></a>')
+
+    images = [visual('hero', data['name']+' — '+data['hero_role']+'. IN PUBLIC. '+data['intro']+' Open the interactive original.', data['source'])]
+    for number, project in enumerate(data['projects'], 1):
+        if number == 5:
+            images.append(visual('repositories', f'Public repositories. {data["name"]} shares {data["totals"]["public_repositories"]} public repositories in the reference snapshot. Explore all projects.', data['repositories_url']))
+        images.append(visual(f'project-{number}', f'{project["title"]} — {project["language"]}, {project["stars"]} stars in the reference snapshot. View project.', project['url']))
+    images.append(visual('activity', f'GitHub activity snapshot captured from GitSkins on {data["captured_on"]}; cached counts, not live GitHub totals. Interests: '+data['interests']+'. '+data['intro'], data['repositories_url']))
+    images.append(visual('contact', data['contact']+' LET’S TALK — LET’S COLLABORATE — SAY HELLO. '+data['handle'], data['github']))
+    images.append(visual('footer', data['location']+'. GitHub, profile, repositories and projects. Design by Isaac Fayemi. Original portfolio by Oluwadare Oluwaseyi.', data['repositories_url']))
+    out = ['<p align="center">'+''.join(images)+'</p>\n', '<details>\n<summary>Profile, project links & design credits</summary>\n', '# '+data['name']+'\n\n'+data['intro']+'\n']
+    out.append(f'[Interactive original]({data["source"]}) · [GitHub profile]({data["github"]}) · [All repositories]({data["repositories_url"]}) · [Email](mailto:{p["person"]["email"]})\n')
+    out.append('### Selected work\n\n'+'\n'.join(f'- [{item["name"]}]({item["url"]}) — {item["language"]}' for item in data['projects'])+'\n')
+    out.append('### Interests\n\n'+data['interests']+'\n')
+    out.append('### Let’s talk\n\n'+data['contact']+'\n')
+    out.append(f'This README preserves the appearance and project order of the linked GitSkins reference captured on {data["captured_on"]}. Its displayed repository, star and follower counts reproduce that cached reference; they are not live GitHub totals. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.\n')
+    out.append(' · '.join(f'[{credit["label"]}]({credit["url"]})' for credit in data['credits'])+'\n\nOpen Sauce typography by Alfredo Marco Pradil / Creative Sauce, SIL Open Font License 1.1. See [source and asset notices](NOTICE.md) and [build instructions](SETUP.md).\n\n</details>\n')
     return '\n'.join(out)
 
 

@@ -1,5 +1,7 @@
 {
-  "reference": "https://www.gitskins.com/portfolio/templates/seyi-editorial",
+  "reference": "https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami",
+  "presentation": "seyi-editorial-reference",
+  "snapshot": "data/seyi-reference.json",
   "themes": {
     "light": {
       "paper": "#f3f3eb",

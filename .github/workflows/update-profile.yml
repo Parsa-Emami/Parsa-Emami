@@ -9,9 +9,11 @@ on:
     paths:
       - "data/profile.json"
       - "data/readme.json"
+      - "data/seyi-reference.json"
       - "scripts/**"
       - "tests/**"
       - "assets/avatar/**"
+      - "assets/seyi-editorial/**"
       - ".github/workflows/update-profile.yml"
 
 permissions:
@@ -57,7 +59,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add README.md assets/cards site data/contributions.json
+          git add README.md assets/cards assets/seyi-editorial site data/contributions.json
           if ! git diff --cached --quiet; then
             git commit -m "chore: refresh profile"
             git push

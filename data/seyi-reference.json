@@ -1,0 +1,33 @@
+{
+  "source": "https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami",
+  "captured_on": "2026-10-29",
+  "name": "Parsa Emami",
+  "handle": "@Parsa-Emami",
+  "role": "JavaScript developer",
+  "hero_role": "DEVELOPER / JAVASCRIPT AND GO",
+  "intro": "@Parsa-Emami builds useful software in public.",
+  "location": "MAZANDARAN",
+  "github": "https://github.com/Parsa-Emami",
+  "repositories_url": "https://github.com/Parsa-Emami?tab=repositories",
+  "totals": {
+    "public_repositories": 13,
+    "stars": 30,
+    "followers": 0,
+    "following": 0
+  },
+  "projects": [
+    {"name": "Riskweft", "title": "RISKWEFT", "language": "PHP", "stars": 2, "url": "https://github.com/Parsa-Emami/Riskweft"},
+    {"name": "Riftrange", "title": "RIFTRANGE", "language": "JavaScript", "stars": 2, "url": "https://github.com/Parsa-Emami/Riftrange"},
+    {"name": "Rape2Arsalan", "title": "RAPE2ARSALAN", "language": "Open source", "stars": 2, "url": "https://github.com/Parsa-Emami/Rape2Arsalan"},
+    {"name": "Privattice", "title": "PRIVATTICE", "language": "JavaScript", "stars": 2, "url": "https://github.com/Parsa-Emami/Privattice"},
+    {"name": "Policyhelix", "title": "POLICYHELIX", "language": "JavaScript", "stars": 2, "url": "https://github.com/Parsa-Emami/Policyhelix"},
+    {"name": "Parsa-Emami", "title": "PARSA EMAMI", "language": "Python", "stars": 3, "url": "https://github.com/Parsa-Emami/Parsa-Emami"}
+  ],
+  "interests": "JavaScript, Go, Python, PHP, TypeScript",
+  "contact": "Got a question, proposal or project or want to work together on something? Feel free to reach out.",
+  "credits": [
+    {"label": "Design by Isaac Fayemi", "url": "https://fayemi.design/"},
+    {"label": "Original portfolio by Oluwadare Oluwaseyi", "url": "https://github.com/oluwadareseyi/folio-v2"},
+    {"label": "GitSkins adaptation", "url": "https://www.gitskins.com/portfolio/Parsa-Emami/build?template=seyi-editorial"}
+  ]
+}
