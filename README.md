@@ -1,4 +1,4 @@
-<a href="https://parsaaemm.dev/">
+<a href="https://parsa-emami.github.io/Parsa-Emami/">
 <picture>
   <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/hero-mobile-dark.svg">
   <source media="(max-width: 640px)" srcset="assets/cards/hero-mobile-light.svg">
@@ -16,7 +16,7 @@ I build considered software. Then question the assumptions holding it together.
 
 Based in Babol, Iran. Open to international roles, relocation & selected collaborations.
 
-[Website](https://parsaaemm.dev/) · [Selected work](https://parsaaemm.dev/projects/) · [Notes](https://parsaaemm.dev/writing/) · [Résumé](https://parsaaemm.dev/resume/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Email](mailto:parsa.emm@gmail.com)
+[Interactive portfolio](https://parsa-emami.github.io/Parsa-Emami/) · [Website](https://parsaaemm.dev/) · [Selected work](https://parsaaemm.dev/projects/) · [Notes](https://parsaaemm.dev/writing/) · [Résumé](https://parsaaemm.dev/resume/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Email](mailto:parsa.emm@gmail.com)
 
 ## 01 / A point of view
 
@@ -74,7 +74,19 @@ Personal projects. Inspectable code. Honest status.
 
 **[RiskWeft — source](https://github.com/Parsa-Emami/Riskweft)** · [Project notes](https://parsaaemm.dev/projects/riskweft/)
 
-Other explorations: [Demian](https://github.com/Parsa-Emami/Demian) · [Hanna Music Player](https://github.com/Parsa-Emami/Hanna-Music-Player).
+<a href="https://github.com/Parsa-Emami/Miragemesh">
+<picture>
+  <source media="(max-width: 640px) and (prefers-color-scheme: dark)" srcset="assets/cards/project-miragemesh-mobile-dark.svg">
+  <source media="(max-width: 640px)" srcset="assets/cards/project-miragemesh-mobile-light.svg">
+  <source media="(prefers-color-scheme: dark)" srcset="assets/cards/project-miragemesh-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/cards/project-miragemesh-light.svg">
+  <img src="assets/cards/project-miragemesh-light.svg" alt="MirageMesh — Local workflow · v1 gate pending. A local-first security application with a supervised Go engine, isolated decoys, durable offline event spooling and a browser interface for incident replay and triage. The reference workflow is verified on Ubuntu 24.04 Linux amd64. Other hosts require their own workflow evidence; the complete OSS v1 gate is pending." width="830">
+</picture>
+</a>
+
+**[MirageMesh — source](https://github.com/Parsa-Emami/Miragemesh)** · [Project notes](https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint)
+
+Other explorations: [Demian](https://github.com/Parsa-Emami/Demian).
 
 I also develop organizational software. Product details, interfaces, source and internal architecture remain confidential. [Professional experience](https://parsaaemm.dev/resume/).
 

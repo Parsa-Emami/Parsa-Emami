@@ -1,5 +1,7 @@
 # Third-party notices
 
+The GitHub README's current visual direction is inspired by [GitSkins Kinetic Editorial](https://www.gitskins.com/portfolio/templates/seyi-editorial). Its typography, geometric cards and source implementation are authored independently in this repository; no paid template source or assets are redistributed.
+
 | Component | Location | License |
 | --- | --- | --- |
 | Geist Sans and Geist Mono, including generated glyph outlines | `scripts/fonts/`, `site/assets/fonts/`, `assets/cards/` | SIL Open Font License 1.1; `scripts/fonts/LICENSE-Geist-OFL.txt` |

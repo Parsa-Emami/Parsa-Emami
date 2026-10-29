@@ -11,22 +11,19 @@ OUT = ROOT / 'assets' / 'cards'
 
 def hero(theme, p):
     d = Drawing(theme)
-    d.contours(900, 130)
+    for x, y, w, h in [(540, 85, 230, 240), (580, 65, 190, 200), (620, 40, 150, 165)]:
+        d.rect(x, y, w, h, theme['card'], theme['border'])
+    d.line(540, 325, 770, 325, theme['accent'])
     d.label(32, 34, p['hero']['eyebrow'])
-    name = p['person']['name']
-    size = min(112, 760 / measure(name + '.', 1, 600, tracking=-.045))
-    w = d.text(28, 156, name, size, 600, tracking=-size*.045)
-    d.text(28 + w, 156, '.', size, 600, color=theme['accent'], tracking=-size*.045)
-    d.line(32, 190, 798, 190, theme['ink'])
-    d.label(32, 213, '01 — A MIND AT WORK')
-    d.text(32, 271, 'Software engineer.', 22, 500, tracking=-.5)
-    d.text(32, 301, 'Security architect.', 22, 500, tracking=-.5)
-    d.text(32, 329, p['person']['perspective'], 14, color=theme['subtle'])
-    d.text(360, 272, p['hero']['title'], 35, 400, tracking=-1.5)
-    d.serif(360, 317, p['hero']['accent'], 37)
-    d.line(32, 363, 798, 363)
-    d.label(32, 392, p['person']['brand'])
-    d.label(491, 392, 'BASED IN IRAN / OPEN WORLDWIDE')
+    names = p['person']['name'].upper().split(' ', 1)
+    for text, y in zip(names, [150, 258]):
+        size = min(128, 470 / measure(text, 1, 500, tracking=-.065))
+        d.text(27, y, text, size, 500, tracking=-size*.065)
+    d.text(32, 324, 'IN PUBLIC.', 63, 400, theme['accent'], tracking=-3.5)
+    d.text(32, 357, 'Software engineer. Security architect.', 16, color=theme['text'])
+    d.line(32, 378, 798, 378)
+    d.label(32, 401, p['person']['brand'])
+    d.label(491, 401, 'BASED IN IRAN / OPEN WORLDWIDE')
     return d.svg(416, p['person']['name'], p['person']['role'] + '. ' + p['hero']['intro'])
 
 
@@ -71,6 +68,15 @@ def study(theme, project):
         d.line(415, 199, 415, 220)
         d.line(675, 199, 675, 220)
         d.label(273, 252, 'THREE SEPARATE QUESTIONS')
+    elif project['id'] == 'miragemesh':
+        stages = [('SENSOR', 55), ('SPOOL', 315), ('TRIAGE', 575)]
+        for i, (label, x) in enumerate(stages, 1):
+            d.rect(x, 91, 200, 108, theme['paper'], theme['border'], 5)
+            d.label(x+16, 120, f'0{i} / LOCAL')
+            d.text(x+16, 163, label, 23, 500, tracking=-.5)
+            if i < 3:
+                d.line(x+200, 145, x+260, 145, theme['accent'])
+        d.label(55, 252, 'OFFLINE DURABILITY / EXPLICIT TRUST')
     else:
         d.rect(105, 75, 620, 143, theme['paper'], theme['border'], 6)
         d.label(125, 101, 'BOUNDARY / A MODELING DIRECTION')
@@ -133,7 +139,8 @@ def contributions(theme, contrib):
 
 def mobile_hero(theme, p):
     d = Drawing(theme, 420)
-    d.contours(620, 95)
+    d.rect(262, 60, 134, 240, theme['card'], theme['border'])
+    d.rect(300, 45, 96, 190, theme['paper'], theme['border'])
     d.label(24, 31, 'ENGINEERING / SECURITY / CURIOSITY')
     d.text(20, 126, 'Parsa', 94, 600, tracking=-4)
     w = d.text(20, 211, 'Emami', 94, 600, tracking=-4)
@@ -142,8 +149,8 @@ def mobile_hero(theme, p):
     d.text(24, 281, 'Software engineer.', 24, 500, tracking=-.7)
     d.text(24, 312, 'Security architect.', 24, 500, tracking=-.7)
     d.text(24, 342, p['person']['perspective'], 16, color=theme['subtle'])
-    d.text(24, 401, p['hero']['title'], 32, tracking=-1.2)
-    d.serif(24, 447, p['hero']['accent'], 35)
+    d.text(24, 407, 'IN PUBLIC.', 60, 400, theme['accent'], tracking=-3)
+    d.text(24, 448, 'Build with intent. Question the obvious.', 16, color=theme['text'])
     d.line(24, 477, 396, 477)
     d.label(24, 509, 'BASED IN IRAN / OPEN WORLDWIDE')
     return d.svg(539, p['person']['name'], p['person']['role']+'. '+p['hero']['intro'])
@@ -199,7 +206,7 @@ def mobile_contact(theme, p):
 
 
 def build():
-    p = C.load_profile()
+    p = C.load_readme_profile()
     OUT.mkdir(parents=True, exist_ok=True)
     written = []
     for tn, theme in p['design']['themes'].items():

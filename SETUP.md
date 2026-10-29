@@ -2,9 +2,11 @@
 
 [فارسی](SETUP.fa.md)
 
-The GitHub profile and static Pages mirror follow the visual language of [parsaaemm.dev](https://parsaaemm.dev/): warm paper, charcoal, red accents, large Geist typography and numbered editorial sections.
+The GitHub README uses an independently implemented editorial design inspired by [Kinetic Editorial](https://www.gitskins.com/portfolio/templates/seyi-editorial): oversized typography, graphite and lime, responsive cards and three selected public projects. The static Pages mirror has its own templates and palette, based on [parsaaemm.dev](https://parsaaemm.dev/).
 
 `data/profile.json` supplies the public content and both color palettes. The builders produce `README.md`, responsive SVG cards and the static `site/` directory. Edit the source data or templates, then rebuild; generated output is replaced on the next build.
+
+`data/readme.json` configures the README palette, additional featured projects and selected explorations independently from the Pages site. README and card builders use `load_readme_profile()`; the site builder uses `load_profile()`. Shared project metadata takes precedence when a featured project already exists in `data/profile.json`. The scheduled rebuild preserves the published README design.
 
 ## Local workflow
 
@@ -31,6 +33,7 @@ Use `--only cards`, `--only readme` or `--only site` for a targeted build. Add `
 | `about`, `focus`, `notes`, `links` | Biography, skills, writing and contact routes |
 | `design.themes` | Shared light and dark colors for the cards and site |
 | `contributions` | Activity collection settings |
+| `data/readme.json` | README-specific palette, additional public projects and exploration selection |
 | `scripts/templates/` | Site CSS and JavaScript source |
 
 Organizational product descriptions, interfaces and internal architecture are excluded from public output. Project status is editorial content: update it when the source repository changes.

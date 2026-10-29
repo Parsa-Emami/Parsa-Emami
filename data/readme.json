@@ -1,0 +1,42 @@
+{
+  "reference": "https://www.gitskins.com/portfolio/templates/seyi-editorial",
+  "themes": {
+    "light": {
+      "paper": "#f3f3eb",
+      "card": "#ebede3",
+      "surface": "#e0e3d6",
+      "ink": "#20231c",
+      "text": "#45483d",
+      "subtle": "#626756",
+      "accent": "#456015",
+      "border": "#cdd1c2"
+    },
+    "dark": {
+      "paper": "#10110f",
+      "card": "#171914",
+      "surface": "#22251d",
+      "ink": "#eeeee4",
+      "text": "#c3c6b7",
+      "subtle": "#9ba18e",
+      "accent": "#c5fa57",
+      "border": "#353a2d"
+    }
+  },
+  "additional_projects": [
+    {
+      "id": "miragemesh",
+      "name": "MirageMesh",
+      "category": "Deception & local security",
+      "status": "Local workflow · v1 gate pending",
+      "title": "A local security workflow, from sensor to incident.",
+      "summary": "A local-first security application with a supervised Go engine, isolated decoys, durable offline event spooling and a browser interface for incident replay and triage.",
+      "scope": "The reference workflow is verified on Ubuntu 24.04 Linux amd64. Other hosts require their own workflow evidence; the complete OSS v1 gate is pending.",
+      "url": "https://github.com/Parsa-Emami/Miragemesh",
+      "case_study": "https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint",
+      "kind": "Personal open source"
+    }
+  ],
+  "explorations": [
+    "Demian"
+  ]
+}

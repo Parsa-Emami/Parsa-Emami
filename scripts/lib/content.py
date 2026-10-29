@@ -16,6 +16,25 @@ def load_profile() -> dict:
     return json.loads((DATA / "profile.json").read_text(encoding="utf-8"))
 
 
+def load_readme_profile() -> dict:
+    profile = load_profile()
+    path = DATA / 'readme.json'
+    if not path.exists():
+        return profile
+    settings = json.loads(path.read_text(encoding='utf-8'))
+    profile['design']['reference'] = settings['reference']
+    profile['design']['themes'] = settings['themes']
+    existing = {project['id'] for project in profile['projects']}
+    for project in settings.get('additional_projects', []):
+        if project['id'] not in existing:
+            profile['projects'].append(project)
+            existing.add(project['id'])
+    selected = settings.get('explorations')
+    if selected is not None:
+        profile['explorations'] = [item for item in profile['explorations'] if item['name'] in selected]
+    return profile
+
+
 def load_contributions() -> dict:
     p = DATA / "contributions.json"
     if p.exists():
