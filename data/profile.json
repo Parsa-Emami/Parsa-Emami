@@ -23,27 +23,27 @@
     "locale": "en_US"
   },
   "design": {
-    "reference": "https://parsaaemm.dev/",
+    "reference": "https://www.gitskins.com/portfolio/templates/seyi-editorial",
     "themes": {
       "light": {
-        "paper": "#faf9f5",
-        "card": "#f5f4ef",
-        "surface": "#e9e6dc",
-        "ink": "#262624",
-        "text": "#3e3c34",
-        "subtle": "#69675f",
-        "accent": "#c94040",
-        "border": "#dad9d4"
+        "paper": "#f3f3eb",
+        "card": "#ebede3",
+        "surface": "#e0e3d6",
+        "ink": "#20231c",
+        "text": "#45483d",
+        "subtle": "#626756",
+        "accent": "#456015",
+        "border": "#cdd1c2"
       },
       "dark": {
-        "paper": "#161819",
-        "card": "#1d2021",
-        "surface": "#292c2d",
-        "ink": "#f1f0e8",
-        "text": "#d0d0c8",
-        "subtle": "#aaa99f",
-        "accent": "#f0968a",
-        "border": "#3a3d3c"
+        "paper": "#10110f",
+        "card": "#171914",
+        "surface": "#22251d",
+        "ink": "#eeeee4",
+        "text": "#c3c6b7",
+        "subtle": "#9ba18e",
+        "accent": "#c5fa57",
+        "border": "#353a2d"
       }
     }
   },
@@ -144,6 +144,18 @@
       "url": "https://github.com/Parsa-Emami/Riskweft",
       "case_study": "https://parsaaemm.dev/projects/riskweft/",
       "kind": "Personal open source"
+    },
+    {
+      "id": "miragemesh",
+      "name": "MirageMesh",
+      "category": "Deception & local security",
+      "status": "Local workflow · v1 gate pending",
+      "title": "A local security workflow, from sensor to incident.",
+      "summary": "A local-first security application with a supervised Go engine, isolated decoys, durable offline event spooling and a browser interface for incident replay and triage.",
+      "scope": "The reference workflow is verified on Ubuntu 24.04 Linux amd64. Other hosts require their own workflow evidence; the complete OSS v1 gate is pending.",
+      "url": "https://github.com/Parsa-Emami/Miragemesh",
+      "case_study": "https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint",
+      "kind": "Personal open source"
     }
   ],
   "explorations": [
@@ -151,11 +163,6 @@
       "name": "Demian",
       "label": "Personal game project",
       "url": "https://github.com/Parsa-Emami/Demian"
-    },
-    {
-      "name": "Hanna Music Player",
-      "label": "Personal application project",
-      "url": "https://github.com/Parsa-Emami/Hanna-Music-Player"
     }
   ],
   "professional": {
