@@ -5,7 +5,11 @@
 
 # Parsa Emami
 
-@Parsa-Emami builds useful software in public.
+**Software Engineer · Security Architect · Application Security**
+
+I build dependable software and security-focused tools, with particular interests in secure-by-design architecture, local-first systems, threat modelling, release integrity, and usable developer experiences. I publish selected work, implementation details, and reproducible evidence where possible.
+
+**Website:** [parsaaemm.dev](https://parsaaemm.dev/) · **LinkedIn:** [Parsa Emami](https://www.linkedin.com/in/parsaaemm/) · **GitHub:** [@Parsa-Emami](https://github.com/Parsa-Emami)
 
 [Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [GitHub profile](https://github.com/Parsa-Emami) · [All repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
 
@@ -18,9 +22,15 @@
 - [Policyhelix](https://github.com/Parsa-Emami/Policyhelix) — JavaScript
 - [Parsa-Emami](https://github.com/Parsa-Emami/Parsa-Emami) — Python
 
+### Security & engineering work
+
+- [MirageMesh](https://github.com/Parsa-Emami/Miragemesh) — local-first, supervised Go runtime with rootless decoy isolation and offline event handling.
+- [Attestara](https://github.com/Parsa-Emami/Attestara) — release-evidence validation, SBOM assessment, and cryptographic attestation tooling.
+- [RiskWeft](https://github.com/Parsa-Emami/Riskweft) — work in progress; the public repository currently contains a web foundation and development roadmap.
+
 ### Interests
 
-JavaScript, Go, Python, PHP, TypeScript
+Application security, security architecture, threat modelling, Go, JavaScript, TypeScript, Python and PHP.
 
 ### Let’s talk
 
