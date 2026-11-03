@@ -2,7 +2,7 @@
 
 The canonical portfolio is [https://parsaaemm.dev/](https://parsaaemm.dev/). The Pages mirror declares that URL as canonical and uses `noindex,follow` to avoid competing copies. The mirror’s assets and in-page navigation use relative URLs and work under the repository Pages subpath.
 
-The README keeps the name, role, location, contact links, biography, skills and writing links as native text. Theme-aware images have descriptive alternatives. The Pages mirror provides semantic landmarks, heading hierarchy, a keyboard skip link, visible focus, system-aware color selection and reduced-motion support.
+The README reproduces the 2026-10-29 GitSkins visual reference, including cached repository and star counts that are not live metrics. Its expandable text section exposes the canonical website, LinkedIn, résumé, email, projects, interests, and attribution. The artwork has descriptive alternatives and mobile fallbacks, and remains dark in both GitHub themes. The Pages mirror provides semantic landmarks, heading hierarchy, a keyboard skip link, visible focus, system-aware color selection and reduced-motion support.
 
 Social metadata includes a generated 1200 × 630 PNG and a Person identity with the existing public GitHub and LinkedIn profiles. Private organizational products are omitted from source content and generated cards. Git history remains available.
 
