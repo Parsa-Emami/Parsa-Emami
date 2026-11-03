@@ -41,6 +41,9 @@ class SeyiReference(unittest.TestCase):
         self.assertIn('cached reference', self.document)
         self.assertIn('not live GitHub totals', self.document)
         self.assertIn('2026-10-29', self.document)
+        destinations = {'Website': self.profile['site']['url'], 'LinkedIn': next(item['href'] for item in self.profile['links'] if item['id'] == 'linkedin'), 'Résumé': self.profile['professional']['resume']}
+        for label, url in destinations.items():
+            self.assertIn(f'[{label}]({url})', self.document)
         for project in self.snapshot['projects']:
             self.assertIn(f'[{project["name"]}]({project["url"]})', self.document)
         for credit in self.snapshot['credits']:

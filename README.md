@@ -7,7 +7,7 @@
 
 @Parsa-Emami builds useful software in public.
 
-[Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [GitHub profile](https://github.com/Parsa-Emami) · [All repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
+[Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [Website](https://parsaaemm.dev/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Résumé](https://parsaaemm.dev/resume/) · [GitHub profile](https://github.com/Parsa-Emami) · [All repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
 
 ### Selected work
 
