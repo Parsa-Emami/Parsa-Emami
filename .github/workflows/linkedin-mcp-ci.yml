@@ -1,0 +1,37 @@
+name: LinkedIn MCP checks
+
+on:
+  push:
+    paths:
+      - 'tools/linkedin-mcp/**'
+      - '.github/workflows/linkedin-mcp-ci.yml'
+  pull_request:
+    paths:
+      - 'tools/linkedin-mcp/**'
+      - '.github/workflows/linkedin-mcp-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: tools/linkedin-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --ignore-scripts --no-audit
+      - name: Check source syntax
+        run: |
+          node --check src/core.mjs
+          node --check src/linkedin.mjs
+          node --check src/mcp.mjs
+          node --check src/main.mjs
+      - name: Run tests
+        run: npm test
