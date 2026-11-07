@@ -1,0 +1,17 @@
+{
+  "name": "parsa-linkedin-mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.0.0" },
+  "scripts": {
+    "start": "node --env-file-if-exists=.env src/main.mjs stdio",
+    "serve": "node --env-file-if-exists=.env src/main.mjs http",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/server": "^2.0.0",
+    "@modelcontextprotocol/node": "^2.0.0",
+    "zod": "^4.0.0"
+  }
+}
