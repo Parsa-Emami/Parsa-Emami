@@ -83,7 +83,7 @@ def render_reference(p):
     out.append('### Selected work\n\n'+'\n'.join(f'- [{item["name"]}]({item["url"]}) — {item["language"]}' for item in data['projects'])+'\n')
     out.append('### Interests\n\n'+data['interests']+'\n')
     out.append('### Let’s talk\n\n'+data['contact']+'\n')
-    out.append(f'This README preserves the appearance and project order of the linked GitSkins reference captured on {data["captured_on"]}. Its displayed repository, star and follower counts reproduce that cached reference; they are not live GitHub totals. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.\n')
+    out.append(f'This README adapts the appearance and project order of the linked GitSkins reference captured on {data["captured_on"]}. Featured projects may differ from that snapshot. Its displayed repository and follower totals are cached reference values, not live GitHub totals; project star figures may be updated separately. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.\n')
     out.append(' · '.join(f'[{credit["label"]}]({credit["url"]})' for credit in data['credits'])+'\n\nOpen Sauce typography by Alfredo Marco Pradil / Creative Sauce, SIL Open Font License 1.1. See [source and asset notices](NOTICE.md) and [build instructions](SETUP.md).\n\n</details>\n')
     return '\n'.join(out)
 

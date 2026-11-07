@@ -49,6 +49,15 @@ class SeyiReference(unittest.TestCase):
         for credit in self.snapshot['credits']:
             self.assertIn(credit['url'], self.document)
 
+    def test_excluded_project_never_appears_in_profile(self):
+        self.assertNotIn('rape2arsalan', self.document.casefold())
+        self.assertNotIn('rape2arsalan', json.dumps(self.snapshot).casefold())
+        self.assertEqual(self.snapshot['projects'][2]['name'], 'Attestara')
+        for suffix in ('', '-mobile'):
+            svg = (ROOT / f'assets/seyi-editorial/project-3{suffix}.svg').read_text(encoding='utf-8')
+            self.assertNotIn('rape2arsalan', svg.casefold())
+            self.assertIn('ATTESTARA', svg)
+
     def test_markup_and_all_mobile_fallback_assets_are_valid(self):
         for tag, attrs in Elements(self.document).items:
             self.assertNotIn(tag, {'script', 'style', 'iframe', 'canvas', 'form', 'button'})
