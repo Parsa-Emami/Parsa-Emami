@@ -1,46 +1,34 @@
-<div align="center">
-
-# Parsa Emami · پارسا امامی
-
-**Software Engineer · Security Architect · Open-Source Developer**
-
-I build production software and open-source security tools, with a focus on Laravel, application security, Go, and JavaScript.
-
-[Personal website](https://parsaaemm.dev/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Explore my repositories](https://github.com/Parsa-Emami?tab=repositories)
-
-</div>
+<h1 align="center">Parsa Emami · پارسا امامی</h1>
+<p align="center"><strong>Software Engineer · Security Architect · Open-Source Developer</strong></p>
+<p align="center">I design and build web applications and local-first security tooling, with a focus on secure Laravel engineering, application security, threat modeling, cryptographic trust, and reproducible release evidence. My goal is to turn complex security requirements into usable, testable software.</p>
+<p align="center"><a href="https://parsaaemm.dev/">Personal website</a> · <a href="https://www.linkedin.com/in/parsaaemm/">LinkedIn</a> · <a href="https://parsaaemm.dev/resume/">Résumé</a> · <a href="https://github.com/Parsa-Emami?tab=repositories">All repositories</a></p>
+<p align="center"><strong>Featured work:</strong> <a href="https://github.com/Parsa-Emami/Miragemesh">MirageMesh</a> · <a href="https://github.com/Parsa-Emami/Attestara">Attestara</a> · <a href="https://github.com/Parsa-Emami/Keyhelix">KeyHelix</a> · <a href="https://github.com/Parsa-Emami/Policyhelix">PolicyHelix</a></p>
 
 <p align="center"><a href="https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/hero-mobile.svg"><img src="assets/seyi-editorial/hero-desktop.jpg" alt="Parsa Emami — DEVELOPER / JAVASCRIPT AND GO. IN PUBLIC. @Parsa-Emami builds useful software in public. Open the interactive original." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Riskweft"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-1-mobile.svg"><img src="assets/seyi-editorial/project-1.svg" alt="RISKWEFT — PHP, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Riftrange"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-2-mobile.svg"><img src="assets/seyi-editorial/project-2.svg" alt="RIFTRANGE — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Attestara"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-3-mobile.svg"><img src="assets/seyi-editorial/project-3.svg" alt="ATTESTARA — Go, 3 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Privattice"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-4-mobile.svg"><img src="assets/seyi-editorial/project-4.svg" alt="PRIVATTICE — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/repositories-mobile.svg"><img src="assets/seyi-editorial/repositories.svg" alt="Public repositories. Parsa Emami shares 13 public repositories in the reference snapshot. Explore all projects." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Policyhelix"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-5-mobile.svg"><img src="assets/seyi-editorial/project-5.svg" alt="POLICYHELIX — JavaScript, 2 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami/Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/project-6-mobile.svg"><img src="assets/seyi-editorial/project-6.svg" alt="PARSA EMAMI — Python, 3 stars in the reference snapshot. View project." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/activity-mobile.svg"><img src="assets/seyi-editorial/activity.svg" alt="GitHub activity snapshot captured from GitSkins on 2026-10-29; cached counts, not live GitHub totals. Interests: JavaScript, Go, Python, PHP, TypeScript. @Parsa-Emami builds useful software in public." width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/contact-mobile.svg"><img src="assets/seyi-editorial/contact.svg" alt="Got a question, proposal or project or want to work together on something? Feel free to reach out. LET’S TALK — LET’S COLLABORATE — SAY HELLO. @Parsa-Emami" width="100%" align="top"></picture></a><a href="https://github.com/Parsa-Emami?tab=repositories"><picture><source media="(max-width: 640px)" srcset="assets/seyi-editorial/footer-mobile.svg"><img src="assets/seyi-editorial/footer.svg" alt="MAZANDARAN. GitHub, profile, repositories and projects. Design by Isaac Fayemi. Original portfolio by Oluwadare Oluwaseyi." width="100%" align="top"></picture></a></p>
 
+## Selected open-source work
+
+- **[MirageMesh](https://github.com/Parsa-Emami/Miragemesh)** — A local-first HTTP honeypot and incident-evidence workspace. Authenticated sensors, mutual TLS, durable offline event delivery, and incident triage help teams trace findings back to source events. [Engineering case study](https://parsaaemm.dev/projects/miragemesh/).
+- **[Attestara](https://github.com/Parsa-Emami/Attestara)** — A local release-evidence CLI for checking manifests, file bytes, CycloneDX SBOMs, and Ed25519 signatures against separately configured trust. Its browser passport viewer is inspection-only, not a signature verifier. [Engineering case study](https://parsaaemm.dev/projects/attestara/).
+- **[KeyHelix](https://github.com/Parsa-Emami/Keyhelix)** — A local-first secret-management and cryptographic authorization workspace with OpenBao-backed storage, OIDC sign-in, scoped grants, audited secret reveals, and resumable key rotation.
+- **[PolicyHelix](https://github.com/Parsa-Emami/Policyhelix)** — A local-first authorization engine and browser workspace with signed policy bundles, protected upstream routing, session revocation, and fail-closed behavior for invalid or expired policies.
+
+Additional repositories in the visual gallery include earlier-stage work. Each project README describes its implemented functionality and current limits.
+
+## Engineering interests
+
+Secure web and backend architecture, Laravel and PHP, Go services, application security, defensive engineering, reproducible builds, and practical open-source tooling.
+
+**Connect:** [Website](https://parsaaemm.dev/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [GitHub repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
+
 <details>
-<summary>Profile, project links & design credits</summary>
+<summary>GitSkins design notes, credits, and licensing</summary>
 
-# Parsa Emami
+The gallery preserves the GitSkins Seyi Editorial visual adaptation and original project order captured on 2026-10-29. Featured projects may differ from that visual snapshot. Any repository, follower, or star counts shown inside the artwork are historical reference values, not live GitHub totals.
 
-@Parsa-Emami builds useful software in public.
+The artwork stays dark in both GitHub themes. Project images link to repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock, or clipboard scripts.
 
-[Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [Website](https://parsaaemm.dev/) · [LinkedIn](https://www.linkedin.com/in/parsaaemm/) · [Résumé](https://parsaaemm.dev/resume/) · [GitHub profile](https://github.com/Parsa-Emami) · [All repositories](https://github.com/Parsa-Emami?tab=repositories) · [Email](mailto:parsa.emm@gmail.com)
-
-### Selected work
-
-- [Riskweft](https://github.com/Parsa-Emami/Riskweft) — PHP
-- [Riftrange](https://github.com/Parsa-Emami/Riftrange) — JavaScript
-- [Attestara](https://github.com/Parsa-Emami/Attestara) — Go
-- [Privattice](https://github.com/Parsa-Emami/Privattice) — JavaScript
-- [Policyhelix](https://github.com/Parsa-Emami/Policyhelix) — JavaScript
-- [Parsa-Emami](https://github.com/Parsa-Emami/Parsa-Emami) — Python
-
-### Interests
-
-JavaScript, Go, Python, PHP, TypeScript
-
-### Let’s talk
-
-Got a question, proposal or project or want to work together on something? Feel free to reach out.
-
-This README adapts the appearance and project order of the linked GitSkins reference captured on 2026-10-29. Featured projects may differ from that snapshot. Its displayed repository and follower totals are cached reference values, not live GitHub totals; project star figures may be updated separately. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.
-
-[Design by Isaac Fayemi](https://fayemi.design/) · [Original portfolio by Oluwadare Oluwaseyi](https://github.com/oluwadareseyi/folio-v2) · [GitSkins adaptation](https://www.gitskins.com/portfolio/Parsa-Emami/build?template=seyi-editorial)
+[Interactive original](https://www.gitskins.com/portfolio-templates/seyi-editorial/standalone/?username=Parsa-Emami) · [Design by Isaac Fayemi](https://fayemi.design/) · [Original portfolio by Oluwadare Oluwaseyi](https://github.com/oluwadareseyi/folio-v2) · [GitSkins adaptation](https://www.gitskins.com/portfolio/Parsa-Emami/build?template=seyi-editorial)
 
 Open Sauce typography by Alfredo Marco Pradil / Creative Sauce, SIL Open Font License 1.1. See [source and asset notices](NOTICE.md) and [build instructions](SETUP.md).
 
