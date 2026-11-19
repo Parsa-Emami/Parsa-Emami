@@ -58,6 +58,15 @@ class SeyiReference(unittest.TestCase):
             self.assertNotIn('rape2arsalan', svg.casefold())
             self.assertIn('ATTESTARA', svg)
 
+    def test_identity_and_source_links_are_visible_without_expanding_details(self):
+        visible = self.document.split('<details>', 1)[0]
+        self.assertTrue(visible.startswith('# Parsa Emami · پارسا امامی\n'))
+        self.assertIn(self.profile['person']['role'], visible)
+        self.assertIn(f'[Website]({self.profile["site"]["url"]})', visible)
+        self.assertIn('[LinkedIn](https://www.linkedin.com/in/parsaaemm/)', visible)
+        for project in self.profile['projects'][:3]:
+            self.assertIn(f'[{project["name"]}]({project["url"]})', visible)
+
     def test_markup_and_all_mobile_fallback_assets_are_valid(self):
         for tag, attrs in Elements(self.document).items:
             self.assertNotIn(tag, {'script', 'style', 'iframe', 'canvas', 'form', 'button'})

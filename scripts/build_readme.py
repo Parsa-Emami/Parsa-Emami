@@ -77,8 +77,24 @@ def render_reference(p):
     images.append(visual('activity', f'GitHub activity snapshot captured from GitSkins on {data["captured_on"]}; cached counts, not live GitHub totals. Interests: '+data['interests']+'. '+data['intro'], data['repositories_url']))
     images.append(visual('contact', data['contact']+' LET’S TALK — LET’S COLLABORATE — SAY HELLO. '+data['handle'], data['github']))
     images.append(visual('footer', data['location']+'. GitHub, profile, repositories and projects. Design by Isaac Fayemi. Original portfolio by Oluwadare Oluwaseyi.', data['repositories_url']))
-    out = ['<p align="center">'+''.join(images)+'</p>\n', '<details>\n<summary>Profile, project links & design credits</summary>\n', '# '+data['name']+'\n\n'+data['intro']+'\n']
     link_urls = {item['id']: item['href'] for item in p['links']}
+    out = [
+        f'# {p["person"]["name"]} · پارسا امامی\n',
+        f'**{p["person"]["role"]}**\n\n'
+        'I build Laravel web systems and open-source security tools, with a focus on '
+        'application architecture, authorization boundaries and verifiable releases.\n',
+        f'[Website]({p["site"]["url"]}) · [LinkedIn]({link_urls["linkedin"]}) · '
+        f'[Résumé]({p["professional"]["resume"]}) · [Email](mailto:{p["person"]["email"]})\n',
+        f'Based in {p["person"]["location"]}. {p["hero"]["availability"]}\n',
+        '## Selected engineering work\n\n' + '\n'.join(
+            f'- **[{item["name"]}]({item["url"]})** — {item["summary"]} '
+            f'[Project notes]({item["case_study"]})'
+            for item in p['projects'][:3]
+        ) + '\n',
+        '<p align="center">'+''.join(images)+'</p>\n',
+        '<details>\n<summary>Reference artwork, project links & design credits</summary>\n',
+        data['intro']+'\n',
+    ]
     out.append(f'[Interactive original]({data["source"]}) · [Website]({p["site"]["url"]}) · [LinkedIn]({link_urls["linkedin"]}) · [Résumé]({p["professional"]["resume"]}) · [GitHub profile]({data["github"]}) · [All repositories]({data["repositories_url"]}) · [Email](mailto:{p["person"]["email"]})\n')
     out.append('### Selected work\n\n'+'\n'.join(f'- [{item["name"]}]({item["url"]}) — {item["language"]}' for item in data['projects'])+'\n')
     out.append('### Interests\n\n'+data['interests']+'\n')
