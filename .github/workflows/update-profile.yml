@@ -52,8 +52,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
+      - name: Install rendering system library
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq libraqm0
       - name: Install test dependencies
         run: pip install -r scripts/requirements.txt
+      - name: Build complete profile, cards and static site
+        run: python scripts/build.py
       - name: Profile tests
         run: python -m unittest discover -s tests -v
       - name: Regenerate and compare README

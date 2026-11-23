@@ -71,3 +71,5 @@ Those are separate gates in the overall brand roadmap.
 - BreachAtlas: https://github.com/Parsa-Emami/Breachatlas/blob/main/README.md
 - Demian: https://github.com/Parsa-Emami/Demian/blob/main/README.fa.md
 - RiskWeft: https://github.com/Parsa-Emami/Riskweft/blob/main/README.md
+
+The PR CI now exercises the **full** source build, not just README generation. This prevents README-only projects from omitting vector card fields such as `title` and breaking the daily build after merge.

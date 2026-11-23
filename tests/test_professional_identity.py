@@ -39,6 +39,14 @@ class ProfessionalIdentityTests(unittest.TestCase):
             self.assertEqual(entry["url"], f"https://github.com/Parsa-Emami/{entry['url'].rsplit('/', 1)[-1]}")
         self.assertEqual(self.visible.count("[Technical evidence]("), 6)
 
+    def test_full_profile_build_contract_includes_all_vector_card_fields(self):
+        # build_cards.build() iterates every README-only extra project.
+        required = {"id", "name", "title", "category", "status", "summary",
+                    "scope", "url", "case_study", "kind"}
+        for project in self.profile["projects"]:
+            self.assertFalse(required - set(project), project["id"])
+            self.assertTrue(project["title"].strip(), project["id"])
+
     def test_statuses_match_verified_repo_limitations(self):
         self.assertIn("Seven single-player games", self.visible)
         self.assertIn("production acceptance pending", self.visible)
