@@ -36,12 +36,12 @@ class SeyiReference(unittest.TestCase):
     def test_rebuild_preserves_reference_and_six_clickable_projects(self):
         self.assertEqual(self.document, (ROOT / 'README.md').read_text())
         links = [a['href'] for tag, a in Elements(self.document).items if tag == 'a']
-        self.assertEqual(links[0], self.snapshot['source'])
+        self.assertEqual(links[0], self.profile["site"]["url"])
         self.assertEqual([links[i] for i in [1, 2, 3, 4, 6, 7]], [item['url'] for item in self.snapshot['projects']])
         self.assertIn('cached reference', self.document)
         self.assertIn('not live GitHub totals', self.document)
         self.assertIn('2026-10-29', self.document)
-        destinations = {'Website': self.profile['site']['url'], 'LinkedIn': next(item['href'] for item in self.profile['links'] if item['id'] == 'linkedin'), 'Résumé': self.profile['professional']['resume']}
+        destinations = {'Official website — Parsa Emami': self.profile['site']['url'], 'LinkedIn — Parsa Emami': next(item['href'] for item in self.profile['links'] if item['id'] == 'linkedin'), 'GitHub — Parsa-Emami': next(item['href'] for item in self.profile['links'] if item['id'] == 'github'), 'Résumé': self.profile['professional']['resume']}
         for label, url in destinations.items():
             self.assertIn(f'[{label}]({url})', self.document)
         for project in self.snapshot['projects']:
@@ -62,8 +62,9 @@ class SeyiReference(unittest.TestCase):
         visible = self.document.split('<details>', 1)[0]
         self.assertTrue(visible.startswith('# Parsa Emami · پارسا امامی\n'))
         self.assertIn(self.profile['person']['role'], visible)
-        self.assertIn(f'[Website]({self.profile["site"]["url"]})', visible)
-        self.assertIn('[LinkedIn](https://www.linkedin.com/in/parsaaemm/)', visible)
+        self.assertIn(f'[Official website — Parsa Emami]({self.profile["site"]["url"]})', visible)
+        self.assertIn('[LinkedIn — Parsa Emami](https://www.linkedin.com/in/parsaaemm/)', visible)
+        self.assertIn('[GitHub — Parsa-Emami](https://github.com/Parsa-Emami)', visible)
         for project in self.profile['projects'][:3]:
             self.assertIn(f'[{project["name"]}]({project["url"]})', visible)
 

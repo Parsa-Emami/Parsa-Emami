@@ -38,6 +38,15 @@ class PublicProfile(unittest.TestCase):
         for note in self.profile['notes']:
             self.assertIn(f'[{note["title"]}]({note["url"]})', self.readme)
 
+    def test_canonical_identity_links_survive_generated_readme(self):
+        generated = render_readme(C.load_readme_profile(), C.load_contributions())
+        self.assertIn("[Official website — Parsa Emami](https://parsaaemm.dev/)", generated)
+        self.assertIn("[LinkedIn — Parsa Emami](https://www.linkedin.com/in/parsaaemm/)", generated)
+        self.assertIn("[GitHub — Parsa-Emami](https://github.com/Parsa-Emami)", generated)
+        self.assertIn('<a href="https://parsaaemm.dev/"><picture>', generated)
+        self.assertNotIn('<a href="https://www.gitskins.com/portfolio-templates', generated)
+        self.assertIn("[Interactive original](https://www.gitskins.com/", generated)
+
     def test_all_public_projects_have_source_and_bounded_status(self):
         for project in self.profile['projects']:
             self.assertTrue(project['url'].startswith('https://github.com/Parsa-Emami/'))

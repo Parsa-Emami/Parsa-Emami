@@ -69,7 +69,8 @@ def render_reference(p):
                 f'<img src="{directory}/{desktop}" alt="{e(alt, quote=True)}" width="100%" align="top">'
                 '</picture></a>')
 
-    images = [visual('hero', data['name']+' — '+data['hero_role']+'. IN PUBLIC. '+data['intro']+' Open the interactive original.', data['source'])]
+    # The most prominent visual on the GitHub profile should lead to the owned canonical site.
+    images = [visual('hero', p['person']['name']+' — software engineer and security architect. Open the official portfolio.', p['site']['url'])]
     for number, project in enumerate(data['projects'], 1):
         if number == 5:
             images.append(visual('repositories', f'Public repositories. {data["name"]} shares {data["totals"]["public_repositories"]} public repositories in the reference snapshot. Explore all projects.', data['repositories_url']))
@@ -83,7 +84,9 @@ def render_reference(p):
         f'**{p["person"]["role"]}**\n\n'
         'I build Laravel web systems and open-source security tools, with a focus on '
         'application architecture, authorization boundaries and verifiable releases.\n',
-        f'[Website]({p["site"]["url"]}) · [LinkedIn]({link_urls["linkedin"]}) · '
+        f'[Official website — Parsa Emami]({p["site"]["url"]}) · '
+        f'[LinkedIn — Parsa Emami]({link_urls["linkedin"]}) · '
+        f'[GitHub — Parsa-Emami]({link_urls["github"]}) · '
         f'[Résumé]({p["professional"]["resume"]}) · [Email](mailto:{p["person"]["email"]})\n',
         f'Based in {p["person"]["location"]}. {p["hero"]["availability"]}\n',
         '## Selected engineering work\n\n' + '\n'.join(
@@ -99,7 +102,7 @@ def render_reference(p):
     out.append('### Selected work\n\n'+'\n'.join(f'- [{item["name"]}]({item["url"]}) — {item["language"]}' for item in data['projects'])+'\n')
     out.append('### Interests\n\n'+data['interests']+'\n')
     out.append('### Let’s talk\n\n'+data['contact']+'\n')
-    out.append(f'This README adapts the appearance and project order of the linked GitSkins reference captured on {data["captured_on"]}. Featured projects may differ from that snapshot. Its displayed repository and follower totals are cached reference values, not live GitHub totals; project star figures may be updated separately. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the interactive original. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.\n')
+    out.append(f'This README adapts the appearance and project order of the linked GitSkins reference captured on {data["captured_on"]}. Featured projects may differ from that snapshot. Its displayed repository and follower totals are cached reference values, not live GitHub totals; project star figures may be updated separately. The appearance stays dark in both GitHub themes. Project images open their repositories; the hero opens the official portfolio. GitHub README images do not run the original video, scrolling, hover, clock or clipboard scripts.\n')
     out.append(' · '.join(f'[{credit["label"]}]({credit["url"]})' for credit in data['credits'])+'\n\nOpen Sauce typography by Alfredo Marco Pradil / Creative Sauce, SIL Open Font License 1.1. See [source and asset notices](NOTICE.md) and [build instructions](SETUP.md).\n\n</details>\n')
     return '\n'.join(out)
 
