@@ -8,7 +8,12 @@ on:
     branches: [main]
     paths:
       - "README.md"
+      - "data/profile.json"
+      - "data/readme.json"
+      - "data/seyi-reference.json"
       - "scripts/**"
+      - "tools/**"
+      - "docs/**"
       - "tests/**"
       - ".github/workflows/update-profile.yml"
   push:
@@ -18,6 +23,8 @@ on:
       - "data/readme.json"
       - "data/seyi-reference.json"
       - "scripts/**"
+      - "tools/**"
+      - "docs/**"
       - "tests/**"
       - "assets/avatar/**"
       - "assets/seyi-editorial/**"
@@ -53,6 +60,8 @@ jobs:
         run: |
           python scripts/build.py --only readme
           git diff --exit-code -- README.md
+      - name: Audit identity links and image accessibility (offline)
+        run: python tools/verify_profile_links.py
       - name: Theme interaction tests
         run: node --test tests/theme.test.cjs
 
@@ -84,6 +93,8 @@ jobs:
         run: python scripts/build.py
       - name: Python tests
         run: python -m unittest discover -s tests -v
+      - name: Audit public README links (offline)
+        run: python tools/verify_profile_links.py
       - name: Theme interaction tests
         run: node --test tests/theme.test.cjs
       - name: Validate patch
