@@ -46,7 +46,8 @@
       "scope": "Requires local Keycloak, OpenBao and rootless Podman services; it is not a hosted SaaS.",
       "url": "https://github.com/Parsa-Emami/Keyhelix",
       "case_study": "https://github.com/Parsa-Emami/Keyhelix/blob/main/docs/release/USER_GUIDE.md",
-      "kind": "Personal open source"
+      "kind": "Personal open source",
+      "title": "Protect secret material with scoped access and auditable rotation."
     },
     {
       "id": "breachatlas",
@@ -57,7 +58,8 @@
       "scope": "Uses a local Go engine and separate verifier; run the documented synthetic workflow for evidence.",
       "url": "https://github.com/Parsa-Emami/Breachatlas",
       "case_study": "https://github.com/Parsa-Emami/Breachatlas/blob/main/docs/release/USER_GUIDE.md",
-      "kind": "Personal open source"
+      "kind": "Personal open source",
+      "title": "Preserve incident evidence and verify a portable bundle offline."
     },
     {
       "id": "demian",
@@ -68,7 +70,8 @@
       "scope": "A passing repository CI run is not proof of production backend, live coupons or final sprite acceptance.",
       "url": "https://github.com/Parsa-Emami/Demian",
       "case_study": "https://github.com/Parsa-Emami/Demian/blob/main/README.fa.md",
-      "kind": "Personal project"
+      "kind": "Personal project",
+      "title": "Build mobile-first café games with server-authoritative competition."
     }
   ],
   "explorations": [
