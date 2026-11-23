@@ -36,9 +36,59 @@
       "url": "https://github.com/Parsa-Emami/Miragemesh",
       "case_study": "https://github.com/Parsa-Emami/Miragemesh#full-product-endpoint",
       "kind": "Personal open source"
+    },
+    {
+      "id": "keyhelix",
+      "name": "KeyHelix",
+      "category": "Secrets and cryptographic authorization",
+      "status": "Local-first workspace · Linux v1 release",
+      "summary": "Offline-first secrets and authorization workspace with scoped access, audited reveals and key rotation. The published release targets Linux x86_64.",
+      "scope": "Requires local Keycloak, OpenBao and rootless Podman services; it is not a hosted SaaS.",
+      "url": "https://github.com/Parsa-Emami/Keyhelix",
+      "case_study": "https://github.com/Parsa-Emami/Keyhelix/blob/main/docs/release/USER_GUIDE.md",
+      "kind": "Personal open source"
+    },
+    {
+      "id": "breachatlas",
+      "name": "BreachAtlas",
+      "category": "Digital forensics and incident response",
+      "status": "Local DFIR workspace · independent offline verifier",
+      "summary": "Seals evidence with SHA-256, records custody, builds timelines and exports portable bundles for independent offline verification.",
+      "scope": "Uses a local Go engine and separate verifier; run the documented synthetic workflow for evidence.",
+      "url": "https://github.com/Parsa-Emami/Breachatlas",
+      "case_study": "https://github.com/Parsa-Emami/Breachatlas/blob/main/docs/release/USER_GUIDE.md",
+      "kind": "Personal open source"
+    },
+    {
+      "id": "demian",
+      "name": "Demian",
+      "category": "Mobile-first 2D café games",
+      "status": "Seven single-player games · production acceptance pending",
+      "summary": "A café-themed 2D game suite with asynchronous weekly competition and a Laravel backend. Mobile, hosting and character-art acceptance remain separate gates.",
+      "scope": "A passing repository CI run is not proof of production backend, live coupons or final sprite acceptance.",
+      "url": "https://github.com/Parsa-Emami/Demian",
+      "case_study": "https://github.com/Parsa-Emami/Demian/blob/main/README.fa.md",
+      "kind": "Personal project"
     }
   ],
   "explorations": [
     "Demian"
-  ]
+  ],
+  "featured_project_ids": [
+    "attestara",
+    "keyhelix",
+    "miragemesh",
+    "breachatlas",
+    "demian",
+    "riskweft"
+  ],
+  "career": {
+    "positioning": "Backend & Full-Stack Software Engineering · Application Security",
+    "availability": "Open to English-speaking software and application-security roles, with the Netherlands as a preferred relocation destination; remote, hybrid and on-site considered.",
+    "focus": [
+      "**Backend & full-stack:** Laravel/PHP, Go and JavaScript; APIs, testing and maintainable delivery.",
+      "**Security engineering:** authorization boundaries, secret lifecycle, incident evidence and supply-chain verification.",
+      "**Evidence first:** documented scope, reproducible checks and clearly identified release limits."
+    ]
+  }
 }

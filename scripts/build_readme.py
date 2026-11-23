@@ -79,23 +79,34 @@ def render_reference(p):
     images.append(visual('contact', data['contact']+' LET’S TALK — LET’S COLLABORATE — SAY HELLO. '+data['handle'], data['github']))
     images.append(visual('footer', data['location']+'. GitHub, profile, repositories and projects. Design by Isaac Fayemi. Original portfolio by Oluwadare Oluwaseyi.', data['repositories_url']))
     link_urls = {item['id']: item['href'] for item in p['links']}
+    featured_ids = p['readme']['featured_project_ids']
+    by_id = {project['id']: project for project in p['projects']}
+    if len(featured_ids) != 6 or len(set(featured_ids)) != 6 or any(
+            project_id not in by_id for project_id in featured_ids):
+        raise ValueError('Exactly six distinct documented public projects are required')
+    featured = [by_id[project_id] for project_id in featured_ids]
+    featured_lines = [
+        f'- **[{project["name"]}]({project["url"]})** — *{project["status"]}*. '
+        f'{project["summary"]} [Technical evidence]({project["case_study"]})'
+        for project in featured
+    ]
+    career = p['readme']['career']
     out = [
         f'# {p["person"]["name"]} · پارسا امامی\n',
         f'**{p["person"]["role"]}**\n\n'
-        'I build Laravel web systems and open-source security tools, with a focus on '
-        'application architecture, authorization boundaries and verifiable releases.\n',
+        'I build Laravel backend systems and local-first open-source security tools. '
+        'My work emphasizes verifiable releases, authorization boundaries and '
+        'reproducible engineering.\n',
         f'[Official website — Parsa Emami]({p["site"]["url"]}) · '
         f'[LinkedIn — Parsa Emami]({link_urls["linkedin"]}) · '
         f'[GitHub — Parsa-Emami]({link_urls["github"]}) · '
         f'[Résumé]({p["professional"]["resume"]}) · [Email](mailto:{p["person"]["email"]})\n',
-        f'Based in {p["person"]["location"]}. {p["hero"]["availability"]}\n',
-        '## Selected engineering work\n\n' + '\n'.join(
-            f'- **[{item["name"]}]({item["url"]})** — {item["summary"]} '
-            f'[Project notes]({item["case_study"]})'
-            for item in p['projects'][:3]
-        ) + '\n',
-        '<p align="center">'+''.join(images)+'</p>\n',
-        '<details>\n<summary>Reference artwork, project links & design credits</summary>\n',
+        f'Based in {p["person"]["location"]}. {career["availability"]}\n',
+        '## Selected engineering work\n\n' + '\n'.join(featured_lines) + '\n',
+        '### Engineering focus\n\n' + '\n'.join('- ' + item for item in career['focus']) + '\n',
+        '<p align="center">'+images[0]+'</p>\n',
+        '<details>\n<summary>Archived editorial artwork (2026-10-29) & design credits</summary>\n\n'
+        + '<p align="center">'+''.join(images[1:])+'</p>\n',
         data['intro']+'\n',
     ]
     out.append(f'[Interactive original]({data["source"]}) · [Website]({p["site"]["url"]}) · [LinkedIn]({link_urls["linkedin"]}) · [Résumé]({p["professional"]["resume"]}) · [GitHub profile]({data["github"]}) · [All repositories]({data["repositories_url"]}) · [Email](mailto:{p["person"]["email"]})\n')
