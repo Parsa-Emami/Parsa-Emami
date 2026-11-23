@@ -1,30 +1,26 @@
 {
  "username": "Parsa-Emami",
- "generated_at": "2026-11-22T11:17:31+00:00",
+ "generated_at": "2026-11-23T08:19:32+00:00",
  "range": {
-  "start": "2025-11-23",
-  "end": "2026-11-22"
+  "start": "2025-11-24",
+  "end": "2026-11-23"
  },
- "total_contributions": 1060,
- "active_days": 81,
- "current_streak": 20,
- "longest_streak": 20,
+ "total_contributions": 1109,
+ "active_days": 82,
+ "current_streak": 21,
+ "longest_streak": 21,
  "best_day": {
   "date": "2026-11-21",
   "count": 91
  },
  "sources": {
   "calendar": {
-   "Parsa-Emami": 804,
+   "Parsa-Emami": 853,
    "parsaemm": 1
   },
-  "repo_commits": 798
+  "repo_commits": 834
  },
  "days": [
-  {
-   "date": "2025-11-23",
-   "count": 0
-  },
   {
    "date": "2025-11-24",
    "count": 0
@@ -1480,6 +1476,10 @@
   {
    "date": "2026-11-22",
    "count": 19
+  },
+  {
+   "date": "2026-11-23",
+   "count": 49
   }
  ]
 }
